@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinProgramming", "WinProgramming\WinProgramming.vcxproj", "{443F21BA-D104-4E94-BB31-197FB88683AD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyEngine_source", "MyEngine_source\MyEngine_source.vcxitems", "{033ABF51-E997-46D4-A204-BB6953E72881}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyEngine", "MyEngine\MyEngine.vcxproj", "{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Debug|x64.ActiveCfg = Debug|x64
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Debug|x64.Build.0 = Debug|x64
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Debug|x86.ActiveCfg = Debug|Win32
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Debug|x86.Build.0 = Debug|Win32
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Release|x64.ActiveCfg = Release|x64
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Release|x64.Build.0 = Release|x64
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Release|x86.ActiveCfg = Release|Win32
+		{443F21BA-D104-4E94-BB31-197FB88683AD}.Release|x86.Build.0 = Release|Win32
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Debug|x64.ActiveCfg = Debug|x64
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Debug|x64.Build.0 = Debug|x64
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Debug|x86.Build.0 = Debug|Win32
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Release|x64.ActiveCfg = Release|x64
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Release|x64.Build.0 = Release|x64
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Release|x86.ActiveCfg = Release|Win32
+		{4A818AE7-9AD0-4F3E-9E2D-C440E95F9D9E}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD9D1B7C-339B-41E5-9D86-749154F20BB0}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MyEngine_source\MyEngine_source.vcxitems*{033abf51-e997-46d4-a204-bb6953e72881}*SharedItemsImports = 9
+		MyEngine_source\MyEngine_source.vcxitems*{4a818ae7-9ad0-4f3e-9e2d-c440e95f9d9e}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal
