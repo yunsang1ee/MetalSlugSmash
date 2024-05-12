@@ -7,12 +7,11 @@
 #include "ysInputManager.h"
 #include "ysSceneManager.h"
 #include "ysObject.h"
-#include "ysResources.h"
 #include "ysTexture.h"
 
 namespace ys
 {
-	PlayScene::PlayScene() : backBackground(nullptr), background(nullptr), player(nullptr)
+	PlayScene::PlayScene()
 	{
 	}
 	PlayScene::~PlayScene()
@@ -22,33 +21,42 @@ namespace ys
 	{
 		{
 			backBackground = new GameObject();
-			auto tr = backBackground->GetComponent<Transform>();
+			auto tr = backBackground->AddComponnent<Transform>();
+			tr->SetPosition(Vector2::Zero);
 			tr->setName(L"TRBackBack");
 			auto sr = backBackground->AddComponnent<SpriteRenderer>();
 
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경의배경"));
+			graphics::Texture* tex = new graphics::Texture();
+			tex->Load(L"..\\Resource\\배경의배경.bmp");
+
 			sr->setName(L"SRBackBack");
 			AddGameObject(backBackground, LayerType::BackGround);
 		}
 		{
 			background = new GameObject();
-			auto tr = backBackground->GetComponent<Transform>();
+			auto tr = background->AddComponnent<Transform>();
+			tr->SetPosition(Vector2::Zero);
 			tr->setName(L"TRBack");
 			auto sr = background->AddComponnent<SpriteRenderer>();
 
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경"));
+			graphics::Texture* tex = new graphics::Texture();
+			tex->Load(L"..\\Resource\\배경.bmp");
+
 			sr->setName(L"SRBack");
 			AddGameObject(background, LayerType::BackGround);
+
 		}
 
 		{
 			std::random_device rd;
 			std::mt19937 random(rd());
-			std::uniform_real_distribution<> uid;
+			std::uniform_int_distribution<> uid;
 			player = object::Instantiate<Player>(LayerType::Player, { std::fmodf(uid(random), (60 * 16)), 500 });
 			auto sr = player->AddComponnent<SpriteRenderer>();
 
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
+			graphics::Texture* tex = new graphics::Texture();
+			tex->Load(L"..\\Resource\\플레이어가만.bmp");
+
 			sr->setName(L"SR");
 			AddGameObject(player, LayerType::Player);
 			/*player = new Player();
@@ -86,7 +94,7 @@ namespace ys
 		tr = player->GetComponent<Transform>();
 		std::random_device rd;
 		std::mt19937 random(rd());
-		std::uniform_real_distribution<> uid;
+		std::uniform_int_distribution<> uid;
 		tr->SetPosition({ std::fmodf(uid(random), (60 * 16)), 500 });
 	}
 	void PlayScene::OnExit()
@@ -98,7 +106,7 @@ namespace ys
 		tr = player->GetComponent<Transform>();
 		std::random_device rd;
 		std::mt19937 random(rd());
-		std::uniform_real_distribution<> uid;
+		std::uniform_int_distribution<> uid;
 		tr->SetPosition({ std::fmodf(uid(random), (60 * 16)), 500 });
 	}
 }

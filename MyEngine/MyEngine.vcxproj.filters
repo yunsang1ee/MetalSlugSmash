@@ -16,7 +16,6 @@
     <ClInclude Include="ysTitleScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ysLoadResources.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />

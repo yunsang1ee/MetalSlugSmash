@@ -4,7 +4,6 @@
 
 #include "..\\MyEngine_source\\YSapplication.h"
 #include "..\\MyEngine_source\\ysInputManager.h"
-#include "..\\MyEngine\\ysLoadResources.h"
 #include "..\\MyEngine\\LoadScene.h"
 #pragma comment(lib, "..\\x64\\Debug\\MyEngine.lib")
 
@@ -56,7 +55,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Gdiplus::GdiplusStartup(&gpToken, &gpsi, NULL);
 
-	ys::LoadResources();
 	ys::LoadScenes();
 
 	app.Init(hWnd, windowRect);
@@ -94,6 +92,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 		lpMMI->ptMinTrackSize.y = windowRect.bottom - windowRect.top;
 		break;
 	}
+
 	case WM_SIZE:
 	{
 		RECT rect;

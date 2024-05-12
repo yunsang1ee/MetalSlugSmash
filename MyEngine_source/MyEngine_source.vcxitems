@@ -51,4 +51,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTimer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTransform.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ClassDiagram.cd" />
+  </ItemGroup>
 </Project>
