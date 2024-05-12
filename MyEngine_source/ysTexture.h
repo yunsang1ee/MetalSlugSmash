@@ -21,8 +21,8 @@ namespace ys::graphics
 		TextureType GetTextureType() { return type; }
 		Gdiplus::Image* GetImage() { return image; }
 		HDC GetDC() { return hdc; }
-		UINT GetWidth() { return width; }
-		UINT GetHeight() { return height; }
+		inline UINT GetWidth() { return width; }
+		inline UINT GetHeight() { return height; }
 
 	private:
 		TextureType type;

@@ -3,7 +3,7 @@
 namespace ys
 {
 	Component::Component(ComponentType type)
-		: myType(type)
+		: myType(type), owner(nullptr)
 	{
 	}
 	Component::~Component()

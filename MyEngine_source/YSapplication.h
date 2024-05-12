@@ -17,6 +17,9 @@ namespace ys
 		void Render();
 
 		void setScreen(RECT screen);
+
+		HDC getHDC() { return hDc; }
+
 	private:
 		HWND hWnd;
 		HDC hDc;
@@ -26,6 +29,4 @@ namespace ys
 
 		float frameCheck;
 	};
-
 }
-

@@ -6,6 +6,8 @@ namespace ys
 	class Player : public GameObject
 	{
 	public:
+		Player() = default;
+
 		void Init() override;
 		void Update() override;
 		void LateUpdate() override;
