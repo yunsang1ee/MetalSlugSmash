@@ -7,11 +7,15 @@
 #include "ysInputManager.h"
 #include "ysSceneManager.h"
 #include "ysObject.h"
+#include "ysResources.h"
+#include "YSapplication.h"
 #include "ysTexture.h"
+
+extern ys::Application app;
 
 namespace ys
 {
-	PlayScene::PlayScene()
+	PlayScene::PlayScene() : backBackground(nullptr), background(nullptr), player(nullptr)
 	{
 	}
 	PlayScene::~PlayScene()
@@ -20,45 +24,30 @@ namespace ys
 	void PlayScene::Init()
 	{
 		{
-			backBackground = new GameObject();
-			auto tr = backBackground->AddComponnent<Transform>();
-			tr->SetPosition(Vector2::Zero);
+			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 600));
+			auto tr = backBackground->GetComponent<Transform>();
 			tr->setName(L"TRBackBack");
+
 			auto sr = backBackground->AddComponnent<SpriteRenderer>();
-
-			graphics::Texture* tex = new graphics::Texture();
-			tex->Load(L"..\\Resource\\배경의배경.bmp");
-
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경의배경"));
 			sr->setName(L"SRBackBack");
-			AddGameObject(backBackground, LayerType::BackGround);
 		}
 		{
-			background = new GameObject();
-			auto tr = background->AddComponnent<Transform>();
-			tr->SetPosition(Vector2::Zero);
+			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 300));
+			auto tr = background->GetComponent<Transform>();
 			tr->setName(L"TRBack");
+
 			auto sr = background->AddComponnent<SpriteRenderer>();
-
-			graphics::Texture* tex = new graphics::Texture();
-			tex->Load(L"..\\Resource\\배경.bmp");
-
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경"));
 			sr->setName(L"SRBack");
-			AddGameObject(background, LayerType::BackGround);
-
 		}
 
 		{
-			std::random_device rd;
-			std::mt19937 random(rd());
-			std::uniform_int_distribution<> uid;
-			player = object::Instantiate<Player>(LayerType::Player, { std::fmodf(uid(random), (60 * 16)), 500 });
+			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 5.0f, app.getScreen().y * 3 / 5.0f });
 			auto sr = player->AddComponnent<SpriteRenderer>();
 
-			graphics::Texture* tex = new graphics::Texture();
-			tex->Load(L"..\\Resource\\플레이어가만.bmp");
-
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 			sr->setName(L"SR");
-			AddGameObject(player, LayerType::Player);
 			/*player = new Player();
 			auto tr = player->AddComponnent<Transform>();
 			tr->SetPosition({ std::fmodf(uid(random), (60 * 16)), 500 });
@@ -88,14 +77,11 @@ namespace ys
 	void PlayScene::OnEnter()
 	{
 		auto tr = backBackground->GetComponent<Transform>();
-		tr->SetPosition(Vector2::Zero);
+		tr->SetPosition(Vector2(0, 600));
 		tr = background->GetComponent<Transform>();
-		tr->SetPosition(Vector2::Zero);
+		tr->SetPosition(Vector2(0, 300));
 		tr = player->GetComponent<Transform>();
-		std::random_device rd;
-		std::mt19937 random(rd());
-		std::uniform_int_distribution<> uid;
-		tr->SetPosition({ std::fmodf(uid(random), (60 * 16)), 500 });
+		tr->SetPosition({ app.getScreen().x / 5.0f, app.getScreen().y * 3 / 5.0f });
 	}
 	void PlayScene::OnExit()
 	{
@@ -106,7 +92,7 @@ namespace ys
 		tr = player->GetComponent<Transform>();
 		std::random_device rd;
 		std::mt19937 random(rd());
-		std::uniform_int_distribution<> uid;
+		std::uniform_real_distribution<> uid;
 		tr->SetPosition({ std::fmodf(uid(random), (60 * 16)), 500 });
 	}
 }

@@ -5,18 +5,6 @@ namespace ys
 	std::map<std::wstring, Scene*> SceneManager::Scenes;
 	Scene* SceneManager::activeScene;
 
-	template<typename T>
-	Scene* SceneManager::CreateScene(const std::wstring& name)
-	{
-		T* scene = new T();
-		scene->setName(name);
-		activeScene = scene;
-		scene->Init();
-
-		Scenes.insert(std::make_pair(name, scene));
-		return scene;
-	}
-
 	Scene* SceneManager::LoadScene(const std::wstring& name)
 	{
 		if (activeScene)

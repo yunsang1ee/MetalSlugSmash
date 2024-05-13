@@ -23,6 +23,7 @@ namespace ys::enums
 	enum class ComponentType
 	{
 		Transform, 
-		SpriteRenderer
+		SpriteRenderer,
+		Script,
 	};
 }

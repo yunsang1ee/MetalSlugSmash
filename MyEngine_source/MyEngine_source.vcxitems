@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResources.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysSceneManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysSpriteRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h" />
@@ -46,6 +47,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResources.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysSceneManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysSpriteRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTimer.cpp" />

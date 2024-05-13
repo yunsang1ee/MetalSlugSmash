@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="ysLoadResources.h" />
     <ClInclude Include="ysPlayer.h" />
     <ClInclude Include="ysPlayScene.h" />
     <ClInclude Include="ysTitleScene.h" />

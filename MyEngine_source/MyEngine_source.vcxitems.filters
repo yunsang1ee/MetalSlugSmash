@@ -41,7 +41,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResources.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ysTexture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysTexture.cpp">
+      <Filter>Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysScript.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h">
@@ -93,7 +98,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResources.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ysTexture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysTexture.h">
+      <Filter>Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysScript.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">

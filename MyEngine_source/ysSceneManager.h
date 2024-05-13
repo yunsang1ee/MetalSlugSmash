@@ -7,7 +7,16 @@ namespace ys
 	{
 	public:
 		template <typename T>
-		static Scene* CreateScene(const std::wstring& name);
+		static Scene* CreateScene(const std::wstring& name)
+		{
+			T* scene = new T();
+			scene->setName(name);
+			activeScene = scene;
+			scene->Init();
+
+			Scenes.insert(std::make_pair(name, scene));
+			return scene;
+		}
 
 		static Scene* LoadScene(const std::wstring& name);
 
