@@ -2,6 +2,7 @@
 #include "ysGameObject.h"
 #include "ysTransform.h"
 #include "ysTexture.h"
+#include "ysRenderer.h"
 #include <cassert>
 
 ys::SpriteRenderer::SpriteRenderer()
@@ -30,7 +31,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 	if (texture == nullptr) 
 		assert(false, L"File error!");
 	auto tr = GetOwner()->GetComponent<Transform>();
-	auto position = tr->GetPosition();
+	auto position = renderer::mainCamera->CalculatPosition(tr->GetPosition());
 
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)
 	{

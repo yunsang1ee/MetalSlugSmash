@@ -9,10 +9,10 @@ namespace ys
 		Script();
 		~Script();
 
-		virtual void Init();
-		virtual void Update();
-		virtual void LateUpdate();
-		virtual void Render(HDC hDC);
+		virtual void Init() override;
+		virtual void Update() override;
+		virtual void LateUpdate() override;
+		virtual void Render(HDC hDC) override;
 
 	private:
 

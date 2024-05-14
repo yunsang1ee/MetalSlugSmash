@@ -25,5 +25,7 @@ namespace ys::enums
 		Transform, 
 		SpriteRenderer,
 		Script,
-	};
+		Camera,
+		End
+	};// Transform -> Script -> Renderer
 }

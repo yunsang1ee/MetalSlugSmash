@@ -22,7 +22,7 @@ namespace ys
 		{
 			T* comp = new T();
 			comp->SetOwner(this);
-			components.push_back(comp);
+			components.at(static_cast<UINT>(comp->GetType())) = comp;
 			return comp;
 		}
 

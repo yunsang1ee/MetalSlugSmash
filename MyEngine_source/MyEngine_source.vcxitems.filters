@@ -47,6 +47,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScript.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCamera.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h">
@@ -104,6 +110,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScript.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCamera.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">
@@ -129,6 +141,9 @@
     </Filter>
     <Filter Include="Resource\Texture">
       <UniqueIdentifier>{85621896-cfb1-4a15-b581-00636fd9f5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{c2135841-72cf-490f-9ed8-d4c308316248}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -20,13 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="ysBackGroundScript.h" />
     <ClInclude Include="ysLoadResources.h" />
     <ClInclude Include="ysPlayer.h" />
+    <ClInclude Include="ysPlayerScript.h" />
     <ClInclude Include="ysPlayScene.h" />
     <ClInclude Include="ysTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysPlayer.cpp" />
+    <ClCompile Include="ysPlayerScript.cpp" />
     <ClCompile Include="ysPlayScene.cpp" />
     <ClCompile Include="ysTitleScene.cpp" />
   </ItemGroup>

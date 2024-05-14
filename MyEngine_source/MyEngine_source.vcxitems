@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YSapplication.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysEnums.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysMath.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResources.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScene.h" />
@@ -36,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)YSapplication.cpp" />
@@ -43,6 +46,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysGameObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysInputManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResources.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScene.cpp" />

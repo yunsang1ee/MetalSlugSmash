@@ -12,11 +12,5 @@ namespace ys
 		void Update() override;
 		void LateUpdate() override;
 		void Render(HDC hDC) override;
-
-	private:
-		Vector2 prevPosition;
-
-		float speed ;
-		float coolTime;
 	};
 }

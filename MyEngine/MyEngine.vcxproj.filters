@@ -4,6 +4,9 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{6ff7d317-2ed0-4dc1-be7e-dc5bf717c61d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{c98c25d8-e19d-4b40-a6e7-9cacf1359713}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h">
@@ -17,6 +20,12 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="ysLoadResources.h" />
+    <ClInclude Include="ysPlayerScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="ysBackGroundScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />
@@ -25,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="ysTitleScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ysPlayerScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="ysBackGroundScript.cpp">
+      <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
