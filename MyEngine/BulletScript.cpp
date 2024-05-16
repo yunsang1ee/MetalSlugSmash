@@ -3,6 +3,8 @@
 #include <ysGameObject.h>
 #include <ysObject.h>
 #include <ysTimer.h>
+#include <ysRenderer.h>
+#include "ysPlayScene.h"
 
 ys::BulletScript::BulletScript() : deathTime(6.0f), time(0.0f)
 {
@@ -23,7 +25,9 @@ void ys::BulletScript::Update()
 	tr->SetPosition(pos + tr->GetRotation() * Timer::getDeltaTime() * 1200);
 	time += Timer::getDeltaTime();
 	if (time >= deathTime)
+	{
 		object::Destroy(GetOwner());
+	}
 }
 
 void ys::BulletScript::LateUpdate()

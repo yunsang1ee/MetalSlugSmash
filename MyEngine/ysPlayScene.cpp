@@ -76,7 +76,7 @@ namespace ys
 		}
 		//Camera
 		{
-			camera = object::Instantiate<GameObject>(LayerType::Camera);
+			auto camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
 

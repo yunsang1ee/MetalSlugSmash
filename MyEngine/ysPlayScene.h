@@ -17,8 +17,9 @@ namespace ys
 		void OnEnter() override;
 		void OnExit() override;
 
+		GameObject* GetPlayer() { return player; }
+
 	private:
-		GameObject* camera;
 		GameObject* backBackground;
 		GameObject* background;
 		GameObject* player;
