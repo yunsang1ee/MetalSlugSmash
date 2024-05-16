@@ -5,15 +5,21 @@
 #include <iostream>
 #include <random>
 #include <ysTransform.h>
+#include <ysObject.h>
 
-ys::GameObject::GameObject() 
+ys::GameObject::GameObject() : state(State::Active)
 {
 	components.resize(static_cast<UINT>(enums::ComponentType::End));
-	AddComponnent<Transform>();
+	AddComponent<Transform>();
 }
 
 ys::GameObject::~GameObject()
 {
+	for (auto component : components)
+	{
+		delete component;
+		component = nullptr;
+	}
 }
 
 void ys::GameObject::Init()

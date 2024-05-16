@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletScript.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="ysBackGroundScript.h" />
+    <ClInclude Include="ysEnemyScript.h" />
     <ClInclude Include="ysLoadResources.h" />
     <ClInclude Include="ysPlayer.h" />
     <ClInclude Include="ysPlayerScript.h" />
@@ -28,7 +30,9 @@
     <ClInclude Include="ysTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
+    <ClCompile Include="ysEnemyScript.cpp" />
     <ClCompile Include="ysPlayer.cpp" />
     <ClCompile Include="ysPlayerScript.cpp" />
     <ClCompile Include="ysPlayScene.cpp" />

@@ -17,6 +17,7 @@ namespace ys
 		virtual void Update();
 		virtual void LateUpdate();
 		virtual void Render(HDC hDC);
+		virtual void Destroy();
 		
 		virtual void OnEnter(); //title -> play scene (play init)
 		virtual void OnExit(); //title -> play scene (title exit)

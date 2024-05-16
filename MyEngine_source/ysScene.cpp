@@ -12,6 +12,11 @@ namespace ys
 	}
 	Scene::~Scene()
 	{
+		for (auto layer : layers)
+		{
+			delete layer;
+			layer = nullptr;
+		}
 	}
 
 	void Scene::Init()
@@ -44,6 +49,15 @@ namespace ys
 		{
 			if (layer == nullptr) continue;
 			layer->Render(hDC);
+		}
+	}
+
+	void Scene::Destroy()
+	{
+		for (auto layer : layers)
+		{
+			if (layer == nullptr) continue;
+			layer->Destroy();
 		}
 	}
 

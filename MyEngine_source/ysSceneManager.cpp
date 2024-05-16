@@ -34,4 +34,16 @@ namespace ys
 	{
 		activeScene->Render(hDc);
 	}
+	void SceneManager::Destroy()
+	{
+		activeScene->Destroy();
+	}
+	void SceneManager::Release()
+	{
+		for (auto Scene : Scenes)
+		{
+			delete Scene.second;
+			Scene.second = nullptr;
+		}
+	}
 }

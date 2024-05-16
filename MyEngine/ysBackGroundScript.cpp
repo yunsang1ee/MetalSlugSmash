@@ -18,14 +18,15 @@ namespace ys
 	void BackGroundScript::Update()
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto position = tr->GetPosition();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT) || InputManager::getKey(VK_LBUTTON))
+		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
-			tr->SetPosition({ position.x + 1 / Timer::getRealFPS() * parallax, position.y });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x + Timer::getDeltaTime() * parallax, position.y });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT) || InputManager::getKey(VK_RBUTTON))
+		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
-			tr->SetPosition({ position.x - 1 / Timer::getRealFPS() * parallax, position.y });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x - Timer::getDeltaTime() * parallax, position.y });
 		}
 	}
 	void BackGroundScript::LateUpdate()

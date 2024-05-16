@@ -14,6 +14,7 @@
 #include "ysBackGroundScript.h"
 #include "ysCamera.h"
 #include "ysRenderer.h"
+#include "BulletScript.h"
 
 extern ys::Application app;
 
@@ -27,43 +28,50 @@ namespace ys
 	}
 	void PlayScene::Init()
 	{
-		//Camera
-		{
-			auto camera = object::Instantiate<GameObject>(LayerType::None);
-			auto cameraComp = camera->AddComponnent<Camera>();
-			cameraComp->SetTarget(player);
-			renderer::mainCamera = cameraComp;
-
-			camera->AddComponnent<PlayerScript>();
-		}
 		//backGrounds
 		{
 			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -600));
 
-			auto sr = backBackground->AddComponnent<SpriteRenderer>();
+			auto sr = backBackground->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경의배경"));
 
-			auto bs = backBackground->AddComponnent<BackGroundScript>();
-			bs->SetParallax(200);
+			auto bs = backBackground->AddComponent<BackGroundScript>();
+			bs->SetParallax(-100);
 		}
 		{
 			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -300));
 
-			auto sr = background->AddComponnent<SpriteRenderer>();
+			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경"));
 
-			auto bs = background->AddComponnent<BackGroundScript>();
-			bs->SetParallax(400);
+			auto bs = background->AddComponent<BackGroundScript>();
+			bs->SetParallax(100);
 		}
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 5.0f, app.getScreen().y * 3 / 5.0f });
-			auto sr = player->AddComponnent<SpriteRenderer>();
-
+			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
+			
+			auto sr = player->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
-			sr->setName(L"SR");
 
-			player->AddComponnent<PlayerScript>();
+			player->AddComponent<PlayerScript>();
+		}
+		//Bullet
+		{
+			auto bullet = object::Instantiate<GameObject>(LayerType::Projectile, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
+			
+			auto sr = bullet->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
+
+			bullet->AddComponent<BulletScript>();
+			bulletPool.assign(100, bullet);
+		}
+		//Camera
+		{
+			camera = object::Instantiate<GameObject>(LayerType::Camera);
+			renderer::mainCamera = camera->AddComponent<Camera>();
+			renderer::mainCamera->SetTarget(player);
+
 		}
 		Scene::Init();
 	}
@@ -88,7 +96,7 @@ namespace ys
 		tr = background->GetComponent<Transform>();
 		tr->SetPosition(Vector2(0, -200));
 		tr = player->GetComponent<Transform>();
-		tr->SetPosition({ app.getScreen().x / 5.0f, app.getScreen().y * 3 / 5.0f });
+		tr->SetPosition({ app.getScreen().x / 2.0f, app.getScreen().y * 0.49f });
 	}
 	void PlayScene::OnExit()
 	{
@@ -97,6 +105,6 @@ namespace ys
 		tr = background->GetComponent<Transform>();
 		tr->SetPosition(Vector2(0, -200));
 		tr = player->GetComponent<Transform>();
-		tr->SetPosition({ app.getScreen().x / 5.0f, app.getScreen().y * 3 / 5.0f });
+		tr->SetPosition({ app.getScreen().x / 2.0f, app.getScreen().y * 0.49f });
 	}
 }

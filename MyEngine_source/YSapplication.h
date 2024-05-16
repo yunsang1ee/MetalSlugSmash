@@ -10,11 +10,14 @@ namespace ys
 		Application();
 		~Application();
 
-		void Init(HWND, RECT screenSize);
 		void Run();
+
+		void Init(HWND, RECT screenSize);
 		void Update();
 		void LateUpdate();
 		void Render();
+		void Destroy();
+		void Release();
 
 		void setScreen(RECT screen);
 		void setMousePosition(const Vector2& posotion) { mousePosition = posotion; }

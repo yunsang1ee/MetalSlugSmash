@@ -146,7 +146,4 @@
       <UniqueIdentifier>{c2135841-72cf-490f-9ed8-d4c308316248}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)ClassDiagram.cd" />
-  </ItemGroup>
 </Project>

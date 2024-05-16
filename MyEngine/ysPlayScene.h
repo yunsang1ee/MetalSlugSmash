@@ -16,9 +16,12 @@ namespace ys
 
 		void OnEnter() override;
 		void OnExit() override;
+
 	private:
+		GameObject* camera;
 		GameObject* backBackground;
 		GameObject* background;
 		GameObject* player;
+		std::vector<GameObject*> bulletPool;
 	};
 }

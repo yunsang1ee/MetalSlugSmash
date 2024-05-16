@@ -16,16 +16,16 @@ namespace ys
 
 		void SetPosition(const Vector2& pos) { position = pos; }
 		void SetScale(const Vector2& scale) { this->scale = scale; }
-		void SetRotation(const float& rotation) { this->rotation = rotation; }
+		void SetRotation(const Vector2& rotation) { this->rotation = rotation; }
 
 		Vector2 GetPosition() const { return position; }
 		Vector2 GetScale() const { return scale; }
-		float GetRotation() const { return rotation; }
+		Vector2 GetRotation() const { return rotation; }
 
 	private:
 		Vector2 position;
 		Vector2 scale;
-		float rotation;
+		Vector2 rotation;
 	};
 
 }

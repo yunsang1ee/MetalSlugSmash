@@ -27,9 +27,15 @@ namespace ys::graphics
 			if (bitmap == nullptr)
 				return S_FALSE;
 
-			BITMAP info{}; GetObject(bitmap, sizeof(BITMAP), &info);
+			BITMAP info{};
+			GetObject(bitmap, sizeof(BITMAP), &info);
 			width = info.bmWidth;
 			height = info.bmHeight;
+
+			if (info.bmBitsPixel == 32)
+				isAlpha = true;
+			else if (info.bmBitsPixel == 24)
+				isAlpha = false;
 
 			HDC mainDC = app.getHDC();
 			hdc = CreateCompatibleDC(mainDC);

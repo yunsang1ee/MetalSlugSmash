@@ -3,10 +3,19 @@
 #include "ysTimer.h"
 #include "ysInputManager.h"
 #include <ysTransform.h>
+#include <ysObject.h>
+#include "ysPlayer.h"
+#include "YSapplication.h"
+#include <ysSpriteRenderer.h>
+#include <ysResources.h>
+#include "ysEnemyScript.h"
+#include "BulletScript.h"
+
+extern ys::Application app;
 
 namespace ys
 {
-	PlayerScript::PlayerScript() : prevPosition({ 0, 0 }), speed(300), coolTime(0)
+	PlayerScript::PlayerScript() : prevPosition({ 0, 0 }), speed(300), coolTime(0), count(0)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -19,31 +28,52 @@ namespace ys
 	void PlayerScript::Update()
 	{
 		if (coolTime >= 0)
-			coolTime -= 1 / Timer::getRealFPS();
+			coolTime -= Timer::getDeltaTime();
 		else
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto position = tr->GetPosition();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT) || InputManager::getKey(VK_LBUTTON))
+		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
-			tr->SetPosition({ position.x - 1 / Timer::getRealFPS() * speed, position.y });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT) || InputManager::getKey(VK_RBUTTON))
+		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
-			tr->SetPosition({ position.x + 1 / Timer::getRealFPS() * speed, position.y });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
 		}
 		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
 		{
-			tr->SetPosition({ position.x, position.y - 1 / Timer::getRealFPS() * speed });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
 		}
 		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
 		{
-			tr->SetPosition({ position.x, position.y + 1 / Timer::getRealFPS() * speed });
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 		}
 
-		prevPosition = position;
+		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
+		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
+			auto position = tr->GetPosition();
+			auto mousePosition = 
+				app.getmousePosition() + Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+			position = { position.x + 100, position.y + 60 };
+			auto bullet = object::Instantiate<GameObject>(LayerType::Projectile
+				, { position.x, position.y});
 
+			auto dest = mousePosition - position;
+			bullet->GetComponent<Transform>()->SetRotation(dest.nomalize());
+
+			auto sr = bullet->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
+
+			bullet->AddComponent<BulletScript>();
+			count++;
+			coolTime = 0.1f;//총쏘는 애니메이션 duration동안
+			if (count == 5) count = 0;
+		}
 		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
 		{
 			speed += 10.0f;

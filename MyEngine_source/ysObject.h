@@ -7,7 +7,7 @@
 #include <ysTransform.h>
 
 namespace ys::object
-{
+{  
 	template <typename T>
 	static T* Instantiate(const enums::LayerType& type)
 	{
@@ -46,4 +46,6 @@ namespace ys::object
 
 		return gameObject;
 	}
+
+	static void Destroy(GameObject* object) { if(object != nullptr) object->death(); }
 }

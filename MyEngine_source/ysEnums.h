@@ -9,6 +9,8 @@ namespace ys::enums
 		Projectile,
 		Enemy,
 		Player,
+		Particle,
+		Camera,
 		Max = 16
 	};
 

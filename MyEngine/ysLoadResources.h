@@ -9,6 +9,7 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"배경의배경", L"..\\Resource\\배경의배경.bmp");
 		Resources::Load<graphics::Texture>(L"배경", L"..\\Resource\\배경.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어가만", L"..\\Resource\\플레이어가만.bmp");
+		Resources::Load<graphics::Texture>(L"총알", L"..\\Resource\\heavyBullet.bmp");
 		Resources::Load<graphics::Texture>(L"CloudOcean", L"..\\Resource\\CloudOcean.png");
 	}
 }

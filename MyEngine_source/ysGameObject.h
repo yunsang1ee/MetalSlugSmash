@@ -4,11 +4,26 @@
 using namespace ys::math;
 using namespace ys::enums;
 
+namespace ys::object
+{
+	void Destroy(GameObject* object);
+}
+
 namespace ys 
 {
 	class GameObject
 	{
 	public:
+		friend void object::Destroy(GameObject* object);
+
+		enum class State
+		{
+			Active,
+			Paused,
+			Dead,
+			End
+		};
+
 		GameObject();
 		~GameObject();
 
@@ -18,7 +33,7 @@ namespace ys
 		virtual void Render(HDC hDC);
 		
 		template <typename T>
-		T* AddComponnent()
+		T* AddComponent()
 		{
 			T* comp = new T();
 			comp->SetOwner(this);
@@ -38,7 +53,15 @@ namespace ys
 			return  comp;
 		}
 
+		State GetActive() const { return state; }
+
+		void SetActive(const bool& power) { state = power ? State::Active : State::Paused; }
+
 	private:
+		void death() { state = State::Dead; }
+
+	private:
+		State state;
 		std::vector<Component*> components;
 	};
 }

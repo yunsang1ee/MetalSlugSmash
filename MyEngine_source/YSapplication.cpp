@@ -2,6 +2,7 @@
 #include "ysSceneManager.h"
 #include "ysInputManager.h"
 #include "ysTimer.h"
+#include <ysResources.h>
 
 
 namespace ys
@@ -26,8 +27,8 @@ namespace ys
 
 	void Application::Run()
 	{
-		Timer::Update();
 		InputManager::BeforeUpdate();
+		Timer::Update();
 		Update();
 		LateUpdate();
 		Render();
@@ -52,6 +53,17 @@ namespace ys
 
 		Timer::Render(hBackDc, screen);
 		BitBlt(hDc, 0, 0, screen.x, screen.y, hBackDc, 0, 0, SRCCOPY);
+	}
+
+	void Application::Destroy()
+	{
+		SceneManager::Destroy();
+	}
+
+	void Application::Release()
+	{
+		SceneManager::Release();
+		Resources::Release();
 	}
 
 	void Application::setScreen(RECT screenSize)

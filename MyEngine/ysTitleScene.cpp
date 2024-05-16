@@ -23,7 +23,7 @@ void ys::TitleScene::Init()
 		auto tr = background->GetComponent<Transform>();
 		tr->SetPosition(Vector2::Zero);
 		tr->setName(L"TRTilte");
-		auto sr = background->AddComponnent<SpriteRenderer>();
+		auto sr = background->AddComponent<SpriteRenderer>();
 
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"CloudOcean"));
 		sr->setName(L"SRTilte1");
@@ -34,7 +34,7 @@ void ys::TitleScene::Init()
 		auto tr = background->GetComponent<Transform>();
 		tr->SetPosition({16 * 100, 0});
 		tr->setName(L"TRTilte");
-		auto sr = background->AddComponnent<SpriteRenderer>();
+		auto sr = background->AddComponent<SpriteRenderer>();
 		
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"CloudOcean"));
 		sr->setName(L"SRTilte2");

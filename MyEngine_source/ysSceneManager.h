@@ -26,6 +26,8 @@ namespace ys
 		static void Update();
 		static void LateUpdate();
 		static void Render(HDC hDc);
+		static void Destroy();
+		static void Release();
 
 	private:
 		static std::map<std::wstring, Scene*> Scenes;

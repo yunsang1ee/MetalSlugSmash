@@ -15,9 +15,10 @@ namespace ys
 		virtual void LateUpdate() override;
 		virtual void Render(HDC hDC) override;
 
-		Vector2 CalculatPosition(const Vector2& position) { return position - lookPosition; }
-		void SetTarget(const GameObject* taraget) { this->target = target; }
+		Vector2 CalculatPosition(const Vector2& position) { return position - distance; }
+		void SetTarget(GameObject* target) { this->target = target; }
 		void ClearTarget() { target = nullptr; }
+
 	private:
 		Vector2 distance;
 		Vector2 resolution;

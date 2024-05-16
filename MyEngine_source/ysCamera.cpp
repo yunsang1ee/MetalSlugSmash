@@ -21,8 +21,6 @@ namespace ys
 	}
 	void Camera::Update()
 	{
-		auto tr = GetOwner()->GetComponent<Transform>();
-		auto position = tr->GetPosition();
 		if (InputManager::getKey((BYTE)ys::Key::T))
 		{
 			ClearTarget();
@@ -34,7 +32,10 @@ namespace ys
 			lookPosition = tr->GetPosition();
 		}
 		else
+		{
+			auto tr = GetOwner()->GetComponent<Transform>();
 			lookPosition = tr->GetPosition();
+		}
 		distance = lookPosition - (resolution / 2.0f);
 	}
 	void Camera::LateUpdate()

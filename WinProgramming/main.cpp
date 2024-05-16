@@ -1,7 +1,6 @@
 #pragma comment(linker,"/entry:WinMainCRTStartup /subsystem:console")
 #include "framework.h"
 
-
 #include "..\\MyEngine_source\\YSapplication.h"
 #include "..\\MyEngine_source\\ysInputManager.h"
 #include "..\\MyEngine\\ysLoadResources.h"
@@ -73,6 +72,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	Gdiplus::GdiplusShutdown(gpToken);
+	app.Release();
 
 	return msg.wParam;
 }

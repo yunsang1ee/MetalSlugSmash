@@ -36,6 +36,15 @@ namespace ys
 			return resource;
 		}
 
+		static void Release()
+		{
+			for (auto resource : resources)
+			{
+				delete resource.second;
+				resource.second = nullptr;
+			}
+		}
+
 	private:
 		static std::map<std::wstring, Resource*> resources;
 	};

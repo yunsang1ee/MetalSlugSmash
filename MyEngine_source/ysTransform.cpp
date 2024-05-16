@@ -10,7 +10,7 @@ namespace ys
 	Transform::Transform()
 		: Component(enums::ComponentType::Transform)
 		, scale(Vector2::Zero)
-		, rotation(0.0f)
+		, rotation(Vector2::Zero)
 	{
 	}
 

@@ -1,4 +1,8 @@
 #include "ysInputManager.h"
+#include "YSapplication.h"
+
+
+//extern ys::Application app;
 
 namespace ys
 {
@@ -55,4 +59,11 @@ namespace ys
 				keys[code] |= kKeyDownBit;
 		}
 	}
+
+	//math::Vector2 InputManager::getMousePosition()
+	//{
+	//	POINT mouse;
+	//	GetCursorPos(&mouse);
+	//	ScreenToClient(app.getHWND(), &mouse);
+	//}
 }

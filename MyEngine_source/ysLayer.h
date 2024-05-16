@@ -14,6 +14,7 @@ namespace ys
 		virtual void Update();
 		virtual void LateUpdate();
 		virtual void Render(HDC hDC);
+		virtual void Destroy();
 		
 		void AddGameObject(GameObject* gameObject);
 

@@ -3,17 +3,22 @@
 
 namespace ys
 {
-	Layer::Layer()
+	Layer::Layer() : objects{}
 	{
 	}
 
 	Layer::~Layer()
 	{
+		for (auto object : objects)
+		{
+			delete object;
+			object = nullptr;
+		}
 	}
 
 	void Layer::Init()
 	{
-		for (auto& object : objects)
+		for (auto object : objects)
 		{
 			if (object == nullptr) continue;
 			object->Init();
@@ -21,26 +26,49 @@ namespace ys
 	}
 	void Layer::Update()
 	{
-		for (auto& object : objects)
+		for (GameObject* object : objects)
 		{
 			if (object == nullptr) continue;
-			object->Update();
+
+			if (object->GetActive() == GameObject::State::Active)
+				object->Update();
 		}
 	}
 	void Layer::LateUpdate()
 	{
-		for (auto& object : objects)
+		for (auto object : objects)
 		{
 			if (object == nullptr) continue;
-			object->LateUpdate();
+
+			if (object->GetActive() == GameObject::State::Active)
+				object->LateUpdate();
 		}
 	}
 	void Layer::Render(HDC hDC)
 	{
-		for (auto& object : objects)
+		for (auto object : objects)
 		{
 			if (object == nullptr) continue;
-			object->Render(hDC);
+
+			if (object->GetActive() == GameObject::State::Active)
+				object->Render(hDC);
+		}
+	}
+
+	void Layer::Destroy()
+	{
+		for (auto iter = objects.begin(); iter != objects.end();)
+		{
+			if (*iter == nullptr) continue;
+			auto state = (*iter)->GetActive();
+			if (state == GameObject::State::Dead)
+			{
+				auto deleteObj = *iter;
+				iter = objects.erase(iter);
+				delete deleteObj; deleteObj = nullptr;
+			}
+			else
+				++iter;
 		}
 	}
 

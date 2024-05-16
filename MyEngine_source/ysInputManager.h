@@ -29,14 +29,15 @@ namespace ys
 		static void AfterUpdate();//메인 업데이트 이후 키 업데이트
 	
 		static void setKeyState(WORD code, bool isPressed, bool isUp);
+		//static math::Vector2 getMousePosition();
 
 		static bool getKeyDown(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyDownBit) != 0; }
 		static bool getKey(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyPressedBit) != 0; }
 		static bool getKeyUp(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyUpBit); }
 
 		static KeyState getKeyState(UINT code) { return  keys[static_cast<UINT>(code)]; }
-
 	private:
 		static std::vector<KeyState> keys;
+		//static math::Vector2 mousePosition;
 	};
 }

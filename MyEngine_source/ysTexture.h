@@ -23,8 +23,10 @@ namespace ys::graphics
 		HDC GetDC() { return hdc; }
 		inline UINT GetWidth() { return width; }
 		inline UINT GetHeight() { return height; }
+		inline bool IsHeight() { return isAlpha; }
 
 	private:
+		bool isAlpha;
 		TextureType type;
 		//GdiPlus
 		Gdiplus::Image* image;
