@@ -14,6 +14,10 @@ namespace ys
 		virtual void LateUpdate() override;
 		virtual void Render(HDC hDC) override;
 
+		virtual void OnCollisionEnter(Collider* other) override;
+		virtual void OnCollisionStay(Collider* other) override;
+		virtual void OnCollisionExit(Collider* other) override;
+
 	private:
 		float deathTime;
 		float time;

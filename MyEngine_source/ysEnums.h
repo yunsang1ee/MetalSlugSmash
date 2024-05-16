@@ -14,6 +14,13 @@ namespace ys::enums
 		Max = 16
 	};
 
+	enum class ColliderType
+	{
+		Box2D,
+		Circle2D,
+		End
+	};
+
 	enum class ResourceType
 	{
 		Texture,

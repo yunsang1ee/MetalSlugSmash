@@ -33,3 +33,15 @@ void ys::BulletScript::LateUpdate()
 void ys::BulletScript::Render(HDC hDC)
 {
 }
+
+void ys::BulletScript::OnCollisionEnter(Collider* other)
+{
+}
+
+void ys::BulletScript::OnCollisionStay(Collider* other)
+{
+}
+
+void ys::BulletScript::OnCollisionExit(Collider* other)
+{
+}

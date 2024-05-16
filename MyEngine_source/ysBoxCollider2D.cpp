@@ -7,8 +7,7 @@ namespace ys
 {
 	using namespace math;
 
-	BoxCollider2D::BoxCollider2D() : Collider()
-		, size(Vector2::Zero)
+	BoxCollider2D::BoxCollider2D() : Collider(enums::ColliderType::Box2D)
 	{
 	}
 	BoxCollider2D::~BoxCollider2D()
@@ -32,10 +31,12 @@ namespace ys
 		auto oldBrush = SelectObject(hDC, brush);
 		auto pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
 		auto oldPen = SelectObject(hDC, pen);
-			Rectangle(hDC, positionedByCamera.x + offset.x, positionedByCamera.y + offset.y
-				, positionedByCamera.x + offset.x + 100, positionedByCamera.y + offset.y + 100);
+		Rectangle(hDC, positionedByCamera.x + offset.x
+			, positionedByCamera.y + offset.y
+			, positionedByCamera.x + offset.x + 100 * GetSize().x
+			, positionedByCamera.y + offset.y + 100 * GetSize().y);
 		SelectObject(hDC, oldPen);
+		DeleteObject(pen);
 		SelectObject(hDC, oldBrush);
-		DeleteObject(oldPen);
 	}
 }

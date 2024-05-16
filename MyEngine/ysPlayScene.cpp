@@ -32,7 +32,6 @@ namespace ys
 	void PlayScene::Init()
 	{
 		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		//backGrounds
 		{
@@ -61,7 +60,7 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 
 			player->AddComponent<PlayerScript>();
-			auto cd = player->AddComponent<BoxCollider2D>();
+			auto cd = player->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
 		}
 		//Enemy
@@ -72,7 +71,7 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 
 			enemy->AddComponent<EnemyScript>();
-			auto cd = enemy->AddComponent<BoxCollider2D>();
+			auto cd = enemy->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
 		}
 		//Camera

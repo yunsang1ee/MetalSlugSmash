@@ -10,6 +10,7 @@
 #include <ysResources.h>
 #include "ysEnemyScript.h"
 #include "BulletScript.h"
+#include <ysBoxCollider2D.h>
 
 extern ys::Application app;
 
@@ -70,9 +71,10 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
 
 			bullet->AddComponent<BulletScript>();
+			bullet->AddComponent<BoxCollider2D>();
 			count++;
 			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
-			if (count == 5) count = 0;
+			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
 		}
 		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
 		{

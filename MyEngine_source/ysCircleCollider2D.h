@@ -15,7 +15,7 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 	private:
-		float radius;
+
 	};
 }
 

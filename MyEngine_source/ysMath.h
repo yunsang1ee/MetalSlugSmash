@@ -43,13 +43,24 @@ namespace ys::math
 		Vector2 operator+(const Vector2& other) const { return Vector2(x + other.x, y + other.y); }
 		Vector2 operator-(const Vector2& other) const { return Vector2(x - other.x, y - other.y); }
 
-		float length() { return sqrtf(x * x + y * y); }
+		float scalar() { return sqrtf(x * x + y * y); }
 		Vector2 nomalize() 
 		{ 
-			auto len = length();
+			auto len = scalar();
 			x /= len;
 			y /= len;
 			return *this;
 		}
 	};
+
+
+	static bool circlePointCollide(const Vector2& center, const float& radius, const Vector2& point)
+	{
+		if (sqrt(pow((point.x - center.x), 2) + pow((point.y - center.y), 2)) <= radius)
+			return true;
+		return false;
+	}
+
+
+
 }

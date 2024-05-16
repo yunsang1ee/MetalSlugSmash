@@ -15,7 +15,6 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 	private:
-		math::Vector2 size;
 
 	};
 }

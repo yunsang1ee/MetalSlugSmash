@@ -29,7 +29,9 @@
     <ClInclude Include="ysEnemyScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="BulletScript.h" />
+    <ClInclude Include="BulletScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />
@@ -48,6 +50,8 @@
     <ClCompile Include="ysEnemyScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="BulletScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
