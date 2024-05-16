@@ -71,7 +71,7 @@ namespace ys
 
 			bullet->AddComponent<BulletScript>();
 			count++;
-			coolTime = 0.1f;//총쏘는 애니메이션 duration동안
+			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 			if (count == 5) count = 0;
 		}
 		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)

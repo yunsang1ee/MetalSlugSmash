@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <bitset>
 #include <utility>
 
 #include "ysEnums.h"

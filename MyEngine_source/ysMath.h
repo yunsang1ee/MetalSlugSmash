@@ -52,15 +52,4 @@ namespace ys::math
 			return *this;
 		}
 	};
-
-
-	static bool circlePointCollide(const Vector2& center, const float& radius, const Vector2& point)
-	{
-		if (sqrt(pow((point.x - center.x), 2) + pow((point.y - center.y), 2)) <= radius)
-			return true;
-		return false;
-	}
-
-
-
 }

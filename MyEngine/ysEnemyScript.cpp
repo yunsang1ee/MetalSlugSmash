@@ -3,8 +3,12 @@
 #include <ysGameObject.h>
 #include <ysObject.h>
 #include <ysTimer.h>
+#include <ysRenderer.h>
+#include <YSapplication.h>
 
-ys::EnemyScript::EnemyScript() : deathTime(6.0f), time(0.0f)
+extern ys::Application app;
+
+ys::EnemyScript::EnemyScript()
 {
 }
 
@@ -20,10 +24,13 @@ void ys::EnemyScript::Update()
 {
 	auto tr = GetOwner()->GetComponent<Transform>();
 	auto pos = tr->GetPosition();
-	tr->SetPosition(pos + Vector2(Timer::getDeltaTime() * 200, 0));
-	time += Timer::getDeltaTime();
-	if (time >= deathTime)
-		object::Destroy(GetOwner());
+	auto nextPosition = pos + Vector2::Left * Timer::getDeltaTime() * 600;
+	auto cameraPosition = ys::renderer::mainCamera->CalculatPosition(nextPosition);
+
+	if(cameraPosition.x >= 0.0f)
+		tr->SetPosition(nextPosition);
+	else
+		tr->SetPosition(Vector2::Right * app.getScreenf());
 }
 
 void ys::EnemyScript::LateUpdate()

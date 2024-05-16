@@ -30,9 +30,9 @@ namespace ys
 	{
 		activeScene->LateUpdate();
 	}
-	void SceneManager::Render(HDC hDc)
+	void SceneManager::Render(HDC hDC)
 	{
-		activeScene->Render(hDc);
+		activeScene->Render(hDC);
 	}
 	void SceneManager::Destroy()
 	{

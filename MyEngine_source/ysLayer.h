@@ -17,6 +17,7 @@ namespace ys
 		virtual void Destroy();
 		
 		void AddGameObject(GameObject* gameObject);
+		const std::vector<GameObject*> GetGameObjects() const { return objects; }
 
 	private:
 		//LayerType type;

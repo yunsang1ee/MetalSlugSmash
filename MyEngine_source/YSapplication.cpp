@@ -3,6 +3,7 @@
 #include "ysInputManager.h"
 #include "ysTimer.h"
 #include <ysResources.h>
+#include <ysCollisionManager.h>
 
 
 namespace ys
@@ -23,6 +24,9 @@ namespace ys
 
 		InputManager::Init();
 		Timer::Init();
+
+		CollisionManager::Init();
+		//SceneManager::Init();
 	}
 
 	void Application::Run()
@@ -37,11 +41,13 @@ namespace ys
 
 	void Application::Update()
 	{
+		CollisionManager::Update();
 		SceneManager::Update();
 	}
 
 	void Application::LateUpdate()
 	{
+		CollisionManager::LateUpdate();
 		SceneManager::LateUpdate();
 	}
 
@@ -49,6 +55,7 @@ namespace ys
 	{
 		PatBlt(hBackDc, 0, 0, screen.x, screen.y, WHITENESS);
 
+		CollisionManager::Render(hBackDc);
 		SceneManager::Render(hBackDc);
 
 		Timer::Render(hBackDc, screen);

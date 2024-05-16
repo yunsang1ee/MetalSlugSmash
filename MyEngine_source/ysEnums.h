@@ -25,9 +25,11 @@ namespace ys::enums
 	enum class ComponentType
 	{
 		Transform, 
-		SpriteRenderer,
+		Collider,
 		Script,
+		SpriteRenderer,
+		//Animator,
 		Camera,
 		End
-	};// Transform -> Script -> Renderer
+	};// Reference : Unity lifeCycle
 }

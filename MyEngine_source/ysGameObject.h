@@ -53,7 +53,8 @@ namespace ys
 			return  comp;
 		}
 
-		State GetActive() const { return state; }
+		State GetState() const { return state; }
+		bool IsActive() const { return state == State::Active; }
 
 		void SetActive(const bool& power) { state = power ? State::Active : State::Paused; }
 

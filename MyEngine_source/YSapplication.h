@@ -25,6 +25,7 @@ namespace ys
 		HWND getHWND() { return hWnd; }
 		HDC getHDC() { return hDc; }
 		POINT getScreen() { return screen; }
+		math::Vector2 getScreenf() { return Vector2(static_cast<float>(screen.x), static_cast<float>(screen.y)); }
 		math::Vector2 getmousePosition() { return mousePosition; }
 
 	private:

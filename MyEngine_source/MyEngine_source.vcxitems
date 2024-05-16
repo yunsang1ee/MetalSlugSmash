@@ -17,7 +17,11 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YSapplication.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCircleCollider2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCollider.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysEnums.h" />
@@ -38,7 +42,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCircleCollider2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCollider.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)YSapplication.cpp" />

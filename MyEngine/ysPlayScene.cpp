@@ -15,6 +15,9 @@
 #include "ysCamera.h"
 #include "ysRenderer.h"
 #include "BulletScript.h"
+#include <ysBoxCollider2D.h>
+#include <ysCollisionManager.h>
+#include "ysEnemyScript.h"
 
 extern ys::Application app;
 
@@ -28,6 +31,9 @@ namespace ys
 	}
 	void PlayScene::Init()
 	{
+		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		//backGrounds
 		{
 			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -600));
@@ -55,16 +61,19 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 
 			player->AddComponent<PlayerScript>();
+			auto cd = player->AddComponent<BoxCollider2D>();
+			cd->SetOffset(Vector2(20, 30));
 		}
-		//Bullet
+		//Enemy
 		{
-			auto bullet = object::Instantiate<GameObject>(LayerType::Projectile, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
+			auto enemy = object::Instantiate<Player>(LayerType::Enemy, { app.getScreenf().x, app.getScreen().y * 4 / 10.0f });
 			
-			auto sr = bullet->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
+			auto sr = enemy->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 
-			bullet->AddComponent<BulletScript>();
-			bulletPool.assign(100, bullet);
+			enemy->AddComponent<EnemyScript>();
+			auto cd = enemy->AddComponent<BoxCollider2D>();
+			cd->SetOffset(Vector2(20, 30));
 		}
 		//Camera
 		{

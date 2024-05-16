@@ -25,7 +25,7 @@ namespace ys
 		static void Init();
 		static void Update();
 		static void LateUpdate();
-		static void Render(HDC hDc);
+		static void Render(HDC hDC);
 		static void Destroy();
 		static void Release();
 

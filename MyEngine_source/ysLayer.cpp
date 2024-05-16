@@ -30,7 +30,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetActive() == GameObject::State::Active)
+			if (object->GetState() == GameObject::State::Active)
 				object->Update();
 		}
 	}
@@ -40,7 +40,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetActive() == GameObject::State::Active)
+			if (object->GetState() == GameObject::State::Active)
 				object->LateUpdate();
 		}
 	}
@@ -50,7 +50,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetActive() == GameObject::State::Active)
+			if (object->GetState() == GameObject::State::Active)
 				object->Render(hDC);
 		}
 	}
@@ -60,7 +60,7 @@ namespace ys
 		for (auto iter = objects.begin(); iter != objects.end();)
 		{
 			if (*iter == nullptr) continue;
-			auto state = (*iter)->GetActive();
+			auto state = (*iter)->GetState();
 			if (state == GameObject::State::Dead)
 			{
 				auto deleteObj = *iter;

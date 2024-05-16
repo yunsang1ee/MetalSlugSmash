@@ -15,8 +15,6 @@ namespace ys
 		virtual void Render(HDC hDC) override;
 
 	private:
-		float deathTime;
-		float time;
 	};
 }
 

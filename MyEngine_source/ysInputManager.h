@@ -31,11 +31,11 @@ namespace ys
 		static void setKeyState(WORD code, bool isPressed, bool isUp);
 		//static math::Vector2 getMousePosition();
 
-		static bool getKeyDown(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyDownBit) != 0; }
-		static bool getKey(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyPressedBit) != 0; }
-		static bool getKeyUp(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyUpBit); }
+		inline static bool getKeyDown(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyDownBit) != 0; }
+		inline static bool getKey(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyPressedBit) != 0; }
+		inline static bool getKeyUp(UINT code) { return  (keys[static_cast<UINT>(code)] & kKeyUpBit); }
 
-		static KeyState getKeyState(UINT code) { return  keys[static_cast<UINT>(code)]; }
+		inline static KeyState getKeyState(UINT code) { return  keys[static_cast<UINT>(code)]; }
 	private:
 		static std::vector<KeyState> keys;
 		//static math::Vector2 mousePosition;

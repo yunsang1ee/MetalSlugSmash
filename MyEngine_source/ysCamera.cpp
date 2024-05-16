@@ -9,7 +9,7 @@ extern ys::Application app;
 namespace ys
 {
 	Camera::Camera() : Component(enums::ComponentType::Camera)
-		, distance(Vector2::Zero), resolution({static_cast<float>(app.getScreen().x), static_cast<float>(app.getScreen().y) })
+		, distance(Vector2::Zero), resolution(app.getScreenf())
 		, target(nullptr)
 	{
 	}

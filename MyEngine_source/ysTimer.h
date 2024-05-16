@@ -10,7 +10,7 @@ namespace ys
 		static void Update();
 		static void Render(HDC hDC, POINT screen);
 
-		static float getDeltaTime() { return deltaTime; }
+		inline static float getDeltaTime() { return deltaTime; }
 		static float getFrame() { return FPS; }
 
 		//(1 / deltaTime)
