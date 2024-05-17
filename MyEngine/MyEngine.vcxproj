@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="STAGE1.h" />
     <ClInclude Include="ysBackGroundScript.h" />
     <ClInclude Include="ysEnemyScript.h" />
     <ClInclude Include="ysLoadResources.h" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="STAGE1.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysEnemyScript.cpp" />
     <ClCompile Include="ysPlayer.cpp" />

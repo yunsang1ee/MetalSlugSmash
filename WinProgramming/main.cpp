@@ -15,7 +15,7 @@ ULONG_PTR gpToken;
 Gdiplus::GdiplusStartupInput gpsi;
 
 LPCTSTR lpszClass = L"Window Class Name";
-LPCTSTR lpszWindowName = L"WinAPI Practice";
+LPCTSTR lpszWindowName = L"Metal Slug Smash";
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
