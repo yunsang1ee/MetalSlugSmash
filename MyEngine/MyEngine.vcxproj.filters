@@ -35,6 +35,9 @@
     <ClInclude Include="STAGE1.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CameraScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="STAGE1.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraScript.cpp">
+      <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletScript.h" />
+    <ClInclude Include="CameraScript.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="STAGE1.h" />
     <ClInclude Include="ysBackGroundScript.h" />
@@ -32,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BulletScript.cpp" />
+    <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="STAGE1.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysEnemyScript.cpp" />

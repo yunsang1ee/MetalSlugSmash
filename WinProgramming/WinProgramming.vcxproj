@@ -157,7 +157,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Resource\heavy.png" />
+    <Image Include="..\Resource\heavyBullet.bmp" />
     <Image Include="..\Resource\플레이어가만.bmp" />
+    <Image Include="..\Resource\플레이어기본점프.bmp" />
+    <Image Include="..\Resource\플레이어이동(1).png" />
+    <Image Include="..\Resource\플레이어이동(6).png" />
+    <Image Include="..\Resource\플레이어이동.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

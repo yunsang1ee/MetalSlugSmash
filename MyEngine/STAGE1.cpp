@@ -18,7 +18,7 @@
 #include <ysCollisionManager.h>
 #include "ysEnemyScript.h"
 #include"ysPlayer.h"
-
+#include "CameraScript.h"
 
 extern ys::Application app;
 namespace ys {
@@ -35,7 +35,7 @@ namespace ys {
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		//backGrounds
 		{
-			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(30, -400));
+			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 0));
 
 			auto sr = backBackground->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경의배경"));
@@ -44,7 +44,7 @@ namespace ys {
 			bs->SetParallax(-100);
 		}
 		{
-			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -300));
+			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 0));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경"));
@@ -58,14 +58,6 @@ namespace ys {
 
 			auto sr = player->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
-			//키 받아와서 플레이어 그림 바꿔야됨
-			//키 어디서 받아옴?
-			if (ys::InputManager::getKeyDown((UINT)ys::Key::W)) {
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동"));
-			}
-				
-			
-
 			player->AddComponent<PlayerScript>();
 			auto cd = player->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
@@ -86,7 +78,7 @@ namespace ys {
 			auto camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
-
+			camera->AddComponent<CameraScript>();
 		}
 		Scene::Init();
 	}
@@ -99,6 +91,7 @@ namespace ys {
 	void ys::STAGE1::LateUpdate()
 	{
 		Scene::LateUpdate();
+		
 	}
 
 	void ys::STAGE1::Render(HDC hDC)
