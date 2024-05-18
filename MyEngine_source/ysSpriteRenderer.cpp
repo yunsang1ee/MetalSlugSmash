@@ -42,6 +42,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 			return;
 	}
 
+
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)
 	{
 		auto check = TransparentBlt(hDC, position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y
