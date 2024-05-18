@@ -3,6 +3,7 @@
 #include <ysTimer.h>
 #include <ysGameObject.h>
 #include <ysTransform.h>
+#include <ysRenderer.h>
 
 namespace ys
 {
@@ -18,12 +19,14 @@ namespace ys
 	void BackGroundScript::Update()
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT)
+			&& !renderer::mainCamera->isXmin())
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * parallax, position.y });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT)
+			&& !renderer::mainCamera->isXmax())
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * parallax, position.y });
