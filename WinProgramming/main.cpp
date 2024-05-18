@@ -15,7 +15,7 @@ ULONG_PTR gpToken;
 Gdiplus::GdiplusStartupInput gpsi;
 
 LPCTSTR lpszClass = L"Window Class Name";
-LPCTSTR lpszWindowName = L"Metal Slug Smash";
+LPCTSTR lpszWindowName = L"WinAPI Practice";
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
@@ -28,7 +28,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	MSG msg;
 	g_hInst = hInstance;
 
-	RECT windowRect{ 0, 0, 400*3, 300*3 };
+	RECT windowRect{ 0, 0, 4 * 300, 3 * 300 };
 
 	WNDCLASSEX WndClass;
 	WndClass.cbSize = sizeof(WndClass);

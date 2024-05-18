@@ -46,8 +46,6 @@ void ys::SpriteRenderer::Render(HDC hDC)
 	{
 		auto check = TransparentBlt(hDC, position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y
 			, texture->GetDC(), 0, 0, texture->GetWidth(), texture->GetHeight(), RGB(255, 0, 255));
-		//시작위치 끝위치 정할수있어야	함
-		//
 		assert(check);
 	}
 	else if (texture->GetTextureType() == graphics::Texture::TextureType::Png)
