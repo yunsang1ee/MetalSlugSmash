@@ -31,6 +31,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 	if (texture == nullptr) 
 		assert(false, L"File error!");
 	auto tr = GetOwner()->GetComponent<Transform>();
+
 	auto position = renderer::mainCamera->CalculatPosition(tr->GetPosition());
 
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)

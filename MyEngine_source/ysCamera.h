@@ -15,14 +15,30 @@ namespace ys
 		virtual void LateUpdate() override;
 		virtual void Render(HDC hDC) override;
 
+		void SetMinMax(const Vector2& minPosition, const Vector2& maxPosition) 
+		{
+			this->minPosition = minPosition;
+			this->maxPosition = maxPosition;
+		}
 		Vector2 CalculatPosition(const Vector2& position) { return position - distance; }
 		void SetTarget(GameObject* target) { this->target = target; }
-		void ClearTarget() { target = nullptr; }
+		bool isXmin() const { return xMin; }
+		bool isXmax() const { return xMax; }
+		bool isYmin() const { return yMin; }
+		bool isYmax() const { return yMax; }
 
 	private:
 		Vector2 distance;
 		Vector2 resolution;
 		Vector2 lookPosition;//카메라의 중앙 (rect left, top) + (resolution / 2)
+
+		Vector2 minPosition;//카메라 좌상단 제한
+		Vector2 maxPosition;//카메라 우하단 제한
+
+		bool xMin;
+		bool xMax;
+		bool yMin;
+		bool yMax;
 
 		GameObject* target;
 	};

@@ -35,7 +35,7 @@ namespace ys
 		template <typename T>
 		T* AddComponent()
 		{
-			T* comp = new T();
+			T* comp = new T();	
 			comp->SetOwner(this);
 			components.at(static_cast<UINT>(comp->GetType())) = comp;
 			return comp;
