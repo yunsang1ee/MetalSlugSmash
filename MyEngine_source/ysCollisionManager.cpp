@@ -1,7 +1,6 @@
 #include "ysCollisionManager.h"
 #include "ysSceneManager.h"
 #include <ysTransform.h>
-#include <ysInputManager.h>
 
 namespace ys
 {
@@ -13,10 +12,6 @@ namespace ys
 	}
 	void CollisionManager::Update()
 	{
-		if (InputManager::getKeyDown((UINT)Key::Colons))
-		{
-			Collider::SetRender(!Collider::isRender());
-		}
 		auto scene = SceneManager::GetaActiveScene();
 
 		for (UINT row = 0; row < (UINT)LayerType::Max; ++row)
