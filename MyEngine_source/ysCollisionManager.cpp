@@ -17,6 +17,7 @@ namespace ys
 		{
 			Collider::SetRender(!Collider::isRender());
 		}
+
 		auto scene = SceneManager::GetaActiveScene();
 		for (UINT row = 0; row < (UINT)LayerType::Max; ++row)
 			for (UINT col = row; col < (UINT)LayerType::Max; ++col)
