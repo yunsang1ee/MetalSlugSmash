@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockScript.h" />
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="LoadScene.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="ysTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlockScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="STAGE1.cpp" />

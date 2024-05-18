@@ -28,7 +28,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	MSG msg;
 	g_hInst = hInstance;
 
-	RECT windowRect{ 0, 0, 4 * 300, 3 * 300 };
+	RECT windowRect{ 0, 0, 400*3, 300*3 };
 
 	WNDCLASSEX WndClass;
 	WndClass.cbSize = sizeof(WndClass);

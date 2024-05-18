@@ -19,5 +19,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어이동4", L"..\\Resource\\플레이어이동(4).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동5", L"..\\Resource\\플레이어이동(5).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동6", L"..\\Resource\\플레이어이동(6).png");
+		Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\1.bmp");
+		Resources::Load<graphics::Texture>(L"Stage1배경의배경", L"..\\Resource\\1배경의배경.bmp");
+		Resources::Load<graphics::Texture>(L"Stage1초반배경", L"..\\Resource\\1초반배경.bmp");
 	}
 }

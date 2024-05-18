@@ -46,5 +46,11 @@
     <Image Include="..\Resource\heavy.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="..\Resource\배경의배경.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\배경.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

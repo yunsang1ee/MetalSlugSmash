@@ -13,6 +13,7 @@ namespace ys
 	void CollisionManager::Update()
 	{
 		auto scene = SceneManager::GetaActiveScene();
+
 		for (UINT row = 0; row < (UINT)LayerType::Max; ++row)
 			for (UINT col = row; col < (UINT)LayerType::Max; ++col)
 				if (collisionLayerMatrix[row][col] == true)
@@ -82,6 +83,7 @@ namespace ys
 				left->OnCollisionEnter(right);
 				right->OnCollisionEnter(left);
 				iter->second = true;
+				//ÄÝ¸®
 			}
 			else
 			{
