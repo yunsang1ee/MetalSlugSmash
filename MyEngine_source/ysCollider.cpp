@@ -3,6 +3,7 @@
 
 namespace ys
 {
+	bool Collider::activeRender{ false };
 	UINT32 Collider::collisionID{ 1 };
 
 	Collider::Collider(enums::ColliderType type) : Component(enums::ComponentType::Collider)

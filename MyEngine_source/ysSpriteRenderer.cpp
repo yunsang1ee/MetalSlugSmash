@@ -4,6 +4,7 @@
 #include "ysTexture.h"
 #include "ysRenderer.h"
 #include <cassert>
+#include <ysCollider.h>
 
 ys::SpriteRenderer::SpriteRenderer()
 	: Component(enums::ComponentType::SpriteRenderer), texture(nullptr), size (Vector2::One)
@@ -34,6 +35,13 @@ void ys::SpriteRenderer::Render(HDC hDC)
 
 	auto position = renderer::mainCamera->CalculatPosition(tr->GetPosition());
 
+	auto cd = GetOwner()->GetComponent<Collider>();
+	if(cd != nullptr)
+	{
+		if (cd->isRender())
+			return;
+	}
+
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)
 	{
 		auto check = TransparentBlt(hDC, position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y
@@ -45,7 +53,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 	else if (texture->GetTextureType() == graphics::Texture::TextureType::Png)
 	{
 		Gdiplus::Graphics graphics(hDC);
-		Gdiplus::ImageAttributes imageAttr;	
+		Gdiplus::ImageAttributes imageAttr;
 		imageAttr.SetColorKey(Gdiplus::Color(255, 0, 255), Gdiplus::Color(255, 0, 255));
 
 		graphics.DrawImage(texture->GetImage()

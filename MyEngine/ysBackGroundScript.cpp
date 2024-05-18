@@ -3,12 +3,11 @@
 #include <ysTimer.h>
 #include <ysGameObject.h>
 #include <ysTransform.h>
-#include <ysSpriteRenderer.h>
-#include "ysRenderer.h"
+#include <ysRenderer.h>
 
 namespace ys
 {
-	BackGroundScript::BackGroundScript() : parallax(1)
+	BackGroundScript::BackGroundScript() : parallax(300)
 	{
 	}
 	BackGroundScript::~BackGroundScript()
@@ -20,17 +19,16 @@ namespace ys
 	void BackGroundScript::Update()
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto sr = GetOwner()->GetComponent<SpriteRenderer>();
 		if ((InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
-			&&!renderer::mainCamera->isXmax()&& !renderer::mainCamera->isXmin())
+			&& !renderer::mainCamera->isXmax() && !renderer::mainCamera->isXmin())
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * parallax, position.y });
-			//Ä«¸Þ¶ó°¡ ¾î¶»°Ô µÇ¾î ÀÖ´ÂÁö ¾Æ¿¹ ¸ð¸£±â ¶§¹®¿¡ ¹è°æ ¿òÁ÷ÀÓÀ» ¾î¶»°Ô ÇØ¾ß ÇÒÁö ¸ð¸£°ÙÀ½ ¹è°æÀÌ ¿òÁ÷ÀÌ´Â°ÇÁö
-			//Ä«¸Þ¶ó°¡ ¿òÁ÷ÀÌ´Â°ÇÁö
+			//ì¹´ë©”ë¼ê°€ ì–´ë–»ê²Œ ë˜ì–´ ìžˆëŠ”ì§€ ì•„ì˜ˆ ëª¨ë¥´ê¸° ë•Œë¬¸ì— ë°°ê²½ ì›€ì§ìž„ì„ ì–´ë–»ê²Œ í•´ì•¼ í• ì§€ ëª¨ë¥´ê²ŸìŒ ë°°ê²½ì´ ì›€ì§ì´ëŠ”ê±´ì§€
+			//ì¹´ë©”ë¼ê°€ ì›€ì§ì´ëŠ”ê±´ì§€
 		}
 		if ((InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
-			&&!renderer::mainCamera->isXmax() && !renderer::mainCamera->isXmin())
+			&& !renderer::mainCamera->isXmax() && !renderer::mainCamera->isXmin())
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * parallax, position.y });
