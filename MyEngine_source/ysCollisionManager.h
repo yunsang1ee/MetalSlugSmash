@@ -42,9 +42,11 @@ namespace ys
 
 		static void ColliderCollision(Collider* left, Collider* right);
 		static bool Intersect(Collider* left, Collider* right);
+		
 	private:
 		//상삼각만 사용
 		static std::bitset<(UINT)LayerType::Max> collisionLayerMatrix[(UINT)LayerType::Max];
+		static bool activeRender;
 		static std::unordered_map<UINT64, bool> collisionMap;
 	};
 }

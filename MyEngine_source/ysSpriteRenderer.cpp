@@ -4,7 +4,6 @@
 #include "ysTexture.h"
 #include "ysRenderer.h"
 #include <cassert>
-#include <ysCollider.h>
 
 ys::SpriteRenderer::SpriteRenderer()
 	: Component(enums::ComponentType::SpriteRenderer), texture(nullptr), size (Vector2::One)

@@ -6,11 +6,12 @@ namespace ys
 {
 	void LoadResources()
 	{
-		Resources::Load<graphics::Texture>(L"¹è°æÀÇ¹è°æ", L"..\\Resource\\¹è°æÀÇ¹è°æ.bmp");
-		Resources::Load<graphics::Texture>(L"¹è°æ", L"..\\Resource\\¹è°æ.bmp");
-		Resources::Load<graphics::Texture>(L"ÇÃ·¹ÀÌ¾î°¡¸¸", L"..\\Resource\\ÇÃ·¹ÀÌ¾î°¡¸¸.bmp");
-		Resources::Load<graphics::Texture>(L"ÃÑ¾Ë", L"..\\Resource\\heavyBullet.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½", L"..\\Resource\\ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½ï¿½ï¿½", L"..\\Resource\\ï¿½ï¿½ï¿½.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½Ã·ï¿½ï¿½Ì¾î°¡ï¿½ï¿½", L"..\\Resource\\ï¿½Ã·ï¿½ï¿½Ì¾î°¡ï¿½ï¿½.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½Ìµï¿½", L"..\\Resource\\ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½Ìµï¿½.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½Ã·ï¿½ï¿½Ì¾ï¿½âº»ï¿½ï¿½ï¿½ï¿½", L"..\\Resource\\ï¿½Ã·ï¿½ï¿½Ì¾ï¿½âº»ï¿½ï¿½ï¿½ï¿½.bmp");
+		Resources::Load<graphics::Texture>(L"ï¿½Ñ¾ï¿½", L"..\\Resource\\heavyBullet.bmp");
 		Resources::Load<graphics::Texture>(L"CloudOcean", L"..\\Resource\\CloudOcean.png");
-		Resources::Load<graphics::Texture>(L"¹®Á¦ÀÇ ±× ¹è°æ", L"..\\Resource\\½ºÅ×ÀÌÁö1.bmp");
 	}
 }
