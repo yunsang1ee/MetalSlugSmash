@@ -47,11 +47,11 @@ namespace ys {
 		//	bs->SetParallax(-100);
 		//}
 		{
-			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -140));
+			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
-			sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 3, sr->GetTexture()->GetHeight() * 3));
+			sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 4.5f, sr->GetTexture()->GetHeight() * 4.5f));
 			auto bx1 =background->AddComponent<BoxCollider2D>();
 			bx1->SetOffset(Vector2(-100, (sr->GetTexture()->GetHeight() * 3)-150));
 			bx1->SetSize(Vector2(6, 1));
@@ -81,19 +81,14 @@ namespace ys {
 			auto cd = enemy->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
 		}*/
-		//Block
-		{
-			auto block = object::Instantiate<GameObject>(LayerType::Block, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
-			auto cd = block->AddComponent<BoxCollider2D>();
-			block->AddComponent<BlockScript>();
-			cd->SetOffset(Vector2(20, 30));
-		}
+		
+		
 		//Camera
 		{
 			auto camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
-			camera->GetComponent<Camera>()->SetMinMax(Vector2(600, 0), Vector2(9500, 363));
+			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(2405, 363));
 			camera->AddComponent<CameraScript>();
 		}
 		Scene::Init();
