@@ -36,16 +36,16 @@ namespace ys {
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Block, true);
 		//backGrounds
-		{
-			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));
+		//{
+		//	backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));
 
-			auto sr = backBackground->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1초반배경"));
-			//sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() , sr->GetTexture()->GetHeight() ));
+		//	auto sr = backBackground->AddComponent<SpriteRenderer>();
+		//	sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1초반배경"));
+		//	//sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() , sr->GetTexture()->GetHeight() ));
 
-			auto bs = backBackground->AddComponent<BackGroundScript>();
-			bs->SetParallax(-100);
-		}
+		//	auto bs = backBackground->AddComponent<BackGroundScript>();
+		//	bs->SetParallax(-100);
+		//}
 		{
 			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -140));
 
@@ -64,7 +64,8 @@ namespace ys {
 
 			auto sr = player->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
-			player->AddComponent<PlayerScript>();
+			auto plysc =player->AddComponent<PlayerScript>();
+			plysc->SetSpeed(500.f);
 			auto cd = player->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
 			//콜라이더 만들면 스크립만들어야함 -> 콜리전 매니져에서 스크립트로 전달
@@ -92,7 +93,7 @@ namespace ys {
 			auto camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
-			camera->GetComponent<Camera>()->SetMinMax(Vector2(600, 0), Vector2(11855, 363));
+			camera->GetComponent<Camera>()->SetMinMax(Vector2(600, 0), Vector2(9500, 363));
 			camera->AddComponent<CameraScript>();
 		}
 		Scene::Init();
