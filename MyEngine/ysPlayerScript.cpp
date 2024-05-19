@@ -12,7 +12,10 @@
 #include "BulletScript.h"
 #include <ysBoxCollider2D.h>
 #include <ysRenderer.h>
-
+#include<ysCircleCollider2D.h>
+#include <ysCollisionManager.h>
+#include"ysBoxCollider2D.h"
+#include "STAGE1.h"
 extern ys::Application app;
 
 namespace ys
@@ -33,7 +36,12 @@ namespace ys
 			coolTime -= Timer::getDeltaTime();
 		else
 			coolTime = 0.0f;
+		auto thisOwner = this;
+		auto thisScene = dynamic_cast<Scene*>(thisOwner);
 
+
+		
+		
 		auto tr = GetOwner()->GetComponent<Transform>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
@@ -72,7 +80,9 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
 
 			bullet->AddComponent<BulletScript>();
-			bullet->AddComponent<BoxCollider2D>();
+			auto cc = bullet->AddComponent<CircleCollider2D>();
+			cc->SetSize(Vector2(0.2f, 0.2f));
+			cc->SetOffset(Vector2(0.5f, 0));
 			count++;
 			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ

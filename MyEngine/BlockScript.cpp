@@ -1,5 +1,5 @@
 #include "BlockScript.h"
-
+using namespace ys;
 BlockScript::BlockScript()
 {
 }
@@ -26,6 +26,7 @@ void BlockScript::Render(HDC hDC)
 
 void BlockScript::OnCollisionEnter(Collider* other)
 {
+	
 }
 
 void BlockScript::OnCollisionStay(Collider* other)

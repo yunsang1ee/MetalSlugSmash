@@ -53,8 +53,9 @@ namespace ys {
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
 			sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 4.5f, sr->GetTexture()->GetHeight() * 4.5f));
 			auto bx1 =background->AddComponent<BoxCollider2D>();
-			bx1->SetOffset(Vector2(-100, (sr->GetTexture()->GetHeight() * 3)-150));
-			bx1->SetSize(Vector2(6, 1));
+			bx1->SetOffset(Vector2(0, (sr->GetTexture()->GetHeight() * 4.5f)-230));
+			bx1->SetSize(Vector2(31, 0.1f));
+			
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(100);
 		}
@@ -85,7 +86,7 @@ namespace ys {
 		
 		//Camera
 		{
-			auto camera = object::Instantiate<GameObject>(LayerType::Camera);
+			camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
 			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(2405, 363));
@@ -96,6 +97,7 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
+		
 		Scene::Update();
 	}
 
