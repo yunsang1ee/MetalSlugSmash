@@ -38,18 +38,79 @@ namespace ys
 			coolTime = 0.0f;
 		auto thisOwner = this;
 		auto thisScene = dynamic_cast<Scene*>(thisOwner);
-
-
 		
+		time += Timer::getDeltaTime();
+		
+		
+		static int animation = 0;
 		
 		auto tr = GetOwner()->GetComponent<Transform>();
+		auto sr = GetOwner()->GetComponent<SpriteRenderer>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
+			switch (animation)
+			{
+			case 0:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동1"));
+				animation++;
+				break;
+			case 1:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동2"));
+				animation++;
+				break;
+			case 2:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동3"));
+				animation++;
+				break;
+			case 3:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동4"));
+				animation++;
+				break;
+			case 4:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동5"));
+				animation++;
+				break;
+			case 5:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동6"));
+				animation = 0;
+				break;
+			default:
+				break;
+			}
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
 		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
+			switch (animation)
+			{
+			case 0:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동1"));
+				animation++;
+				break;
+			case 1:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동2"));
+				animation++;
+				break;
+			case 2:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동3"));
+				animation++;
+				break;
+			case 3:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동4"));
+				animation++;
+				break;
+			case 4:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동5"));
+				animation++;
+				break;
+			case 5:
+				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동6"));
+				animation = 0;
+				break;
+			default:
+				break;
+			}
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
 		}
@@ -57,6 +118,11 @@ namespace ys
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+			
+			if (goingDown) {
+				goingDown = false;
+			}
+			
 		}
 		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
 		{
@@ -98,11 +164,57 @@ namespace ys
 			speed -= 10.0f;
 			coolTime = 0.1f;
 		}
+		if (goingDown)
+		{
+			
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+		}
 	}
 	void PlayerScript::LateUpdate()
 	{
 	}
 	void PlayerScript::Render(HDC hDC)
 	{
+	}
+	void PlayerScript::OnCollisionEnter(Collider* other)
+	{
+		
+		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other)&&other->getName()==L"Block")
+		{
+			auto otherPos = other->GetOwner()->GetComponent<Transform>()->GetPosition();
+			auto thisPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			thisPos = Vector2{ thisPos.x - (otherPos.x - thisPos.x),thisPos.y - (otherPos.y - thisPos.y) };
+		}
+		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other) && other->getName() == L"BackGround") {
+			goingDown = false;
+		}
+		else {
+			if (time > 1)
+			{
+				goingDown = true;
+				time = 0;
+			}
+		}
+		
+		
+	}
+	void PlayerScript::OnCollisionStay(Collider* other)
+	{
+		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other) && other->getName() == L"BackGround") {
+			goingDown = false;
+		}
+		else {
+			if (time > 10)
+			{
+				goingDown = true;
+				time = 0;
+			}
+		}
+		
+	}
+	void PlayerScript::OnCollisionExit(Collider* other)
+	{
+		
 	}
 }

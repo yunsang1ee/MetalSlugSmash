@@ -15,5 +15,11 @@ namespace ys
 		//Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\1.bmp");
 		Resources::Load<graphics::Texture>(L"Stage1초반배경", L"..\\Resource\\1초반배경.bmp");
 		Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\scene1.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동1", L"..\\Resource\\플레이어이동(1).bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동2", L"..\\Resource\\플레이어이동(2).bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동3", L"..\\Resource\\플레이어이동(3).bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동4", L"..\\Resource\\플레이어이동(4).bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동5", L"..\\Resource\\플레이어이동(5).bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동6", L"..\\Resource\\플레이어이동(6).bmp");
 	}
 }

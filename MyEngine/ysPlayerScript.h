@@ -15,10 +15,13 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void SetSpeed(const float& speed) { this->speed = speed; }
-
+		virtual void OnCollisionEnter(Collider* other) override;
+		virtual void OnCollisionStay(Collider* other) override;
+		virtual void OnCollisionExit(Collider* other) override;
 	private:
 		math::Vector2 prevPosition;
-
+		float time = 0;
+		bool goingDown;
 		float speed;
 		float coolTime;
 		int count;

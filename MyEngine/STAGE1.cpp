@@ -82,8 +82,29 @@ namespace ys {
 			auto cd = enemy->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(20, 30));
 		}*/
-		
-		
+		//block1
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, {1640, 695});
+			auto block = Blocks[Blocks.size() - 1];
+			
+			block->AddComponent<BoxCollider2D>();
+			block->GetComponent<BoxCollider2D>()->setName(L"Block");
+			block->AddComponent<BlockScript>();
+
+		}
+		//block2
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 0, app.getScreen().y-100.f});
+			auto block = Blocks[Blocks.size() - 1];
+			
+			auto bx=block->AddComponent<BoxCollider2D>();
+			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+			bx->SetSize(Vector2(31, 0.1f));
+			block->AddComponent<BlockScript>();
+
+		}
 		//Camera
 		{
 			camera = object::Instantiate<GameObject>(LayerType::Camera);
@@ -97,6 +118,9 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
+		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[0]->GetComponent<BoxCollider2D>());
+		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[1]->GetComponent<BoxCollider2D>());
+		player->GetComponent<PlayerScript>()->OnCollisionEnter(background->GetComponent<BoxCollider2D>());
 		
 		Scene::Update();
 	}
