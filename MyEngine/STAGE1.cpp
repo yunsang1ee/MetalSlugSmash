@@ -121,7 +121,7 @@ namespace ys {
 		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[0]->GetComponent<BoxCollider2D>());
 		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[1]->GetComponent<BoxCollider2D>());
 		player->GetComponent<PlayerScript>()->OnCollisionEnter(background->GetComponent<BoxCollider2D>());
-		
+		//이게 맞는지?
 		Scene::Update();
 	}
 

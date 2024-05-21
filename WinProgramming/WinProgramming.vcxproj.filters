@@ -24,4 +24,24 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resource\플레이어이동%281%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\플레이어이동%282%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\플레이어이동%283%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\플레이어이동%284%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\플레이어이동%285%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resource\플레이어이동%286%29.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

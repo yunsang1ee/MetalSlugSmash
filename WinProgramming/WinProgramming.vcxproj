@@ -156,6 +156,14 @@
       <Project>{4a818ae7-9ad0-4f3e-9e2d-c440e95f9d9e}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resource\플레이어이동%281%29.png" />
+    <Image Include="..\Resource\플레이어이동%282%29.png" />
+    <Image Include="..\Resource\플레이어이동%283%29.png" />
+    <Image Include="..\Resource\플레이어이동%284%29.png" />
+    <Image Include="..\Resource\플레이어이동%285%29.png" />
+    <Image Include="..\Resource\플레이어이동%286%29.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
