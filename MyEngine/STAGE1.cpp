@@ -35,6 +35,7 @@ namespace ys {
 		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::BackGround, true);
 		//backGrounds
 		//{
 		//	backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));
@@ -55,7 +56,7 @@ namespace ys {
 			auto bx1 =background->AddComponent<BoxCollider2D>();
 			bx1->SetOffset(Vector2(0, (sr->GetTexture()->GetHeight() * 4.5f)-230));
 			bx1->SetSize(Vector2(31, 0.1f));
-			
+			bx1->setName(L"BackGround");
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(100);
 		}
@@ -100,7 +101,7 @@ namespace ys {
 			auto block = Blocks[Blocks.size() - 1];
 			
 			auto bx=block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+			bx->setName(L"BackGround");
 			bx->SetSize(Vector2(31, 0.1f));
 			block->AddComponent<BlockScript>();
 
@@ -118,9 +119,7 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
-		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[0]->GetComponent<BoxCollider2D>());
-		player->GetComponent<PlayerScript>()->OnCollisionEnter(Blocks[1]->GetComponent<BoxCollider2D>());
-		player->GetComponent<PlayerScript>()->OnCollisionEnter(background->GetComponent<BoxCollider2D>());
+		
 		//이게 맞는지?
 		Scene::Update();
 	}

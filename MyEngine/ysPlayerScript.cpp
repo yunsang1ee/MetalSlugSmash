@@ -170,6 +170,11 @@ namespace ys
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 		}
+		if (time>1)
+		{
+			goingDown = true;
+			time = 0;
+		}
 	}
 	void PlayerScript::LateUpdate()
 	{
@@ -180,38 +185,32 @@ namespace ys
 	void PlayerScript::OnCollisionEnter(Collider* other)
 	{
 		
-		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other)&&other->getName()==L"Block")
+		//타입캐스트로 게임오브젝트에서 레이어로 할수가없음 상속이 안되었는지
+		
+		//콜리전이 하나의 오브젝트에 여러개 필요함 발판 콜리젼
+		//충돌 콜리젼
+		//점프할때 충돌 off->무적됨
+		//충돌 off안하면 몸통 콜리젼때문에 플랫폼통과 못하거나 플랫폼에 낌
+		//발판 콜리젼을 이요해서 이동과 충돌 콜리젼을 따로 처리해야함
+		if (other->getName()==L"Block")//레이어 타입을 알수 없음
 		{
 			auto otherPos = other->GetOwner()->GetComponent<Transform>()->GetPosition();
 			auto thisPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			thisPos = Vector2{ thisPos.x - (otherPos.x - thisPos.x),thisPos.y - (otherPos.y - thisPos.y) };
+			thisPos = otherPos-thisPos;
 		}
-		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other) && other->getName() == L"BackGround") {
+		if (other->getName() == L"BackGround") {
 			goingDown = false;
 		}
-		else {
-			if (time > 1)
-			{
-				goingDown = true;
-				time = 0;
-			}
-		}
+		
 		
 		
 	}
 	void PlayerScript::OnCollisionStay(Collider* other)
 	{
-		if (CollisionManager::Intersect(GetOwner()->GetComponent<CircleCollider2D>(), other) && other->getName() == L"BackGround") {
+		
+		if (other->getName() == L"BackGround") {
 			goingDown = false;
 		}
-		else {
-			if (time > 10)
-			{
-				goingDown = true;
-				time = 0;
-			}
-		}
-		
 	}
 	void PlayerScript::OnCollisionExit(Collider* other)
 	{
