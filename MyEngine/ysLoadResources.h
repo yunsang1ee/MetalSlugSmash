@@ -27,6 +27,19 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어이동4", L"..\\Resource\\플레이어이동(4).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동5", L"..\\Resource\\플레이어이동(5).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동6", L"..\\Resource\\플레이어이동(6).png");
+		Resources::Load<graphics::Texture>(L"게1", L"..\\Resource\\몬스터(게)1.bmp");
+		Resources::Load<graphics::Texture>(L"게2", L"..\\Resource\\몬스터(게)2.bmp");
+		Resources::Load<graphics::Texture>(L"게3", L"..\\Resource\\몬스터(게)3.bmp");
+		Resources::Load<graphics::Texture>(L"게4", L"..\\Resource\\몬스터(게)4.bmp");
+		Resources::Load<graphics::Texture>(L"게5", L"..\\Resource\\몬스터(게)5.bmp");
+		Resources::Load<graphics::Texture>(L"게6", L"..\\Resource\\몬스터(게)6.bmp");
+		Resources::Load<graphics::Texture>(L"게7", L"..\\Resource\\몬스터(게)7.bmp");
+		Resources::Load<graphics::Texture>(L"게8", L"..\\Resource\\몬스터(게)8.bmp");
+		Resources::Load<graphics::Texture>(L"게9", L"..\\Resource\\몬스터(게)9.bmp");
+		Resources::Load<graphics::Texture>(L"게10", L"..\\Resource\\몬스터(게)10.bmp");
+		Resources::Load<graphics::Texture>(L"게11", L"..\\Resource\\몬스터(게)11.bmp");
+		Resources::Load<graphics::Texture>(L"게12", L"..\\Resource\\몬스터(게)12.bmp");
+		
 		Resources::Load<graphics::Texture>(L"Block", L"..\\Resource\\block.png");
 	}
 }

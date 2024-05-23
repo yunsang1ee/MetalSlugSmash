@@ -53,10 +53,30 @@ void prac::Init()
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"Block"));
 	}
 	{
-		auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(400, 400));
+		auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
 		auto sr = enemy->AddComponent<SpriteRenderer>();
-		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알아래"));
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"게1"));
+		enemy->AddComponent<EnemyScript>();
+		enemy->AddComponent<BoxCollider2D>()->SetOffset(Vector2(20, 30));
+		
 	}
+	{
+		auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(200, 0));
+		auto sr = enemy->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"게1"));
+		enemy->AddComponent<EnemyScript>();
+		enemy->AddComponent<BoxCollider2D>()->SetOffset(Vector2(20, 30));
+		
+	}
+	{
+		auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(-200, 0));
+		auto sr = enemy->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"게1"));
+		enemy->AddComponent<EnemyScript>();
+		enemy->AddComponent<BoxCollider2D>()->SetOffset(Vector2(20, 30));
+
+	}
+
 	{
 		camera = object::Instantiate<GameObject>(LayerType::Camera);
 		renderer::mainCamera = camera->AddComponent<Camera>();

@@ -20,6 +20,7 @@ private:
 	GameObject* player;
 	std::vector<GameObject*> bulletPool;
 	std::vector<GameObject*> Blocks;
+	std::vector<GameObject*> enemys;
 	GameObject* camera;
 };
 

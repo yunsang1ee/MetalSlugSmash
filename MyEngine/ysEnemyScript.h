@@ -15,6 +15,8 @@ namespace ys
 		virtual void Render(HDC hDC) override;
 
 	private:
+		int animation = 0;
+		float timer = 0;
 	};
 }
 

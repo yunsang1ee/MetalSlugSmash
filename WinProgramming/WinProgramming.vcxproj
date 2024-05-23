@@ -157,6 +157,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Resource\몬스터(게)1.bmp" />
     <Image Include="..\Resource\플레이어이동%281%29.png" />
     <Image Include="..\Resource\플레이어이동%282%29.png" />
     <Image Include="..\Resource\플레이어이동%283%29.png" />
