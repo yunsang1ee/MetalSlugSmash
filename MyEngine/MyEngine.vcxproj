@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="5-5.h" />
     <ClInclude Include="BlockScript.h" />
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="pracPlayerScript.h" />
     <ClInclude Include="STAGE1.h" />
     <ClInclude Include="ysBackGroundScript.h" />
     <ClInclude Include="ysEnemyScript.h" />
@@ -33,9 +35,11 @@
     <ClInclude Include="ysTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="5-5.cpp" />
     <ClCompile Include="BlockScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="CameraScript.cpp" />
+    <ClCompile Include="pracPlayerScript.cpp" />
     <ClCompile Include="STAGE1.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysEnemyScript.cpp" />

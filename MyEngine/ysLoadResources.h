@@ -9,7 +9,12 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"배경의배경", L"..\\Resource\\배경의배경.bmp");
 		Resources::Load<graphics::Texture>(L"배경", L"..\\Resource\\배경.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어가만", L"..\\Resource\\플레이어가만.bmp");
+
 		Resources::Load<graphics::Texture>(L"총알", L"..\\Resource\\heavyBullet.bmp");
+		Resources::Load<graphics::Texture>(L"총알아래", L"..\\Resource\\heavyBullet아래.bmp");
+		Resources::Load<graphics::Texture>(L"총알위", L"..\\Resource\\heavyBullet위.bmp");
+		Resources::Load<graphics::Texture>(L"총알왼쪽", L"..\\Resource\\heavyBullet왼쪽.bmp");
+
 		Resources::Load<graphics::Texture>(L"CloudOcean", L"..\\Resource\\CloudOcean.png");
 		Resources::Load<graphics::Texture>(L"문제의 그 배경", L"..\\Resource\\스테이지1.bmp");
 		//Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\1.bmp");
@@ -22,5 +27,6 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어이동4", L"..\\Resource\\플레이어이동(4).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동5", L"..\\Resource\\플레이어이동(5).png");
 		Resources::Load<graphics::Texture>(L"플레이어이동6", L"..\\Resource\\플레이어이동(6).png");
+		Resources::Load<graphics::Texture>(L"Block", L"..\\Resource\\block.png");
 	}
 }
