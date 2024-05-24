@@ -45,7 +45,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)
 	{
 		auto check = TransparentBlt(hDC, position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y
-			, texture->GetDC(), 0, 0, texture->GetWidth(), texture->GetHeight(), RGB(255, 0, 255));
+			, texture->GetDC(),0, 0, texture->GetWidth(), texture->GetHeight(), RGB(255, 0, 255));
 		assert(check);
 	}
 	else if (texture->GetTextureType() == graphics::Texture::TextureType::Png)
@@ -55,7 +55,7 @@ void ys::SpriteRenderer::Render(HDC hDC)
 		imageAttr.SetColorKey(Gdiplus::Color(255, 0, 255), Gdiplus::Color(255, 0, 255));
 
 		graphics.DrawImage(texture->GetImage()
-			, Gdiplus::Rect(position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y)
+			, Gdiplus::Rect(position.x, position.y, texture->GetWidth()*size.x, texture->GetHeight() * size.y)
 			, 0, 0, texture->GetWidth(), texture->GetHeight(), Gdiplus::UnitPixel, &imageAttr);
 		if (-position.x > texture->GetWidth())
 			tr->SetPosition({ static_cast<float>(texture->GetWidth()), 0 });

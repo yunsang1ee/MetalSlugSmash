@@ -29,10 +29,10 @@ void ys::EnemyScript::Update()
 	auto nextPosition = pos + Vector2::Left * Timer::getDeltaTime() * 600;
 	auto cameraPosition = ys::renderer::mainCamera->CalculatPosition(nextPosition);
 
-	/*if(cameraPosition.x >= 0.0f)
+	if(cameraPosition.x >= 0.0f)
 		tr->SetPosition(nextPosition);
 	else
-		tr->SetPosition(Vector2::Right * app.getScreenf());*/
+		tr->SetPosition(Vector2::Right * app.getScreenf());
 	
 	timer += Timer::getDeltaTime();
 	if (timer >= 0.1f)

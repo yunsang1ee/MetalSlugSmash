@@ -16,6 +16,7 @@
 #include <ysCollisionManager.h>
 #include"ysBoxCollider2D.h"
 #include "5-5.h"
+#include "ysTexture.h"
 extern ys::Application app;
 pracPlayerScript::pracPlayerScript()
 {
@@ -49,11 +50,13 @@ void pracPlayerScript::Update()
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만(왼)"));
 	}
 	if (InputManager::getKey((BYTE)ys::Key::D))
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		
 	}
 	if (InputManager::getKey((BYTE)ys::Key::W))
 	{
