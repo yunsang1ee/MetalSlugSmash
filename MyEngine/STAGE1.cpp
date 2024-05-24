@@ -20,6 +20,7 @@
 #include"ysPlayer.h"
 #include "CameraScript.h"
 #include "BlockScript.h"
+#include"drawBoxScript.h"
 
 extern ys::Application app;
 namespace ys {
@@ -52,7 +53,7 @@ namespace ys {
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
-			sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 4.5f, sr->GetTexture()->GetHeight() * 4.5f));
+			//sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 4.5f, sr->GetTexture()->GetHeight() * 4.5f));
 			auto bx1 =background->AddComponent<BoxCollider2D>();
 			bx1->SetOffset(Vector2(0, (sr->GetTexture()->GetHeight() * 4.5f)-230));
 			bx1->SetSize(Vector2(31, 0.1f));
@@ -111,8 +112,14 @@ namespace ys {
 			camera = object::Instantiate<GameObject>(LayerType::Camera);
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
-			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(2405, 363));
+			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(
+				15600, 363));
 			camera->AddComponent<CameraScript>();
+		}
+		{
+			auto drawBox = object::Instantiate<GameObject>(LayerType::Block, { 0, 0 });
+			auto bx = drawBox->AddComponent<BoxCollider2D>();
+			drawBox->AddComponent<drawBoxScript>();
 		}
 		Scene::Init();
 	}
