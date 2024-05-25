@@ -16,12 +16,19 @@ namespace ys
 		void Render(HDC hDC) override;
 
 		math::Vector2 GetSize() { return size; }
+		math::Vector2 GetOffsetLT() { return offsetLT; }
+		math::Vector2 GetOffsetRB() { return offsetRB; }
 
 		graphics::Texture* GetTexture() { return texture; }
 
 		void SetTexture(graphics::Texture* texture) { this->texture = texture; }
-		void SetSizeByTexture(math::Vector2 size) { this->size = size; }
-		void SetSizeByScreen(math::Vector2 size)
+		void SetOffset(const math::Vector2& LT, const math::Vector2& RB = math::Vector2::Zero)
+		{
+			this->offsetLT = LT;
+			this->offsetRB = RB;
+		}
+		void SetSizeByTexture(const math::Vector2& size) { this->size = size; }
+		void SetSizeByScreen(const math::Vector2& size)
 		{
 			this->size.x = size.x / texture->GetWidth();
 			this->size.y = size.y / texture->GetHeight();
@@ -30,5 +37,7 @@ namespace ys
 	private:
 		graphics::Texture* texture;
 		math::Vector2 size;
+		math::Vector2 offsetLT;
+		math::Vector2 offsetRB;
 	};
 }

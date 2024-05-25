@@ -9,8 +9,8 @@ namespace ys
 
 	Transform::Transform()
 		: Component(enums::ComponentType::Transform)
-		, scale(Vector2::Zero)
-		, rotation(Vector2::Zero)
+		, scale(Vector2::One)
+		, rotation(0.0f)
 	{
 	}
 
@@ -24,10 +24,6 @@ namespace ys
 
 	void Transform::Update()
 	{
-		if (getName() == L"TRTilte")
-		{
-			position.x -= 50;
-		}
 	}
 
 	void Transform::LateUpdate()

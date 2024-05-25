@@ -1,6 +1,7 @@
 #include "ysCollisionManager.h"
 #include "ysSceneManager.h"
 #include <ysTransform.h>
+#include <ysInputManager.h>
 
 namespace ys
 {

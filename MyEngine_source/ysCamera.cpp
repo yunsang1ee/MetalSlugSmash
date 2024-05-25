@@ -12,7 +12,9 @@ namespace ys
 {
 	Camera::Camera() : Component(enums::ComponentType::Camera)
 		, distance(Vector2::Zero), resolution(app.getScreenf())
-		, target(nullptr), minPosition(Vector2(resolution.x / 2.0f, resolution.y / 2.0f)), maxPosition(Vector2(resolution.x , resolution.y / 2.0f))
+		, target(nullptr)
+		, minPosition(Vector2(resolution.x / 2.0f, resolution.y / 2.0f))
+		, maxPosition(Vector2(16000, resolution.y / 2.0f))
 		, xMin(false), xMax(false), yMin(false), yMax(false)
 	{
 	}

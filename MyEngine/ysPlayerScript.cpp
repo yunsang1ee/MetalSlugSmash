@@ -12,6 +12,8 @@
 #include "BulletScript.h"
 #include <ysBoxCollider2D.h>
 #include <ysRenderer.h>
+#include <ysAnimator.h>
+#include <random>
 
 extern ys::Application app;
 
@@ -35,6 +37,7 @@ namespace ys
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
+		auto an = GetOwner()->GetComponent<Animator>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
 			auto position = tr->GetPosition();
@@ -58,18 +61,30 @@ namespace ys
 
 		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
 		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
-			auto position = tr->GetPosition();
-			auto mousePosition = 
-				app.getmousePosition() + Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
-			position = { position.x + 100, position.y + 60 };
+			Vector2 position = tr->GetPosition();
+			Vector2 mousePosition =
+				app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+			position = { position.x + 40, position.y - 40 };
+			
+			std::random_device rd;
+			std::mt19937 engine(rd());
+			std::uniform_real_distribution<> urd(-1.0, 1.0);
 			auto bullet = object::Instantiate<GameObject>(LayerType::Projectile
-				, { position.x, position.y});
+				, Vector2(position.x, position.y) + Vector2::One * 10.0f * urd(engine));
+			
+			if (renderer::mainCamera)
+				position = renderer::mainCamera->CalculatPosition(position);
 
-			auto dest = mousePosition - position;
-			bullet->GetComponent<Transform>()->SetRotation(dest.nomalize());
+			Vector2 dest = (mousePosition - position).nomalize();
+			float degree = acosf(Vector2::Dot(Vector2::Right, dest));
+			if (Vector2::Cross(Vector2::Right, dest) < 0)
+				degree = 2 * math::kPi - degree;
+			auto bulletTr = bullet->GetComponent<Transform>();
+			bulletTr->SetRotation(degree);
+			bulletTr->SetScale(Vector2::One * 1.5f);
 
 			auto sr = bullet->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
 			bullet->AddComponent<BulletScript>();
 			bullet->AddComponent<BoxCollider2D>();

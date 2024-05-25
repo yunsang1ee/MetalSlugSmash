@@ -25,6 +25,7 @@ namespace ys::enums
 	{
 		Texture,
 		AudioClip,
+		Animation,
 		Prefab,
 		End
 	};
@@ -35,7 +36,7 @@ namespace ys::enums
 		Collider,
 		Script,
 		SpriteRenderer,
-		//Animator,
+		Animator,
 		Camera,
 		End
 	};// Reference : Unity lifeCycle
