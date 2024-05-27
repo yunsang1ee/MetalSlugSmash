@@ -1,1 +1,1 @@
-left: 989  top: 208  right: 989  bottom: 208 
+left: 3018.425293  top: 681  right: 3062.425293  bottom: 712 

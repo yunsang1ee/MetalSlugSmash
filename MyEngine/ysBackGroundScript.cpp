@@ -15,7 +15,7 @@ namespace ys
 	}
 	void BackGroundScript::Init()
 	{
-		GetOwner()->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+		
 	}
 	void BackGroundScript::Update()
 	{
@@ -23,14 +23,14 @@ namespace ys
 		if ((InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 			&& !renderer::mainCamera->isXmax() && !renderer::mainCamera->isXmin())
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x + Timer::getDeltaTime() * parallax, position.y });
+		//	auto position = tr->GetPosition();
+		//	tr->SetPosition({ position.x + Timer::getDeltaTime() * parallax, position.y });
 		}
 		if ((InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 			&& !renderer::mainCamera->isXmax() && !renderer::mainCamera->isXmin())
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x - Timer::getDeltaTime() * parallax, position.y });
+		//	auto position = tr->GetPosition();
+		//	tr->SetPosition({ position.x - Timer::getDeltaTime() * parallax, position.y });
 		}
 	}
 	void BackGroundScript::LateUpdate()

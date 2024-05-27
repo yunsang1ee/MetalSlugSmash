@@ -164,6 +164,9 @@
     <Image Include="..\Resource\플레이어이동%285%29.png" />
     <Image Include="..\Resource\플레이어이동%286%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resource\box1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

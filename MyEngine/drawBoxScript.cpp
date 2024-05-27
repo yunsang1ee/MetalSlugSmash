@@ -12,6 +12,7 @@
 #include"STAGE1.h"
 #include "ysSceneManager.h"
 #include"ysCamera.h"
+#include"ysTransform.h"
 extern Application app;
 drawBoxScript::drawBoxScript()
 {
@@ -29,25 +30,23 @@ void drawBoxScript::Update()
 {
 	if (InputManager::getKeyDown(VK_LBUTTON))
 	{
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(app.getHWND(), &pt);
+		Vector2 pt;
+		pt=app.getmousePosition();
 		rect.left = pt.x;
 		rect.top = pt.y;
 	}
 	else if (InputManager::getKeyUp(VK_LBUTTON))
 	{
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(app.getHWND(), &pt);
+		Vector2 pt;
+		pt = app.getmousePosition();
 		rect.right = pt.x;
 		rect.bottom = pt.y;
 		auto scene = dynamic_cast<STAGE1*>(SceneManager::GetaActiveScene());
-		scene->GetLayer(LayerType::Camera)->GetGameObjects()[0]->GetComponent<Camera>();
+		auto tr = scene->GetPlayer()->GetComponent<Transform>()->GetPosition() - Vector2(app.getScreen().x/2,app.getScreen().y/2);
 		std::string str;
-		str = "left: " + std::to_string(rect.left) + " ";
+		str = "left: " + std::to_string(tr.x+rect.left) + " ";
 		str += " top: " + std::to_string(rect.top) + " ";
-		str += " right: " + std::to_string(rect.right) + " ";
+		str += " right: " + std::to_string(tr.x+rect.right) + " ";
 		str += " bottom: " + std::to_string(rect.bottom) + " ";
 
 		std::ofstream file;

@@ -53,17 +53,13 @@ namespace ys {
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
-			//sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() * 4.5f, sr->GetTexture()->GetHeight() * 4.5f));
-			auto bx1 =background->AddComponent<BoxCollider2D>();
-			bx1->SetOffset(Vector2(0, (sr->GetTexture()->GetHeight() * 4.5f)-230));
-			bx1->SetSize(Vector2(31, 0.1f));
-			bx1->setName(L"BackGround");
+			//background->AddComponent<Transform>();
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(100);
 		}
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
+			player = object::Instantiate<Player>(LayerType::Player, { 6000, app.getScreen().y * 4 / 10.0f });
 
 			auto sr = player->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
@@ -87,11 +83,12 @@ namespace ys {
 		//block1
 		{
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, {1640, 695});
+			Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, { 0, 681});
 			auto block = Blocks[Blocks.size() - 1];
 			
 			block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"Block");
+			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
 			block->AddComponent<BlockScript>();
 
 		}
@@ -103,27 +100,28 @@ namespace ys {
 			
 			auto bx=block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(31, 0.1f));
+			//tr->SetScale(Vector2(500, 0.1f));
+			bx->SetSize(Vector2(500, 0.1f));
 			block->AddComponent<BlockScript>();
 			
 		}
 		{
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 664, 658 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 3846, 637 });
 			auto block = Blocks[Blocks.size() - 1];
-
+			
 			auto bx = block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.78f, 0.23f));
+			bx->SetSize(Vector2(2.75f, 0.23f));
 			block->AddComponent<BlockScript>();
 		
 		}
 	
 		{
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 286, 461 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 4200, 461 });
 			auto block = Blocks[Blocks.size() - 1];
-
+			
 			auto bx = block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
 			bx->SetSize(Vector2(8.06f, 0.23f));
@@ -133,44 +131,47 @@ namespace ys {
 	
 		{
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 674, 666 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 4993, 645 });
 			auto block = Blocks[Blocks.size() - 1];
-
+			
 			auto bx = block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.82f, 0.23f));
+			bx->SetSize(Vector2(2.93f, 0.23f));
 			block->AddComponent<BlockScript>();
 
 		}
 		{
 	
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 284, 478 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 5261, 460 });
 			auto block = Blocks[Blocks.size() - 1];
-
+			
 			auto bx = block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(6.24f, 0.23f));
+			bx->SetSize(Vector2(6.35f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
 		{
 		
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 437, 475 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 6098, 459 });
 			auto block = Blocks[Blocks.size() - 1];
 			auto bx = block->AddComponent<BoxCollider2D>();
+			
 			bx->setName(L"BackGround");
 			bx->SetSize(Vector2(7.29f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
-		{
 		
+		{
+
 			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 526, 664 });
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 6864, 640 });
 			auto block = Blocks[Blocks.size() - 1];
 			auto bx = block->AddComponent<BoxCollider2D>();
+			
 			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.83f, 0.23f));
+			bx->SetSize(Vector2(2.93f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
 		//Camera
