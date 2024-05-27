@@ -1,6 +1,5 @@
 #pragma once
 #include "..\\MyEngine_source\\ysSceneManager.h"
-#include "..\\MyEngine_source\\ysSceneManager.cpp"
 #include "ysPlayScene.h"
 #include "ysTitleScene.h"
 #include"STAGE1.h"

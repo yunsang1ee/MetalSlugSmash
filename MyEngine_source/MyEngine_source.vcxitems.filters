@@ -63,6 +63,8 @@
       <Filter>Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ysCollisionManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h">
@@ -136,6 +138,8 @@
       <Filter>Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysCollisionManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">

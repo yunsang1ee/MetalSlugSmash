@@ -11,9 +11,13 @@ namespace ys::math
 		float x;
 		float y;
 
-		static Vector2 Rotate(Vector2 vector, const float& degree)
+		static Vector2 Rotate(Vector2 vector, const float& degree, const bool& isRadian = true)
 		{
-			float radian{ (degree / 180.0f) * kPi };
+			float radian;
+			if (isRadian)
+				radian = degree;
+			else
+			 radian = (degree / 180.0f) * kPi;
 			vector.nomalize();
 			auto x = cosf(radian) * vector.x - sinf(radian) * vector.y;
 			auto y = sinf(radian) * vector.x + cosf(radian) * vector.y;

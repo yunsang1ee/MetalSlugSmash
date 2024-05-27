@@ -18,6 +18,7 @@
 #include <ysBoxCollider2D.h>
 #include <ysCollisionManager.h>
 #include "ysEnemyScript.h"
+#include <ysAnimator.h>
 
 extern ys::Application app;
 
@@ -44,24 +45,31 @@ namespace ys
 			bs->SetParallax(-100);
 		}
 		{
-			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -300));
+			//background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -300));
+			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 0.0f));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"배경"));
-
 			auto bs = background->AddComponent<BackGroundScript>();
-			bs->SetParallax(100);
+			bs->SetParallax(0);
 		}
 		//Player
 		{
 			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
-			
-			auto sr = player->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
+			//auto sr = player->AddComponent<SpriteRenderer>();
+
+			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
 
 			player->AddComponent<PlayerScript>();
-			auto cd = player->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(20, 30));
+			auto an = player->AddComponent<Animator>();
+			an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.0f)
+				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+			an->CrateAnimation(L"플레이어좌이동", texture, Vector2(0.0f, 480.0f), Vector2(320.0f, 320.0f)
+				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+			an->PlayAnimation(L"플레이어우이동", true);
+
+			auto cd = player->AddComponent<BoxCollider2D>();
+			cd->SetOffset(Vector2(-50.0f, -80.0f));
 		}
 		//Enemy
 		{
