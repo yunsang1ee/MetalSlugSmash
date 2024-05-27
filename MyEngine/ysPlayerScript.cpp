@@ -16,6 +16,8 @@
 #include <ysCollisionManager.h>
 #include"ysBoxCollider2D.h"
 #include "STAGE1.h"
+#include<random>
+#include"ysAnimator.h"
 extern ys::Application app;
 
 namespace ys
@@ -48,69 +50,13 @@ namespace ys
 		auto an = GetOwner()->GetComponent<Animator>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
-			switch (animation)
-			{
-			case 0:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동1"));
-				animation++;
-				break;
-			case 1:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동2"));
-				animation++;
-				break;
-			case 2:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동3"));
-				animation++;
-				break;
-			case 3:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동4"));
-				animation++;
-				break;
-			case 4:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동5"));
-				animation++;
-				break;
-			case 5:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동6"));
-				animation = 0;
-				break;
-			default:
-				break;
-			}
+			
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
 		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
-			switch (animation)
-			{
-			case 0:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동1"));
-				animation++;
-				break;
-			case 1:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동2"));
-				animation++;
-				break;
-			case 2:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동3"));
-				animation++;
-				break;
-			case 3:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동4"));
-				animation++;
-				break;
-			case 4:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동5"));
-				animation++;
-				break;
-			case 5:
-				sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어이동6"));
-				animation = 0;
-				break;
-			default:
-				break;
-			}
+			
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
 		}
