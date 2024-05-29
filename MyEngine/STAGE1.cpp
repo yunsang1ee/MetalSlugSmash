@@ -69,19 +69,37 @@ namespace ys {
 			plysc->SetSpeed(500.f);
 			auto cd = player->AddComponent<CircleCollider2D>();
 			cd->SetOffset(Vector2(-50,-50));
-			auto tr=player->AddComponent<Transform>();
-			tr->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
+			
+			player->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
-			auto test = Resources::Find<graphics::Texture>(L"플레이어가만");
+			
 			auto an = player->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어우이동상체", texture, Vector2(0.0f, 0.0f), Vector2(106.0f, 78.0f)
 				, Vector2(0.0f, 0.0f), 12, 0.05f);
-			an->CrateAnimation(L"플레이어우이동하체", texture, Vector2(0.0f, 78.0f), Vector2(106.0f, 78.0f)
-				, Vector2(-50.0f, -50.0f), 12, 0.05f);
+			
 			an->PlayAnimation(L"플레이어우이동상체", true);
-			//an->PlayAnimation(L"플레이어우이동하체", true);
-			//콜라이더 만들면 스크립만들어야함 -> 콜리전 매니져에서 스크립트로 전달
+			
+			
+		}//Player하체
+		{
+			auto PlayerLowerBody = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
+
+
+
+			auto plysc = PlayerLowerBody->AddComponent<PlayerScript>();
+			plysc->SetSpeed(500.f);
+			auto cd = PlayerLowerBody->AddComponent<CircleCollider2D>();
+			cd->SetOffset(Vector2(-50, -50));
+			
+			PlayerLowerBody->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+
+			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
+			
+			auto an = PlayerLowerBody->AddComponent<Animator>();
+			an->CrateAnimation(L"플레이어우이동하체", texture, Vector2(0.0f, 78.f), Vector2(106.0f, 78.0f)
+				, Vector2(0.0f, 0.0f), 12, 0.05f);
+			an->PlayAnimation(L"플레이어우이동하체", true);
 		}
 		//Enemy
 		/*{

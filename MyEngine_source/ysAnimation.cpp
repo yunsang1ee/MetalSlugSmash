@@ -99,7 +99,7 @@ namespace ys
 		, const UINT lenth, const float duration)
 	{
 		//박경준 추가
-		this->setName(name);
+		setName(name);
 		texture = spriteSheet;
 		for (size_t i = 0; i < lenth; i++)
 		{
