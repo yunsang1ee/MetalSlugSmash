@@ -47,47 +47,38 @@ namespace ys
 		
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		if (InputManager::getKey(VK_LEFT))
 		{
-			if (an->GetActive()->getName() != L"플레이어좌이동")
-			{
-				an->PlayAnimation(L"플레이어좌이동");
-				isRight = false;
-				
-			}
 			
+			direction = BulletDirection::Left;
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		if (InputManager::getKey(VK_RIGHT))
 		{
-			if (an->GetActive()->getName() != L"플레이어우이동")
-			{
-				an->PlayAnimation(L"플레이어우이동");
-				isRight = true;
-				
-			}
 			
+			direction = BulletDirection::Right;
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
+		if (InputManager::getKey(VK_UP))
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
-			
+			direction = BulletDirection::Up;
 			if (goingDown) {
 				goingDown = false;
 			}
 			
 		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
+		if (InputManager::getKey(VK_DOWN))
 		{
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+			direction = BulletDirection::Down;
 		}
 
-		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
+		if ((InputManager::getKey(VK_SPACE) || count != 0) && !coolTime)
 		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
 			//총알fsm필요함
 			//총알은 지본적으로 
@@ -112,7 +103,25 @@ namespace ys
 			if (renderer::mainCamera)
 				position = renderer::mainCamera->CalculatPosition(position);
 
-			Vector2 dest = (mousePosition - position).nomalize();
+			Vector2 dest;// = (mousePosition - position).nomalize();
+			switch (direction)
+			{
+			case ys::PlayerScript::Left:
+				dest = dest.Left;
+				break;
+			case ys::PlayerScript::Right:
+				dest = dest.Right;
+				break;
+			case ys::PlayerScript::Up:
+				dest = dest.Up;
+				break;
+			case ys::PlayerScript::Down:
+				dest = dest.Down;
+				break;
+			default:
+				dest = (mousePosition - position).nomalize();
+				break;
+			}
 			float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 			if (Vector2::Cross(Vector2::Right, dest) < 0)
 				degree = 2 * math::kPi - degree;

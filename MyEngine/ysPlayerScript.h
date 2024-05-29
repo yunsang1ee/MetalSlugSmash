@@ -18,6 +18,10 @@ namespace ys
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
+		enum BulletDirection
+		{
+			Left,Right,Up,Down
+		};
 	private:
 		math::Vector2 prevPosition;
 		float time = 0;
@@ -25,5 +29,6 @@ namespace ys
 		float speed;
 		float coolTime;
 		int count;
+		BulletDirection direction;
 	};
 }
