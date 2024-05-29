@@ -7,6 +7,16 @@ namespace ys
 	}
 	Animator::~Animator()
 	{
+		for (auto& animation : animations)
+		{
+			delete animation.second;
+			animation.second = nullptr;
+		}
+		for (auto& events : animationEvents)
+		{
+			delete events.second;
+			events.second = nullptr;
+		}
 	}
 	void Animator::Init()
 	{
@@ -16,9 +26,15 @@ namespace ys
 		if (activeAnimation)
 		{
 			activeAnimation->Upadate();
-			if (activeAnimation->IsComplete() && isLoop)
+
+			Events* events = FindEvents(activeAnimation->getName());
+			if (activeAnimation->IsComplete())
 			{
-				activeAnimation->Reset();
+				if(events->completeEvent.eventFunc != nullptr)
+					events->completeEvent();
+
+				if(isLoop)
+					activeAnimation->Reset();
 			}
 		}
 	}
@@ -43,6 +59,9 @@ namespace ys
 		animation->CrateAnimation(name, spriteSheet
 			, leftTop, size, offset, lenth, duration);
 		animation->SetAnimatior(this);
+
+		Events* events = new Events();
+		animationEvents.insert(std::make_pair(name, events));
 		animations.insert(std::make_pair(name, animation));
 	}
 	Animation* Animator::FindAnimation(const std::wstring& name)
@@ -59,8 +78,42 @@ namespace ys
 		if (animation == nullptr)
 			return;
 
+		if(activeAnimation)
+		{
+			Events* curEvents = FindEvents(activeAnimation->getName());
+			if (curEvents)
+				curEvents->endEvent();
+		}
+
 		activeAnimation = animation;
+		Events* nextEvents = FindEvents(activeAnimation->getName());
+		if (nextEvents)
+			nextEvents->startEvent();
+
 		activeAnimation->Reset();
 		isLoop = loop;
+	}
+	Animator::Events* Animator::FindEvents(const std::wstring& name)
+	{
+		auto iter = animationEvents.find(name);
+		if (iter == animationEvents.end())
+			return nullptr;
+
+		return iter->second;
+	}
+	std::function<void()>& Animator::GetStartEvent(const std::wstring name)
+	{
+		auto events = FindEvents(name);
+		return events->startEvent.eventFunc;
+	}
+	std::function<void()>& Animator::GetCompleteEvent(const std::wstring name)
+	{
+		auto events = FindEvents(name);
+		return events->completeEvent.eventFunc;
+	}
+	std::function<void()>& Animator::GetEndEvent(const std::wstring name)
+	{
+		auto events = FindEvents(name);
+		return events->endEvent.eventFunc;
 	}
 }

@@ -7,6 +7,27 @@ namespace ys
 	class Animator : public Component
 	{
 	public:
+		struct Event
+		{
+			void operator=(std::function<void()> func)
+			{
+				eventFunc = std::move(func);
+			}
+			void operator()()
+			{
+				if (eventFunc)
+					eventFunc();
+			}
+			std::function<void()> eventFunc;
+		};
+
+		struct Events
+		{
+			Event startEvent;
+			Event completeEvent;
+			Event endEvent;
+		};
+
 		Animator();
 		~Animator();
 
@@ -23,8 +44,15 @@ namespace ys
 		Animation* GetActive() { return activeAnimation; }
 		void PlayAnimation(const std::wstring& name, const bool loop = true);
 
+		Events* FindEvents(const std::wstring& name);
+		std::function<void()>& GetStartEvent(const std::wstring name);
+		std::function<void()>& GetCompleteEvent(const std::wstring name);
+		std::function<void()>& GetEndEvent(const std::wstring name);
+
+		bool IsComplete() const { return activeAnimation->IsComplete(); }
 	private:
 		std::map<std::wstring, Animation*> animations;
+		std::map<std::wstring, Events*> animationEvents;
 		Animation* activeAnimation;
 		bool isLoop;
 	};

@@ -47,4 +47,3 @@ namespace ys
 		bool isComplete;
 	};
 }
-

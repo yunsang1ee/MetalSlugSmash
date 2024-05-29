@@ -60,14 +60,16 @@ namespace ys
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
 
-			player->AddComponent<PlayerScript>();
+			auto playerScript = player->AddComponent<PlayerScript>();
 			auto an = player->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.0f)
-				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+				, Vector2(-160.0f, -160.0f), 5, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동", texture, Vector2(0.0f, 480.0f), Vector2(320.0f, 320.0f)
-				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+				, Vector2(-160.0f, -160.0f), 5, 0.05f);
 			an->PlayAnimation(L"플레이어우이동", true);
 
+			an->GetCompleteEvent(L"플레이어우이동") = std::bind(&PlayerScript::ShootBullet, playerScript);
+			
 			auto cd = player->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50.0f, -80.0f));
 		}

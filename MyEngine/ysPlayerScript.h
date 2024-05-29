@@ -14,13 +14,13 @@ namespace ys
 		virtual void LateUpdate();
 		virtual void Render(HDC hDC);
 
+		void ShootBullet();
 		void SetSpeed(const float& speed) { this->speed = speed; }
 
 	private:
-		math::Vector2 prevPosition;
-
 		float speed;
 		float coolTime;
 		int count;
+
 	};
 }

@@ -5,6 +5,7 @@
 #include <map>
 #include <bitset>
 #include <utility>
+#include <functional>
 
 #include "ysEnums.h"
 #include "ysMath.h"
