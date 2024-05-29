@@ -23,7 +23,7 @@ void ys::BulletScript::Update()
 {
 	auto tr = GetOwner()->GetComponent<Transform>();
 	auto pos = tr->GetPosition();
-	tr->SetPosition(pos + tr->GetRotation() * Timer::getDeltaTime() * 1200);
+	tr->SetPosition(pos + Vector2::Rotate(Vector2::Right, tr->GetRotation()) * Timer::getDeltaTime() * 1200);
 	time += Timer::getDeltaTime();
 	if (time >= deathTime)
 	{

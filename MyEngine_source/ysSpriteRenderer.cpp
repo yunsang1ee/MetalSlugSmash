@@ -7,7 +7,8 @@
 #include <ysCollider.h>
 
 ys::SpriteRenderer::SpriteRenderer()
-	: Component(enums::ComponentType::SpriteRenderer), texture(nullptr), size (Vector2::One)
+	: Component(enums::ComponentType::SpriteRenderer), texture(nullptr)
+	, size (Vector2::One), offsetLT(Vector2::Zero), offsetRB(Vector2::Zero)
 {
 }
 
@@ -33,19 +34,31 @@ void ys::SpriteRenderer::Render(HDC hDC)
 		assert(false, L"File error!");
 	auto tr = GetOwner()->GetComponent<Transform>();
 
-	auto position = renderer::mainCamera->CalculatPosition(tr->GetPosition());
+	Vector2 position = tr->GetPosition();
+	if (renderer::mainCamera)
+		position = renderer::mainCamera->CalculatPosition(position);
+	Vector2 scale = tr->GetScale();
+	float rotation = tr->GetRotation();
 
 	auto cd = GetOwner()->GetComponent<Collider>();
-	if(cd != nullptr)
+	if(cd != nullptr && cd->isRender())
 	{
-		if (cd->isRender())
-			return;
+		return;
 	}
 
 	if (texture->GetTextureType() == graphics::Texture::TextureType::Bmp)
 	{
-		auto check = TransparentBlt(hDC, position.x, position.y, texture->GetWidth() * size.x, texture->GetHeight() * size.y
-			, texture->GetDC(),0, 0, texture->GetWidth(), texture->GetHeight(), RGB(255, 0, 255));
+		auto check = TransparentBlt(hDC
+			, position.x
+			, position.y
+			, texture->GetWidth() * size.x * scale.x
+			, texture->GetHeight() * size.y * scale.y
+			, texture->GetDC()
+			, offsetLT.x
+			, offsetLT.y
+			, texture->GetWidth() - offsetLT.x - offsetRB.x
+			, texture->GetHeight() - offsetLT.y - offsetRB.y
+			, RGB(255, 0, 255));
 		assert(check);
 	}
 	else if (texture->GetTextureType() == graphics::Texture::TextureType::Png)
@@ -54,11 +67,21 @@ void ys::SpriteRenderer::Render(HDC hDC)
 		Gdiplus::ImageAttributes imageAttr;
 		imageAttr.SetColorKey(Gdiplus::Color(255, 0, 255), Gdiplus::Color(255, 0, 255));
 
+		graphics.TranslateTransform(position.x, position.y);
+		graphics.RotateTransform(rotation / kPi * 180.0f);
+		graphics.TranslateTransform(-position.x, -position.y);
+
 		graphics.DrawImage(texture->GetImage()
-			, Gdiplus::Rect(position.x, position.y, texture->GetWidth()*size.x, texture->GetHeight() * size.y)
-			, 0, 0, texture->GetWidth(), texture->GetHeight(), Gdiplus::UnitPixel, &imageAttr);
-		if (-position.x > texture->GetWidth())
-			tr->SetPosition({ static_cast<float>(texture->GetWidth()), 0 });
+			, Gdiplus::Rect(
+				position.x
+				, position.y
+				, texture->GetWidth() * size.x * scale.x
+				, texture->GetHeight() * size.y * scale.y)
+			, offsetLT.x
+			, offsetLT.y
+			, texture->GetWidth() - offsetLT.x - offsetRB.x
+			, texture->GetHeight() - offsetLT.y - offsetRB.y
+			, Gdiplus::UnitPixel, &imageAttr);
 	}
 }
 

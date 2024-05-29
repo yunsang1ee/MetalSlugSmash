@@ -27,16 +27,21 @@ namespace ys
 		if (isRender())
 		{
 			auto tr = GetOwner()->GetComponent<Transform>();
-			auto positionedByCamera = renderer::mainCamera->CalculatPosition(tr->GetPosition());
+			auto position = tr->GetPosition();
+			if (renderer::mainCamera)
+				position = renderer::mainCamera->CalculatPosition(position);
+			Vector2 scale = tr->GetScale();
+
 			auto offset = GetOffset();
 			auto brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 			auto oldBrush = SelectObject(hDC, brush);
 			auto pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
 			auto oldPen = SelectObject(hDC, pen);
-			Rectangle(hDC, positionedByCamera.x + offset.x
-				, positionedByCamera.y + offset.y
-				, positionedByCamera.x + offset.x + 100 * GetSize().x
-				, positionedByCamera.y + offset.y + 100 * GetSize().y);
+			Rectangle(hDC
+				, position.x + offset.x
+				, position.y + offset.y
+				, position.x + offset.x + 100 * GetSize().x
+				, position.y + offset.y + 100 * GetSize().y);
 			SelectObject(hDC, oldPen);
 			DeleteObject(pen);
 			SelectObject(hDC, oldBrush);
