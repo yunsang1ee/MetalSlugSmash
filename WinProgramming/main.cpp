@@ -24,6 +24,8 @@ WNDCLASSEX NewWndClass(UINT, WNDPROC, HINSTANCE, HICON,
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(506);
 	HWND hWnd;
 	MSG msg;
 	g_hInst = hInstance;
@@ -143,14 +145,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 		ys::InputManager::setKeyState(wParam,
 			(keyflags & KF_REPEAT) == KF_REPEAT,
 			(keyflags & KF_UP) == KF_UP);
-		break;
-	}
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		hDC = ::BeginPaint(hWnd, &ps);
-
-		::EndPaint(hWnd, &ps);
 		break;
 	}
 	case WM_DESTROY:

@@ -14,6 +14,7 @@ namespace ys
 		virtual void LateUpdate();
 		virtual void Render(HDC hDC);
 
+		void ShootBullet();
 		void SetSpeed(const float& speed) { this->speed = speed; }
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;

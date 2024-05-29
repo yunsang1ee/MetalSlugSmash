@@ -51,8 +51,8 @@ namespace ys
 		if (type == graphics::Texture::TextureType::Bmp)
 		{
 			TransparentBlt(hDC
-				, position.x - sprite.size.x / 2.0f
-				, position.y - sprite.size.y / 2.0f
+				, position.x + sprite.offset.x
+				, position.y + sprite.offset.y
 				, sprite.size.x * scale.x
 				, sprite.size.y * scale.y
 				, texture->GetDC()
@@ -98,7 +98,6 @@ namespace ys
 		, const math::Vector2& leftTop, const math::Vector2& size, const math::Vector2& offset
 		, const UINT lenth, const float duration)
 	{
-		//박경준 추가
 		setName(name);
 		texture = spriteSheet;
 		for (size_t i = 0; i < lenth; i++)

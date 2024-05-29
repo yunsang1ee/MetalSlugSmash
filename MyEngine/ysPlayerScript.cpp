@@ -22,7 +22,7 @@ extern ys::Application app;
 
 namespace ys
 {
-	PlayerScript::PlayerScript() : prevPosition({ 0, 0 }), speed(300), coolTime(0), count(0)
+	PlayerScript::PlayerScript() : speed(300), coolTime(0), count(0)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -129,8 +129,8 @@ namespace ys
 			bulletTr->SetRotation(degree);
 			bulletTr->SetScale(Vector2::One * 1.5f);
 
-			auto sr = bullet->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
+		auto sr = bullet->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
 
 			bullet->AddComponent<BulletScript>();
 			auto cc = bullet->AddComponent<CircleCollider2D>();

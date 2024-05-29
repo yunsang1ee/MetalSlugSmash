@@ -34,4 +34,3 @@ namespace ys
 		static Scene* activeScene;
 	};
 }
-
