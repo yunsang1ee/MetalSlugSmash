@@ -98,6 +98,8 @@ namespace ys
 		, const math::Vector2& leftTop, const math::Vector2& size, const math::Vector2& offset
 		, const UINT lenth, const float duration)
 	{
+		//박경준 추가
+		this->setName(name);
 		texture = spriteSheet;
 		for (size_t i = 0; i < lenth; i++)
 		{

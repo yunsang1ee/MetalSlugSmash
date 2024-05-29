@@ -43,19 +43,30 @@ namespace ys
 		
 		time += Timer::getDeltaTime();
 		
-		
-		static int animation = 0;
+		static bool isRight = true;
 		
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto an = GetOwner()->GetComponent<Animator>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
+			if (an->GetActive()->getName() != L"플레이어좌이동")
+			{
+				an->PlayAnimation(L"플레이어좌이동");
+				isRight = false;
+				
+			}
 			
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
 		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
+			if (an->GetActive()->getName() != L"플레이어우이동")
+			{
+				an->PlayAnimation(L"플레이어우이동");
+				isRight = true;
+				
+			}
 			
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
@@ -78,10 +89,19 @@ namespace ys
 
 		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
 		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
+			//총알fsm필요함
+			//총알은 지본적으로 
 			Vector2 position = tr->GetPosition();
 			Vector2 mousePosition =
 				app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
-			position = { position.x + 40, position.y - 40 };
+			if (isRight)
+			{
+				position = { position.x + 40, position.y - 40 };
+			}
+			else {
+				position = { position.x - 40, position.y - 40 };
+			}
+			
 			
 			std::random_device rd;
 			std::mt19937 engine(rd());

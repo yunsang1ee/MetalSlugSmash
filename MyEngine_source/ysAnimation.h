@@ -37,6 +37,9 @@ namespace ys
 		bool IsComplete() const { return isComplete; }
 		void SetAnimatior(class Animator* animator) { this->animator = animator; }
 
+		//박경준 추가
+		graphics::Texture* getTexture() { return this->texture; }
+		
 	private:
 		class Animator* animator;
 		graphics::Texture* texture;
@@ -45,6 +48,7 @@ namespace ys
 		int index;
 		float time;
 		bool isComplete;
+		
 	};
 }
 

@@ -53,26 +53,28 @@ namespace ys {
 			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
+			
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
 			//background->AddComponent<Transform>();
 			auto bs = background->AddComponent<BackGroundScript>();
-			bs->SetParallax(100);
+			bs->SetParallax(0);
 		}
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::Player, { 6000, app.getScreen().y * 4 / 10.0f });
+			player = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
 
-			auto sr = player->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
+			
+			
 			auto plysc =player->AddComponent<PlayerScript>();
 			plysc->SetSpeed(500.f);
 			auto cd = player->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(20, 30));
-
+			cd->SetOffset(Vector2(-50,-50));
+			auto tr=player->AddComponent<Transform>();
+			tr->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
 			auto an = player->AddComponent<Animator>();
-			an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.0f)
+			an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.f)
 				, Vector2(-160.0f, -240.0f), 5, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동", texture, Vector2(0.0f, 480.0f), Vector2(320.0f, 320.0f)
 				, Vector2(-160.0f, -240.0f), 5, 0.05f);
@@ -172,9 +174,7 @@ namespace ys {
 			bx->SetSize(Vector2(7.29f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
-		
 		{
-
 			Blocks.resize(Blocks.size() + 1);
 			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 6864, 640 });
 			auto block = Blocks[Blocks.size() - 1];
@@ -182,6 +182,16 @@ namespace ys {
 			
 			bx->setName(L"BackGround");
 			bx->SetSize(Vector2(2.93f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 9276, 488 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGround");
+			bx->SetSize(Vector2(3.64f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
 		//Camera

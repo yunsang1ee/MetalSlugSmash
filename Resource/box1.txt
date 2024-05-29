@@ -1,1 +1,1 @@
-left: 3018.425293  top: 681  right: 3062.425293  bottom: 712 
+left: 9304.675781  top: 513  right: 9638.675781  bottom: 527 
