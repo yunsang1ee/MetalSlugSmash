@@ -25,6 +25,7 @@ namespace ys
 		auto tr = GetComponent<Transform>();
 		auto positionedByCamera = renderer::mainCamera->CalculatPosition(tr->GetPosition());
 		auto position = tr->GetPosition();
+		SetBkMode(hDC, TRANSPARENT);
 		TextOut(hDC, positionedByCamera.x, positionedByCamera.y,
 			(L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).c_str()
 			, (L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).size());

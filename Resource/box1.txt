@@ -1,1 +1,1 @@
-left: 8890.000000  top: 536  right: 8888.000000  bottom: 536 
+left: 6514.332031  top: 580  right: 6498.332031  bottom: 585 

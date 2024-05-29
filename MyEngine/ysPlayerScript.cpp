@@ -38,8 +38,7 @@ namespace ys
 			coolTime -= Timer::getDeltaTime();
 		else
 			coolTime = 0.0f;
-		auto thisOwner = this;
-		auto thisScene = dynamic_cast<Scene*>(thisOwner);
+		
 		
 		time += Timer::getDeltaTime();
 		
@@ -52,10 +51,36 @@ namespace ys
 			
 			direction = BulletDirection::Left;
 			auto position = tr->GetPosition();
+			if (isTopBody)
+			{
+				if (an->GetActive()->getName()!=L"플레이어좌이동상체")
+				{
+					an->PlayAnimation(L"플레이어좌이동상체", true);
+				}
+			}
+			else {
+				if (an->GetActive()->getName() != L"플레이어좌이동하체")
+				{
+					an->PlayAnimation(L"플레이어좌이동하체", true);
+				}
+			}
 			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		}
 		if (InputManager::getKey(VK_RIGHT))
 		{
+			if (isTopBody)
+			{
+				if (an->GetActive()->getName() != L"플레이어우이동상체")
+				{
+					an->PlayAnimation(L"플레이어우이동상체", true);
+				}
+			}
+			else {
+				if (an->GetActive()->getName() != L"플레이어우이동하체")
+				{
+					an->PlayAnimation(L"플레이어우이동하체", true);
+				}
+			}
 			
 			direction = BulletDirection::Right;
 			auto position = tr->GetPosition();
@@ -66,9 +91,7 @@ namespace ys
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
 			direction = BulletDirection::Up;
-			if (goingDown) {
-				goingDown = false;
-			}
+			
 			
 		}
 		if (InputManager::getKey(VK_DOWN))
@@ -78,10 +101,8 @@ namespace ys
 			direction = BulletDirection::Down;
 		}
 
-		if ((InputManager::getKey(VK_SPACE) || count != 0) && !coolTime)
-		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
-			//총알fsm필요함
-			//총알은 지본적으로 
+		if ((InputManager::getKey(VK_SPACE) || count != 0) && !coolTime&&isTopBody)
+		{
 			Vector2 position = tr->GetPosition();
 			Vector2 mousePosition =
 				app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
@@ -129,8 +150,8 @@ namespace ys
 			bulletTr->SetRotation(degree);
 			bulletTr->SetScale(Vector2::One * 1.5f);
 
-		auto sr = bullet->AddComponent<SpriteRenderer>();
-		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
+			auto sr = bullet->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
 			bullet->AddComponent<BulletScript>();
 			auto cc = bullet->AddComponent<CircleCollider2D>();
@@ -141,15 +162,16 @@ namespace ys
 			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
 		}
 			
-		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
+		if (InputManager::getKeyUp(VK_UP)|| InputManager::getKeyUp(VK_RIGHT)|| InputManager::getKeyUp(VK_LEFT)|| InputManager::getKeyUp(VK_DOWN))
 		{
-			speed += 10.0f;
-			coolTime = 0.1f;
-		}
-		if (InputManager::getKey((BYTE)ys::Key::I) && !coolTime)
-		{
-			speed -= 10.0f;
-			coolTime = 0.1f;
+			if (isTopBody)
+			{
+				an->PlayAnimation(L"플레이어가만기본", true);
+			}
+			else {
+				an->PlayAnimation(L"플레이어가만하체", true);
+			}
+			
 		}
 		if (goingDown)
 		{
