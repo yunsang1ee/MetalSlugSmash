@@ -22,6 +22,7 @@
 #include "BlockScript.h"
 #include "pracPlayerScript.h"
 #include <ysAnimation.h>
+#include<ysAnimator.h>
 
 extern ys::Application app;
 using namespace ys;
@@ -41,14 +42,15 @@ void prac::Init()
 	CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Block, true);
 	{
 		player = object::Instantiate<GameObject>(LayerType::Player, Vector2(-10, -10));
-		auto sr = player->AddComponent<SpriteRenderer>();
-		sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
-		auto tr = player->AddComponent<Transform>();
-		
 		player->AddComponent<pracPlayerScript>();
 		player->AddComponent<BoxCollider2D>()->SetOffset(Vector2(20, 30));
-		auto an = player->AddComponent<Animation>();
-		an->CrateAnimation(L"플레이어이동좌이동", 0, 1, 0.1f);
+		auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
+		auto an = player->AddComponent<Animator>();
+		an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.0f)
+			, Vector2(-160.0f, -240.0f), 5, 0.05f);
+		an->CrateAnimation(L"플레이어좌이동", texture, Vector2(0.0f, 480.0f), Vector2(320.0f, 320.0f)
+			, Vector2(-160.0f, -240.0f), 5, 0.05f);
+		an->PlayAnimation(L"플레이어우이동", true);
 
 	}
 	{

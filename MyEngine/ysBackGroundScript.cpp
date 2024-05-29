@@ -15,7 +15,7 @@ namespace ys
 	}
 	void BackGroundScript::Init()
 	{
-		GetOwner()->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+		
 	}
 	void BackGroundScript::Update()
 	{

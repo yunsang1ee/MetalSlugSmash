@@ -56,16 +56,16 @@ namespace ys
 		//Player
 		{
 			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
-			//auto sr = player->AddComponent<SpriteRenderer>();
+			auto sr = player->AddComponent<SpriteRenderer>();
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
-
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 			player->AddComponent<PlayerScript>();
 			auto an = player->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어우이동", texture, Vector2(0.0f, 80.0f), Vector2(320.0f, 320.0f)
-				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+				, Vector2(0, 0), 5, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동", texture, Vector2(0.0f, 480.0f), Vector2(320.0f, 320.0f)
-				, Vector2(-160.0f, -240.0f), 5, 0.05f);
+				, Vector2(0, 0), 5, 0.05f);
 			an->PlayAnimation(L"플레이어우이동", true);
 
 			auto cd = player->AddComponent<BoxCollider2D>();

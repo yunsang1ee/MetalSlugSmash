@@ -15,6 +15,7 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"총알아래", L"..\\Resource\\heavyBullet아래.bmp");
 		Resources::Load<graphics::Texture>(L"총알위", L"..\\Resource\\heavyBullet위.bmp");
 		Resources::Load<graphics::Texture>(L"총알왼쪽", L"..\\Resource\\heavyBullet왼쪽.bmp");
+		Resources::Load<graphics::Texture>(L"총알png", L"..\\Resource\\heavyBullet.png");
 
 		Resources::Load<graphics::Texture>(L"CloudOcean", L"..\\Resource\\CloudOcean.png");
 		Resources::Load<graphics::Texture>(L"문제의 그 배경", L"..\\Resource\\스테이지1.bmp");

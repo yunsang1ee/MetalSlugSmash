@@ -9,12 +9,13 @@ namespace ys
 	void LoadScenes ()
 	{
 		//SceneManager::CreateScene<TitleScene>(L"TitleScene");
-		//SceneManager::CreateScene<PlayScene>(L"PlayScene");
+		SceneManager::CreateScene<PlayScene>(L"PlayScene");
 		//SceneManager::CreateScene<EndScene>(L"EndScene");
 		//SceneManager::CreateScene<STAGE1>(L"Stage1");
 		//SceneManager::LoadScene(L"Stage1");
-		SceneManager::CreateScene<prac>(L"prac");
+		//SceneManager::CreateScene<prac>(L"prac");
 
 		SceneManager::LoadScene(L"prac");
+		//SceneManager::LoadScene(L"PlayScene");
 	}
 }
