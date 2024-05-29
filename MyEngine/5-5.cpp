@@ -21,6 +21,7 @@
 #include "CameraScript.h"
 #include "BlockScript.h"
 #include "pracPlayerScript.h"
+#include <ysAnimation.h>
 
 extern ys::Application app;
 using namespace ys;
@@ -43,9 +44,12 @@ void prac::Init()
 		auto sr = player->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
 		auto tr = player->AddComponent<Transform>();
-		tr->SetRotation(Vector2(-1, 0));
+		
 		player->AddComponent<pracPlayerScript>();
 		player->AddComponent<BoxCollider2D>()->SetOffset(Vector2(20, 30));
+		auto an = player->AddComponent<Animation>();
+		an->CrateAnimation(L"플레이어이동좌이동", 0, 1, 0.1f);
+
 	}
 	{
 		Blocks.push_back(object::Instantiate<GameObject>(LayerType::Block, Vector2(0, 0)));
