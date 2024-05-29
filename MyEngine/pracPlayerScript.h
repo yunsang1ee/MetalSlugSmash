@@ -6,7 +6,10 @@ class pracPlayerScript : public Script
 public:
 	pracPlayerScript();
 	~pracPlayerScript();
-
+	enum direction
+	{
+		left, right, up, down
+	};
 	virtual void Init();
 	virtual void Update();
 	virtual void LateUpdate();
@@ -23,5 +26,7 @@ private:
 	float speed=500;
 	float coolTime;
 	int count;
+	
+	direction bulletDirection;
 };
 

@@ -46,29 +46,32 @@ void pracPlayerScript::Update()
 
 	auto tr = GetOwner()->GetComponent<Transform>();
 	auto sr = GetOwner()->GetComponent<SpriteRenderer>();
-	if (InputManager::getKey((BYTE)ys::Key::A))
+	if (InputManager::getKey(VK_LEFT))
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만(왼)"));
+		bulletDirection = pracPlayerScript::left;
 	}
-	if (InputManager::getKey((BYTE)ys::Key::D))
+	if (InputManager::getKey(VK_RIGHT))
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
-		
+		bulletDirection = pracPlayerScript::right;
 	}
-	if (InputManager::getKey((BYTE)ys::Key::W))
+	if (InputManager::getKey(VK_UP))
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+		bulletDirection = pracPlayerScript::up;
 	}
-	if (InputManager::getKey((BYTE)ys::Key::S))
+	if (InputManager::getKey(VK_DOWN))
 	{
 		auto position = tr->GetPosition();
 		tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+		bulletDirection = pracPlayerScript::down;
 	}
-	if (((InputManager::getKey(VK_LEFT) || InputManager::getKey(VK_RIGHT) || InputManager::getKey(VK_DOWN) || InputManager::getKey(VK_UP))) && !coolTime)
+	if ((InputManager::getKey(VK_SPACE)) && !coolTime)
 	{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
 		auto position = tr->GetPosition();
 		
@@ -78,28 +81,30 @@ void pracPlayerScript::Update()
 		auto sr = bullet->AddComponent<SpriteRenderer>();
 		
 		Vector2 dest;
-		if (InputManager::getKey(VK_LEFT))
+		switch (bulletDirection)
 		{
+		case pracPlayerScript::left:
 			dest = position.Left;
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알왼쪽"));
-		}
-		else if (InputManager::getKey(VK_RIGHT))
-		{
+			break;
+		case pracPlayerScript::right:
 			dest = position.Right;
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
-		}
-		else if (InputManager::getKey(VK_DOWN))
-		{
-			dest = position.Down;
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알아래"));
-		}
-		else if (InputManager::getKey(VK_UP))
-		{
+			break;
+		case pracPlayerScript::up:
 			dest = position.Up;
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알위"));
-		}else{
+			
+			break;
+		case pracPlayerScript::down:
+			dest = position.Down;
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알아래"));
+			break;
+		default:
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알"));
+			break;
 		}
+		
 		
 		bullet->GetComponent<Transform>()->SetRotation(dest.nomalize());
 
