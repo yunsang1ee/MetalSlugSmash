@@ -19,6 +19,7 @@
 #include <ysCollisionManager.h>
 #include "ysEnemyScript.h"
 #include <ysAnimator.h>
+#include <ysRigidBody.h>
 
 extern ys::Application app;
 
@@ -32,8 +33,6 @@ namespace ys
 	}
 	void PlayScene::Init()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		//backGrounds
 		{
 			backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -600));
@@ -72,6 +71,10 @@ namespace ys
 			
 			auto cd = player->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50.0f, -80.0f));
+			auto rb = player->AddComponent<RigidBody>();
+			rb->SetMass(100.0f);
+
+			ys::object::DontDestroyOnLoad(player);
 		}
 		//Enemy
 		{
@@ -109,12 +112,15 @@ namespace ys
 	}
 	void PlayScene::OnEnter()
 	{
+		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		auto tr = backBackground->GetComponent<Transform>();
 		tr->SetPosition(Vector2(0, -300));
 		tr = background->GetComponent<Transform>();
 		tr->SetPosition(Vector2(0, -200));
 		tr = player->GetComponent<Transform>();
 		tr->SetPosition({ app.getScreen().x / 2.0f, app.getScreen().y * 0.49f });
+		Scene::OnEnter();
 	}
 	void PlayScene::OnExit()
 	{
@@ -124,5 +130,6 @@ namespace ys
 		tr->SetPosition(Vector2(0, -200));
 		tr = player->GetComponent<Transform>();
 		tr->SetPosition({ app.getScreen().x / 2.0f, app.getScreen().y * 0.49f });
+		Scene::OnExit();
 	}
 }

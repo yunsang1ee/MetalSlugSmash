@@ -22,9 +22,15 @@ namespace ys
 
 	std::vector<GameObject*> SceneManager::GetGameObejcts(const LayerType& layer)
 	{
-		std::vector<GameObject*> gameObjects{};
-		gameObjects = activeScene->GetLayer(layer)->GetGameObjects();
-		return std::vector<GameObject*>();
+		std::vector<GameObject*> gameObjects
+			= activeScene->GetLayer(layer)->GetGameObjects();
+		std::vector<GameObject*> absoluteGameObjects
+			= absoluteScene->GetLayer(layer)->GetGameObjects();
+		gameObjects.insert(gameObjects.end()
+			, absoluteGameObjects.begin()
+			, absoluteGameObjects.end());
+
+		return gameObjects;
 	}
 
 	void SceneManager::Init()

@@ -68,11 +68,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp">
       <Filter>Resource\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp">
-      <Filter>Resource\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysRigidBody.cpp">
+      <Filter>Component\RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,14 +152,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysCollisionManager.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h">
-      <Filter>Resource\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h">
       <Filter>Resource\Animation</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysRigidBody.h">
+      <Filter>Component\RigidBody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +210,12 @@
     </Filter>
     <Filter Include="Resource\Animation">
       <UniqueIdentifier>{e3fbcdcb-0862-4116-8516-94a841137312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{ef1b7ea2-d5b1-4ca2-b720-9dbd443d26f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RigidBody">
+      <UniqueIdentifier>{5c90d864-c09f-408c-8aa5-7a7b86f1f808}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

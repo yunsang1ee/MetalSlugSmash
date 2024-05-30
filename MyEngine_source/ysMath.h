@@ -38,16 +38,27 @@ namespace ys::math
 
 		Vector2(float x_, float y_) : x(x_), y(y_) {}
 
-		Vector2 operator+(const float& scalar) const { return Vector2(x + scalar, y + scalar); }
-		Vector2 operator-(const float& scalar) const { return Vector2(x - scalar, y - scalar); }
-		Vector2 operator*(const float& scalar) const { return Vector2(x * scalar, y * scalar); }
-		Vector2 operator/(const float& scalar) const { return Vector2(x / scalar, y / scalar); }
+		inline Vector2 operator+(const float& scalar) const { return Vector2(x + scalar, y + scalar); }
+		inline Vector2 operator-(const float& scalar) const { return Vector2(x - scalar, y - scalar); }
+		inline Vector2 operator*(const float& scalar) const { return Vector2(x * scalar, y * scalar); }
+		inline Vector2 operator/(const float& scalar) const { return Vector2(x / scalar, y / scalar); }
 		
-		Vector2 operator*(const Vector2& other) const { return Vector2(x * other.x, y * other.y); }
-		Vector2 operator+(const Vector2& other) const { return Vector2(x + other.x, y + other.y); }
-		Vector2 operator-(const Vector2& other) const { return Vector2(x - other.x, y - other.y); }
+		inline void operator+=(const Vector2& other) 
+		{
+			x += other.x;
+			y += other.y;
+		}
+		inline bool operator==(const Vector2& other) const 
+		{ 
+			return (x == other.x && y == other.y);
+		}
 
-		float scalar() { return sqrtf(x * x + y * y); }
+		inline Vector2 operator*(const Vector2& other) const { return Vector2(x * other.x, y * other.y); }
+		inline Vector2 operator+(const Vector2& other) const { return Vector2(x + other.x, y + other.y); }
+		inline Vector2 operator-(const Vector2& other) const { return Vector2(x - other.x, y - other.y); }
+		inline Vector2 operator-() const { return Vector2(-x, -y); }
+
+		inline float scalar() { return sqrtf(x * x + y * y); }
 		Vector2 nomalize() 
 		{ 
 			auto len = scalar();
