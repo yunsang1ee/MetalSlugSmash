@@ -4,7 +4,7 @@
 #include <ysGameObject.h>
 #include <ysTransform.h>
 #include <ysRenderer.h>
-
+#include<ysBoxCollider2D.h>
 namespace ys
 {
 	BackGroundScript::BackGroundScript() : parallax(300)
@@ -15,6 +15,7 @@ namespace ys
 	}
 	void BackGroundScript::Init()
 	{
+		
 	}
 	void BackGroundScript::Update()
 	{

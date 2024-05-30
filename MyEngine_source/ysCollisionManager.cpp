@@ -2,7 +2,6 @@
 #include "ysSceneManager.h"
 #include <ysTransform.h>
 #include <ysInputManager.h>
-
 namespace ys
 {
 	std::bitset<(UINT)LayerType::Max> CollisionManager::collisionLayerMatrix[(UINT)LayerType::Max]{};

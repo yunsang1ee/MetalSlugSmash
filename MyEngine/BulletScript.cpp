@@ -16,6 +16,7 @@ ys::BulletScript::~BulletScript()
 
 void ys::BulletScript::Init()
 {
+	
 }
 
 void ys::BulletScript::Update()

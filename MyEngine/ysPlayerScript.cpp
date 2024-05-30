@@ -12,9 +12,12 @@
 #include "BulletScript.h"
 #include <ysBoxCollider2D.h>
 #include <ysRenderer.h>
-#include <ysAnimator.h>
-#include <random>
 #include <ysRigidBody.h>
+#include<ysCircleCollider2D.h>
+#include <ysCollisionManager.h>
+#include "STAGE1.h"
+#include<random>
+#include"ysAnimator.h"
 
 extern ys::Application app;
 
@@ -38,7 +41,7 @@ namespace ys
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		
+
 		switch (state)
 		{
 		case ys::PlayerScript::PlayerState::Idle:
@@ -51,24 +54,119 @@ namespace ys
 			break;
 		}
 
-		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
-		{//¸¶¿ì½º°¡ ¾Æ´Ï¶ó Å°º¸µå »óÅÂ¿¡ µû¶ó °ø°Ý¹æÇâ Á¤ÇÏ¸é µÇ°Ú³× $$¹Ú°æÁØ
-			ShootBullet();
+		
+		
+		auto tr = GetOwner()->GetComponent<Transform>();
+		auto an = GetOwner()->GetComponent<Animator>();
+	
+
+		if ((InputManager::getKey(VK_SPACE) || count != 0) && !coolTime&&isTopBody)
+		{
+			Vector2 position = tr->GetPosition();
+			Vector2 mousePosition =
+				app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+			
+			position = { position.x + 40, position.y - 40 };
+			
+			std::random_device rd;
+			std::mt19937 engine(rd());
+			std::uniform_real_distribution<> urd(-1.0, 1.0);
+			auto bullet = object::Instantiate<GameObject>(LayerType::Projectile
+				, Vector2(position.x, position.y) + Vector2::One * 10.0f * urd(engine));
+			
+			if (renderer::mainCamera)
+				position = renderer::mainCamera->CalculatPosition(position);
+
+			Vector2 dest = (mousePosition - position).nomalize();
+			
+			float degree = acosf(Vector2::Dot(Vector2::Right, dest));
+			if (Vector2::Cross(Vector2::Right, dest) < 0)
+				degree = 2 * math::kPi - degree;
+			auto bulletTr = bullet->GetComponent<Transform>();
+			bulletTr->SetRotation(degree);
+			bulletTr->SetScale(Vector2::One * 1.5f);
+
+			auto sr = bullet->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"ì´ì•Œpng"));
+
+			bullet->AddComponent<BulletScript>();
+			auto cc = bullet->AddComponent<CircleCollider2D>();
+			cc->SetSize(Vector2(0.2f, 0.2f));
+			cc->SetOffset(Vector2(0.5f, 0));
 			count++;
-			coolTime = 0.05f;//ÃÑ½î´Â ¾Ö´Ï¸ÞÀÌ¼Ç durationµ¿¾È
-			if (count == 5) count = 0;//Çìºñ¸Ó½Å°ÇÀÇ °æ¿ì ÇÑ¹ø¿¡ 5¹ß¾¿ ½î´Ï±î ÀÌ·±½ÄÀ¸·Î ³Ö¾îº½ ¤·¤·
+			coolTime = 0.05f;//ì´ì˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ durationë™ì•ˆ
+			if (count == 5) count = 0;//í—¤ë¹„ë¨¸ì‹ ê±´ì˜ ê²½ìš° í•œë²ˆì— 5ë°œì”© ì˜ë‹ˆê¹Œ ì´ëŸ°ì‹ìœ¼ë¡œ ë„£ì–´ë´„ ã…‡ã…‡
 		}
 			
-		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
+		
+		if (goingDown)
 		{
-			speed += 10.0f;
-			coolTime = 0.1f;
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 		}
-		if (InputManager::getKey((BYTE)ys::Key::I) && !coolTime)
+		if (time>1)
 		{
-			speed -= 10.0f;
-			coolTime = 0.1f;
+			goingDown = true;
+			time = 0;
 		}
+	}
+	void PlayerScript::idle()
+	{
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey(VK_LEFT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ì¢Œì´ë™ìƒì²´");
+		}
+		if (InputManager::getKey(VK_RIGHT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ìš°ì´ë™ìƒì²´");
+		}
+		if (InputManager::getKey(VK_UP))
+		{
+			state = PlayerState::Move;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			state = PlayerState::Move;
+		}
+	}
+	void PlayerScript::move()
+	{
+		auto tr = GetOwner()->GetComponent<Transform>();
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey(VK_LEFT))
+		{
+			direction = BulletDirection::Left;
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey(VK_RIGHT))
+		{
+			direction = BulletDirection::Right;
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey(VK_UP))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+			direction = BulletDirection::Up;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+			direction = BulletDirection::Down;
+
+		}
+		if (InputManager::getKeyUp(VK_UP) || InputManager::getKeyUp(VK_RIGHT) || InputManager::getKeyUp(VK_LEFT) || InputManager::getKeyUp(VK_DOWN))
+		{
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ê°€ë§Œê¸°ë³¸", true);
+			state = PlayerState::Idle;
+		}
+		
 	}
 	void PlayerScript::LateUpdate()
 	{
@@ -78,6 +176,7 @@ namespace ys
 	}
 	void PlayerScript::ShootBullet()
 	{
+
 		auto tr = GetOwner()->GetComponent<Transform>();
 		Vector2 position = tr->GetPosition();
 		Vector2 mousePosition =
@@ -102,65 +201,50 @@ namespace ys
 		bulletTr->SetScale(Vector2::One * 1.5f);
 
 		auto sr = bullet->AddComponent<SpriteRenderer>();
-		sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"ì´ì•Œpng"));
 
 			bullet->AddComponent<BulletScript>();
 			bullet->AddComponent<BoxCollider2D>();
 			count++;
-			coolTime = 0.05f;//ÃÑ½î´Â ¾Ö´Ï¸ÞÀÌ¼Ç durationµ¿¾È
-			if (count == 5) count = 0;//Çìºñ¸Ó½Å°ÇÀÇ °æ¿ì ÇÑ¹ø¿¡ 5¹ß¾¿ ½î´Ï±î ÀÌ·±½ÄÀ¸·Î ³Ö¾îº½ ¤·¤·
-	}
-	void PlayerScript::idle()
-	{
-		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
-		{
-			state = PlayerState::Move;
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁÂÀÌµ¿");
-		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
-		{
-			state = PlayerState::Move;
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î¿ìÀÌµ¿");
-		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
-		{
-			state = PlayerState::Move;
-		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
-		{
-			state = PlayerState::Move;
-		}
+			coolTime = 0.05f;//ì´ì˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ durationë™ì•ˆ
+			if (count == 5) count = 0;//í—¤ë¹„ë¨¸ì‹ ê±´ì˜ ê²½ìš° í•œë²ˆì— 5ë°œì”© ì˜ë‹ˆê¹Œ ì´ëŸ°ì‹ìœ¼ë¡œ ë„£ì–´ë´„ ã…‡ã…‡
 	}
 
-	void PlayerScript::move()
-	{
-		auto rb = GetOwner()->GetComponent<RigidBody>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
-		{
-			rb->AddForce(Vector2::Left * speed);
-		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
-		{
-			rb->AddForce(Vector2::Right * speed);
-		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
-		{
-			rb->AddForce(Vector2::Up * speed * 10);
-		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
-		{
-			rb->AddForce(Vector2::Down * speed);
-		}
 
-		if (InputManager::getKeyUp((BYTE)ys::Key::A) || InputManager::getKeyUp(VK_LEFT)
-			|| InputManager::getKeyUp((BYTE)ys::Key::D) || InputManager::getKeyUp(VK_RIGHT)
-			|| InputManager::getKeyUp((BYTE)ys::Key::W) || InputManager::getKeyUp(VK_UP)
-			|| InputManager::getKeyUp((BYTE)ys::Key::S) || InputManager::getKeyUp(VK_DOWN))
+	}
+	void PlayerScript::OnCollisionEnter(Collider* other)
+	{
+		
+		//íƒ€ìž…ìºìŠ¤íŠ¸ë¡œ ê²Œìž„ì˜¤ë¸Œì íŠ¸ì—ì„œ ë ˆì´ì–´ë¡œ í• ìˆ˜ê°€ì—†ìŒ ìƒì†ì´ ì•ˆë˜ì—ˆëŠ”ì§€
+		
+		//ì½œë¦¬ì „ì´ í•˜ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ì— ì—¬ëŸ¬ê°œ í•„ìš”í•¨ ë°œíŒ ì½œë¦¬ì ¼
+		//ì¶©ëŒ ì½œë¦¬ì ¼
+		//ì í”„í• ë•Œ ì¶©ëŒ off->ë¬´ì ë¨
+		//ì¶©ëŒ offì•ˆí•˜ë©´ ëª¸í†µ ì½œë¦¬ì ¼ë•Œë¬¸ì— í”Œëž«í¼í†µê³¼ ëª»í•˜ê±°ë‚˜ í”Œëž«í¼ì— ë‚Œ
+		//ë°œíŒ ì½œë¦¬ì ¼ì„ ì´ìš”í•´ì„œ ì´ë™ê³¼ ì¶©ëŒ ì½œë¦¬ì ¼ì„ ë”°ë¡œ ì²˜ë¦¬í•´ì•¼í•¨
+		if (other->getName()==L"Block")//ë ˆì´ì–´ íƒ€ìž…ì„ ì•Œìˆ˜ ì—†ìŒ
 		{
-			auto an = GetOwner()->GetComponent<Animator>();
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁÂÀÌµ¿");
-			state = PlayerState::Idle;
+			auto otherPos = other->GetOwner()->GetComponent<Transform>()->GetPosition();
+			auto thisPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			thisPos = otherPos-thisPos;
+		}
+		if (other->getName() == L"BackGround") {
+			goingDown = false;
+		}
+		
+		
+		
+	}
+	void PlayerScript::OnCollisionStay(Collider* other)
+	{
+		
+		if (other->getName() == L"BackGround") {
+			goingDown = false;
 		}
 	}
+	void PlayerScript::OnCollisionExit(Collider* other)
+	{
+		
+	}
+
 }

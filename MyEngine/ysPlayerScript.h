@@ -9,7 +9,6 @@ namespace ys
 		{
 			Idle, Move
 		};
-
 	public:
 		PlayerScript();
 		~PlayerScript();
@@ -21,16 +20,30 @@ namespace ys
 
 		void ShootBullet();
 		void SetSpeed(const float& speed) { this->speed = speed; }
+		virtual void OnCollisionEnter(Collider* other) override;
+		virtual void OnCollisionStay(Collider* other) override;
+		virtual void OnCollisionExit(Collider* other) override;
 
+		
+		void SetTopBody(bool isTopBody=false) { this->isTopBody = isTopBody; }
+		enum BulletDirection
+		{
+			Left,Right,Up,Down
+		};
 	private:
 		void idle();
 		void move();
 
 	private:
-		PlayerState state;
+		math::Vector2 prevPosition;
+		float time = 0;
+		bool goingDown;
+
 		float speed;
 		float coolTime;
 		int count;
-
+		bool isTopBody;
+		BulletDirection direction;
+		PlayerState state;
 	};
 }

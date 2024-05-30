@@ -2,16 +2,16 @@
 #include "..\\MyEngine_source\\ysSceneManager.h"
 #include "ysPlayScene.h"
 #include "ysTitleScene.h"
-
+#include"STAGE1.h"
 namespace ys
 {
 	void LoadScenes ()
 	{
-		SceneManager::CreateScene<TitleScene>(L"TitleScene");
-		SceneManager::CreateScene<PlayScene>(L"PlayScene");
+		//SceneManager::CreateScene<TitleScene>(L"TitleScene");
+		//SceneManager::CreateScene<PlayScene>(L"PlayScene");
 		//SceneManager::CreateScene<EndScene>(L"EndScene");
-
-		SceneManager::LoadScene(L"PlayScene");
+		SceneManager::CreateScene<STAGE1>(L"Stage1");
+		SceneManager::LoadScene(L"Stage1");
 
 	}
 }
