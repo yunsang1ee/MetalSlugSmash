@@ -7,7 +7,7 @@
 #include <ysTransform.h>
 #include <ysObject.h>
 
-ys::GameObject::GameObject() : state(State::Active)
+ys::GameObject::GameObject() : state(State::Active), ownLayer(LayerType::None)
 {
 	components.resize(static_cast<UINT>(enums::ComponentType::End));
 	AddComponent<Transform>();

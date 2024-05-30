@@ -55,7 +55,7 @@ void ys::TitleScene::LateUpdate()
 		ys::SceneManager::LoadScene(L"PlayScene");
 }
 
-void ys::TitleScene::Render(HDC hDC)
+void ys::TitleScene::Render(HDC hDC, const int& index)
 {
-	Scene::Render(hDC);
+	Scene::Render(hDC, index);
 }

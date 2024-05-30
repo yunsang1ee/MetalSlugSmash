@@ -103,9 +103,9 @@ namespace ys
 		if (ys::InputManager::getKeyDown((UINT)ys::Key::N))
 			ys::SceneManager::LoadScene(L"TitleScene");
 	}
-	void PlayScene::Render(HDC hDc)
+	void PlayScene::Render(HDC hDc, const int& index)
 	{
-		Scene::Render(hDc);
+		Scene::Render(hDc, index);
 	}
 	void PlayScene::OnEnter()
 	{

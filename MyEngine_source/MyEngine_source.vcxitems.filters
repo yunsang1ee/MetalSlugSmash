@@ -62,9 +62,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.cpp">
       <Filter>Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ysCollisionManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysCollisionManager.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp">
+      <Filter>Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp">
+      <Filter>Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h">
@@ -137,9 +146,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ysCollisionManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysCollisionManager.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h">
+      <Filter>Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h">
+      <Filter>Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">
@@ -183,6 +201,9 @@
     </Filter>
     <Filter Include="Component\Collider">
       <UniqueIdentifier>{409f6290-61d4-4f02-a49d-0cd33e9d8b78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Animation">
+      <UniqueIdentifier>{e3fbcdcb-0862-4116-8516-94a841137312}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

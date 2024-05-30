@@ -4,7 +4,7 @@
 
 namespace ys::math
 {
-	constexpr float kPi = 3.14159265358979;
+	constexpr float kPi = 3.14159265358979f;
 
 	struct Vector2
 	{

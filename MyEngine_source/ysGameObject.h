@@ -54,8 +54,10 @@ namespace ys
 		}
 
 		State GetState() const { return state; }
+		LayerType GetLayerType() const { return ownLayer; }
 		bool IsActive() const { return state == State::Active; }
 
+		void SetLayerType(const LayerType& layerType) { ownLayer = layerType; }
 		void SetActive(const bool& power) { state = power ? State::Active : State::Paused; }
 
 	private:
@@ -64,5 +66,6 @@ namespace ys
 	private:
 		State state;
 		std::vector<Component*> components;
+		LayerType ownLayer;
 	};
 }

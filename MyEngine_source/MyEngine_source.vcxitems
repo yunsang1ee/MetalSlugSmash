@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YSapplication.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.cpp" />

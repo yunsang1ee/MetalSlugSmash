@@ -19,8 +19,9 @@ namespace ys
 		}
 
 		static Scene* LoadScene(const std::wstring& name);
-
-		static Scene* GetaActiveScene() { return activeScene; }
+		static Scene* GetActiveScene() { return activeScene; }
+		static Scene* GetAbsoluteScene() { return absoluteScene; }
+		static std::vector<GameObject*> GetGameObejcts(const LayerType& layer);
 
 		static void Init();
 		static void Update();
@@ -32,5 +33,6 @@ namespace ys
 	private:
 		static std::map<std::wstring, Scene*> Scenes;
 		static Scene* activeScene;
+		static Scene* absoluteScene;
 	};
 }
