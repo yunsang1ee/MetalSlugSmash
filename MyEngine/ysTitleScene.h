@@ -12,7 +12,7 @@ namespace ys
 		void Init() override;
 		void Update() override;
 		void LateUpdate() override;
-		void Render(HDC hDc) override;
+		void Render(HDC hDc, const int& index) override;
 	private:
 
 	};

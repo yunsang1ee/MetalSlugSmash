@@ -35,6 +35,7 @@ namespace ys::enums
 	{
 		Transform, 
 		Collider,
+		RigidBody,
 		Script,
 		SpriteRenderer,
 		Animator,

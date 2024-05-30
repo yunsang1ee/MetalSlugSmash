@@ -1,5 +1,6 @@
 #include "ysScene.h"
 #include <algorithm>
+#include <ysCollisionManager.h>
 namespace ys
 {
 	Scene::Scene()
@@ -43,12 +44,20 @@ namespace ys
 			layer->LateUpdate();
 		}
 	}
-	void Scene::Render(HDC hDC)
+	void Scene::Render(HDC hDC, const int& index)
 	{
-		for (auto layer : layers)
+		if(index == - 1)
 		{
-			if (layer == nullptr) continue;
-			layer->Render(hDC);
+			for (auto layer : layers)
+			{
+				if (layer == nullptr) continue;
+				layer->Render(hDC);
+			}
+		}
+		else if(index >= 0 && index < (UINT)LayerType::Max)
+		{
+			if (layers[index] == nullptr) return;
+			layers[index]->Render(hDC);
 		}
 	}
 
@@ -67,11 +76,17 @@ namespace ys
 
 	void Scene::OnExit()
 	{
+		CollisionManager::Clear();
 	}
 
 	void Scene::AddGameObject(GameObject* gameObject, const enums::LayerType& type)
 	{
 		layers[static_cast<UINT>(type)]->AddGameObject(gameObject);
 		layers[static_cast<UINT>(type)]->setType(type);
+	}
+	void Scene::EraseGameObject(GameObject* gameObject)
+	{
+		LayerType layerType = gameObject->GetLayerType();
+		layers[(UINT)layerType]->EraseGameObject(gameObject);
 	}
 }

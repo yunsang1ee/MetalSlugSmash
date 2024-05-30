@@ -26,7 +26,7 @@ namespace ys
 		Timer::Init();
 
 		CollisionManager::Init();
-		//SceneManager::Init();
+		SceneManager::Init();
 	}
 
 	void Application::Run()

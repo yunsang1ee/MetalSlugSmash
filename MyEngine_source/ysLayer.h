@@ -20,6 +20,7 @@ namespace ys
 		void setType(LayerType type) { this->type = type; }//내가 추가함
 
 		void AddGameObject(GameObject* gameObject);
+		void EraseGameObject(GameObject* gameObject);
 		const std::vector<GameObject*> GetGameObjects() const { return objects; }
 		const LayerType getType() const { return type; }//내가 추가함
 	private:

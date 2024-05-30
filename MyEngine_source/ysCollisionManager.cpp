@@ -17,7 +17,7 @@ namespace ys
 			Collider::SetRender(!Collider::isRender());
 		}
 
-		auto scene = SceneManager::GetaActiveScene();
+		auto scene = SceneManager::GetActiveScene();
 
 		for (UINT row = 0; row < (UINT)LayerType::Max; ++row)
 			for (UINT col = row; col < (UINT)LayerType::Max; ++col)
@@ -48,8 +48,8 @@ namespace ys
 	}
 	void CollisionManager::LayerCollision(Scene* scene, const LayerType& left, const LayerType& right)
 	{
-		auto& lefts = scene->GetLayer(left)->GetGameObjects();
-		auto& rights = scene->GetLayer(right)->GetGameObjects();
+		const auto& lefts = SceneManager::GetGameObejcts(left);
+		const auto& rights = SceneManager::GetGameObejcts(right);
 
 		for(auto left : lefts)
 		{
@@ -162,5 +162,10 @@ namespace ys
 		}
 
 		return false;
+	}
+	void CollisionManager::Clear()
+	{
+		collisionMap.clear();
+		collisionLayerMatrix->reset();
 	}
 }

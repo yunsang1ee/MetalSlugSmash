@@ -1,9 +1,11 @@
 #include "ysSceneManager.h"
+#include "ysAbsoluteScene.h"
 
 namespace ys
 {
 	std::map<std::wstring, Scene*> SceneManager::Scenes;
 	Scene* SceneManager::activeScene;
+	Scene* SceneManager::absoluteScene;
 
 	Scene* SceneManager::LoadScene(const std::wstring& name)
 	{
@@ -18,25 +20,45 @@ namespace ys
 		return activeScene;
 	}
 
+	std::vector<GameObject*> SceneManager::GetGameObejcts(const LayerType& layer)
+	{
+		std::vector<GameObject*> gameObjects
+			= activeScene->GetLayer(layer)->GetGameObjects();
+		std::vector<GameObject*> absoluteGameObjects
+			= absoluteScene->GetLayer(layer)->GetGameObjects();
+		gameObjects.insert(gameObjects.end()
+			, absoluteGameObjects.begin()
+			, absoluteGameObjects.end());
+
+		return gameObjects;
+	}
+
 	void SceneManager::Init()
 	{
-		activeScene->Init();
+		absoluteScene = CreateScene<AbsoluteScene>(L"Absolute");
 	}
 	void SceneManager::Update()
 	{
 		activeScene->Update();
+		absoluteScene->Update();
 	}
 	void SceneManager::LateUpdate()
 	{
 		activeScene->LateUpdate();
+		absoluteScene->LateUpdate();
 	}
 	void SceneManager::Render(HDC hDC)
 	{
-		activeScene->Render(hDC);
+		for(int layerIndex = 0; layerIndex < (UINT)LayerType::Max; ++layerIndex)
+		{
+			activeScene->Render(hDC, layerIndex);
+			absoluteScene->Render(hDC, layerIndex);
+		}
 	}
 	void SceneManager::Destroy()
 	{
 		activeScene->Destroy();
+		absoluteScene->Destroy();
 	}
 	void SceneManager::Release()
 	{

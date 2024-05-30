@@ -30,7 +30,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetState() == GameObject::State::Active)
+			if (object->IsActive())
 				object->Update();
 		}
 	}
@@ -40,7 +40,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetState() == GameObject::State::Active)
+			if (object->IsActive())
 				object->LateUpdate();
 		}
 	}
@@ -50,7 +50,7 @@ namespace ys
 		{
 			if (object == nullptr) continue;
 
-			if (object->GetState() == GameObject::State::Active)
+			if (object->IsActive())
 				object->Render(hDC);
 		}
 	}
@@ -65,7 +65,8 @@ namespace ys
 			{
 				auto deleteObj = *iter;
 				iter = objects.erase(iter);
-				delete deleteObj; deleteObj = nullptr;
+				delete deleteObj;
+				deleteObj = nullptr;
 			}
 			else
 				++iter;
@@ -76,5 +77,14 @@ namespace ys
 	{
 		if (gameObject == nullptr) return;
 		objects.push_back(gameObject);
+	}
+	void Layer::EraseGameObject(GameObject* gameObject)
+	{
+		//iterator를 안돌아도 삭제가 가능한 STL ㄷㄷ
+		std::erase_if(objects,
+			[=](GameObject* obj)
+			{
+				return obj == gameObject;
+			});
 	}
 }

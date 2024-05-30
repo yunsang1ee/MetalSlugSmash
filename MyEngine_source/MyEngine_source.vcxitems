@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YSapplication.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysResources.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysRigidBody.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScript.h" />
@@ -44,6 +46,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.cpp" />
@@ -61,6 +64,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysResources.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysRigidBody.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScript.cpp" />

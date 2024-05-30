@@ -34,11 +34,11 @@ namespace ys
 		void idle();
 		void move();
 
-	
 	private:
 		math::Vector2 prevPosition;
 		float time = 0;
 		bool goingDown;
+
 		float speed;
 		float coolTime;
 		int count;

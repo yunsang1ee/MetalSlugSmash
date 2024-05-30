@@ -16,13 +16,14 @@ namespace ys
 		virtual void Init();
 		virtual void Update();
 		virtual void LateUpdate();
-		virtual void Render(HDC hDC);
+		virtual void Render(HDC hDC, const int& index);
 		virtual void Destroy();
 		
 		virtual void OnEnter(); //title -> play scene (play init)
 		virtual void OnExit(); //title -> play scene (title exit)
 
 		void AddGameObject(GameObject* gameObject, const enums::LayerType& type);
+		void EraseGameObject(GameObject* gameObject);
 		Layer* GetLayer(const enums::LayerType& type) { return layers[static_cast<UINT>(type)]; }
 
 	private:

@@ -12,12 +12,13 @@
 #include "BulletScript.h"
 #include <ysBoxCollider2D.h>
 #include <ysRenderer.h>
+#include <ysRigidBody.h>
 #include<ysCircleCollider2D.h>
 #include <ysCollisionManager.h>
-#include"ysBoxCollider2D.h"
 #include "STAGE1.h"
 #include<random>
 #include"ysAnimator.h"
+
 extern ys::Application app;
 
 namespace ys
@@ -86,15 +87,15 @@ namespace ys
 			bulletTr->SetScale(Vector2::One * 1.5f);
 
 			auto sr = bullet->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"ì´ì•Œpng"));
 
 			bullet->AddComponent<BulletScript>();
 			auto cc = bullet->AddComponent<CircleCollider2D>();
 			cc->SetSize(Vector2(0.2f, 0.2f));
 			cc->SetOffset(Vector2(0.5f, 0));
 			count++;
-			coolTime = 0.05f;//ÃÑ½î´Â ¾Ö´Ï¸ÞÀÌ¼Ç durationµ¿¾È
-			if (count == 5) count = 0;//Çìºñ¸Ó½Å°ÇÀÇ °æ¿ì ÇÑ¹ø¿¡ 5¹ß¾¿ ½î´Ï±î ÀÌ·±½ÄÀ¸·Î ³Ö¾îº½ ¤·¤·
+			coolTime = 0.05f;//ì´ì˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ durationë™ì•ˆ
+			if (count == 5) count = 0;//í—¤ë¹„ë¨¸ì‹ ê±´ì˜ ê²½ìš° í•œë²ˆì— 5ë°œì”© ì˜ë‹ˆê¹Œ ì´ëŸ°ì‹ìœ¼ë¡œ ë„£ì–´ë´„ ã…‡ã…‡
 		}
 			
 		
@@ -115,12 +116,12 @@ namespace ys
 		if (InputManager::getKey(VK_LEFT))
 		{
 			state = PlayerState::Move;
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁÂÀÌµ¿»óÃ¼");
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ì¢Œì´ë™ìƒì²´");
 		}
 		if (InputManager::getKey(VK_RIGHT))
 		{
 			state = PlayerState::Move;
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î¿ìÀÌµ¿»óÃ¼");
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ìš°ì´ë™ìƒì²´");
 		}
 		if (InputManager::getKey(VK_UP))
 		{
@@ -158,10 +159,11 @@ namespace ys
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 			direction = BulletDirection::Down;
+
 		}
 		if (InputManager::getKeyUp(VK_UP) || InputManager::getKeyUp(VK_RIGHT) || InputManager::getKeyUp(VK_LEFT) || InputManager::getKeyUp(VK_DOWN))
 		{
-			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸±âº»", true);
+			an->PlayAnimation(L"í”Œë ˆì´ì–´ê°€ë§Œê¸°ë³¸", true);
 			state = PlayerState::Idle;
 		}
 		
@@ -174,18 +176,53 @@ namespace ys
 	}
 	void PlayerScript::ShootBullet()
 	{
+
+		auto tr = GetOwner()->GetComponent<Transform>();
+		Vector2 position = tr->GetPosition();
+		Vector2 mousePosition =
+			app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+		position = { position.x + 40, position.y - 40 };
+
+		std::random_device rd;
+		std::mt19937 engine(rd());
+		std::uniform_real_distribution<> urd(-1.0, 1.0);
+		auto bullet = object::Instantiate<GameObject>(LayerType::Projectile
+			, Vector2(position.x, position.y) + Vector2::One * 10.0f * urd(engine));
+
+		if (renderer::mainCamera)
+			position = renderer::mainCamera->CalculatPosition(position);
+
+		Vector2 dest = (mousePosition - position).nomalize();
+		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
+		if (Vector2::Cross(Vector2::Right, dest) < 0)
+			degree = 2 * math::kPi - degree;
+		auto bulletTr = bullet->GetComponent<Transform>();
+		bulletTr->SetRotation(degree);
+		bulletTr->SetScale(Vector2::One * 1.5f);
+
+		auto sr = bullet->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"ì´ì•Œpng"));
+
+			bullet->AddComponent<BulletScript>();
+			bullet->AddComponent<BoxCollider2D>();
+			count++;
+			coolTime = 0.05f;//ì´ì˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ durationë™ì•ˆ
+			if (count == 5) count = 0;//í—¤ë¹„ë¨¸ì‹ ê±´ì˜ ê²½ìš° í•œë²ˆì— 5ë°œì”© ì˜ë‹ˆê¹Œ ì´ëŸ°ì‹ìœ¼ë¡œ ë„£ì–´ë´„ ã…‡ã…‡
+	}
+
+
 	}
 	void PlayerScript::OnCollisionEnter(Collider* other)
 	{
 		
-		//Å¸ÀÔÄ³½ºÆ®·Î °ÔÀÓ¿ÀºêÁ§Æ®¿¡¼­ ·¹ÀÌ¾î·Î ÇÒ¼ö°¡¾øÀ½ »ó¼ÓÀÌ ¾ÈµÇ¾ú´ÂÁö
+		//íƒ€ìž…ìºìŠ¤íŠ¸ë¡œ ê²Œìž„ì˜¤ë¸Œì íŠ¸ì—ì„œ ë ˆì´ì–´ë¡œ í• ìˆ˜ê°€ì—†ìŒ ìƒì†ì´ ì•ˆë˜ì—ˆëŠ”ì§€
 		
-		//ÄÝ¸®ÀüÀÌ ÇÏ³ªÀÇ ¿ÀºêÁ§Æ®¿¡ ¿©·¯°³ ÇÊ¿äÇÔ ¹ßÆÇ ÄÝ¸®Á¯
-		//Ãæµ¹ ÄÝ¸®Á¯
-		//Á¡ÇÁÇÒ¶§ Ãæµ¹ off->¹«ÀûµÊ
-		//Ãæµ¹ off¾ÈÇÏ¸é ¸öÅë ÄÝ¸®Á¯¶§¹®¿¡ ÇÃ·§ÆûÅë°ú ¸øÇÏ°Å³ª ÇÃ·§Æû¿¡ ³¦
-		//¹ßÆÇ ÄÝ¸®Á¯À» ÀÌ¿äÇØ¼­ ÀÌµ¿°ú Ãæµ¹ ÄÝ¸®Á¯À» µû·Î Ã³¸®ÇØ¾ßÇÔ
-		if (other->getName()==L"Block")//·¹ÀÌ¾î Å¸ÀÔÀ» ¾Ë¼ö ¾øÀ½
+		//ì½œë¦¬ì „ì´ í•˜ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ì— ì—¬ëŸ¬ê°œ í•„ìš”í•¨ ë°œíŒ ì½œë¦¬ì ¼
+		//ì¶©ëŒ ì½œë¦¬ì ¼
+		//ì í”„í• ë•Œ ì¶©ëŒ off->ë¬´ì ë¨
+		//ì¶©ëŒ offì•ˆí•˜ë©´ ëª¸í†µ ì½œë¦¬ì ¼ë•Œë¬¸ì— í”Œëž«í¼í†µê³¼ ëª»í•˜ê±°ë‚˜ í”Œëž«í¼ì— ë‚Œ
+		//ë°œíŒ ì½œë¦¬ì ¼ì„ ì´ìš”í•´ì„œ ì´ë™ê³¼ ì¶©ëŒ ì½œë¦¬ì ¼ì„ ë”°ë¡œ ì²˜ë¦¬í•´ì•¼í•¨
+		if (other->getName()==L"Block")//ë ˆì´ì–´ íƒ€ìž…ì„ ì•Œìˆ˜ ì—†ìŒ
 		{
 			auto otherPos = other->GetOwner()->GetComponent<Transform>()->GetPosition();
 			auto thisPos = GetOwner()->GetComponent<Transform>()->GetPosition();
