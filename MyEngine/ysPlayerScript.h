@@ -27,7 +27,6 @@ namespace ys
 		void move();
 
 	private:
-		math::Vector2 prevPosit
 		PlayerState state;
 		float speed;
 		float coolTime;

@@ -2,6 +2,7 @@
 #include "ysComponent.h"
 namespace ys
 {
+	using namespace math;
 	class Transform : public Component
 	{
 	public:

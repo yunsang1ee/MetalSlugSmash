@@ -14,6 +14,7 @@
 #include <ysRenderer.h>
 #include <ysAnimator.h>
 #include <random>
+#include <ysRigidBody.h>
 
 extern ys::Application app;
 
@@ -48,16 +49,6 @@ namespace ys
 			break;
 		default:
 			break;
-		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
-		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
-		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
-		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 		}
 
 		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
@@ -118,24 +109,6 @@ namespace ys
 			count++;
 			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
-		}
-			
-		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
-		{
-			speed += 10.0f;
-			coolTime = 0.1f;
-		}
-		if (InputManager::getKey((BYTE)ys::Key::I) && !coolTime)
-		{
-			speed -= 10.0f;
-			coolTime = 0.1f;
-		}
-	}
-	void PlayerScript::LateUpdate()
-	{
-	}
-	void PlayerScript::Render(HDC hDC)
-	{
 	}
 	void PlayerScript::idle()
 	{
@@ -159,28 +132,25 @@ namespace ys
 			state = PlayerState::Move;
 		}
 	}
+
 	void PlayerScript::move()
 	{
-		auto tr = GetOwner()->GetComponent<Transform>();
+		auto rb = GetOwner()->GetComponent<RigidBody>();
 		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+			rb->AddForce(Vector2::Left * speed);
 		}
 		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+			rb->AddForce(Vector2::Right * speed);
 		}
 		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+			rb->AddForce(Vector2::Up * speed * 10);
 		}
 		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+			rb->AddForce(Vector2::Down * speed);
 		}
 
 		if (InputManager::getKeyUp((BYTE)ys::Key::A) || InputManager::getKeyUp(VK_LEFT)

@@ -15,6 +15,7 @@ namespace ys
 		virtual void Render(HDC hDC) override;
 
 		void SetMass(const float& mass) { this->mass = mass; }
+		void SetFriction(const float& friction) { this->friction = friction; }
 		void AddForce(const math::Vector2 force) { this->force = force; }
 
 	private:

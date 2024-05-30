@@ -7,8 +7,8 @@ namespace ys
 {
 	using namespace math;
 	RigidBody::RigidBody() : Component(enums::ComponentType::RigidBody)
-		, mass(0.0f)
-		, friction(0.0f)
+		, mass(1.0f)
+		, friction(100.0f)
 		, force(Vector2::Zero)
 		, accelation(Vector2::Zero)
 		, velocity(Vector2::Zero)
@@ -26,8 +26,8 @@ namespace ys
 
 	void RigidBody::Update()
 	{
-		if(mass != 0.0f)
-			accelation = force / mass;
+		gravity = Vector2::Down * 9.80665f * 200.0f * mass;
+		accelation = (force + gravity) / mass;
 		velocity += accelation * Timer::getDeltaTime();
 
 		if (velocity != Vector2::Zero)
@@ -35,11 +35,10 @@ namespace ys
 			Vector2 tickFriction = -velocity;
 			tickFriction = tickFriction.nomalize() * friction * mass * Timer::getDeltaTime();
 			if (velocity.scalar() <= tickFriction.scalar())
-				velocity == Vector2::Zero;
+				velocity = Vector2::Zero;
 			else
 				velocity += tickFriction;
 		}
-
 		auto tr = GetOwner()->GetComponent<Transform>();
 		Vector2 position = tr->GetPosition();
 		position += velocity * Timer::getDeltaTime();

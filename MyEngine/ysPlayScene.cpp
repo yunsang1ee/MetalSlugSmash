@@ -71,8 +71,8 @@ namespace ys
 			
 			auto cd = player->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50.0f, -80.0f));
+
 			auto rb = player->AddComponent<RigidBody>();
-			rb->SetMass(100.0f);
 
 			ys::object::DontDestroyOnLoad(player);
 		}
