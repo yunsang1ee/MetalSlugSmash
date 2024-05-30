@@ -21,6 +21,8 @@ namespace ys
 		GameObject* background;
 		GameObject* player;
 		std::vector<GameObject*> bulletPool;
+		std::vector<GameObject*> Blocks;
+		GameObject* camera;
 	};
 }
 

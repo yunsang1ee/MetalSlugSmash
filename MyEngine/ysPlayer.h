@@ -12,5 +12,6 @@ namespace ys
 		void Update() override;
 		void LateUpdate() override;
 		void Render(HDC hDC) override;
+		
 	};
 }

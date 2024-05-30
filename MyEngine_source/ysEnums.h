@@ -11,6 +11,7 @@ namespace ys::enums
 		Player,
 		Particle,
 		Camera,
+		Block,
 		Max = 16
 	};
 

@@ -82,6 +82,7 @@ namespace ys
 	void Scene::AddGameObject(GameObject* gameObject, const enums::LayerType& type)
 	{
 		layers[static_cast<UINT>(type)]->AddGameObject(gameObject);
+		layers[static_cast<UINT>(type)]->setType(type);
 	}
 	void Scene::EraseGameObject(GameObject* gameObject)
 	{

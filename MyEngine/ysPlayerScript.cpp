@@ -101,8 +101,8 @@ namespace ys
 		bulletTr->SetRotation(degree);
 		bulletTr->SetScale(Vector2::One * 1.5f);
 
-		auto sr = bullet->AddComponent<SpriteRenderer>();
-		sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
+			auto sr = bullet->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
 
 			bullet->AddComponent<BulletScript>();
 			bullet->AddComponent<BoxCollider2D>();
