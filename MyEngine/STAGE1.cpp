@@ -23,6 +23,7 @@
 #include"drawBoxScript.h"
 #include"ysAnimation.h"
 #include"ysAnimator.h"
+#include "PlayerLowerBodyScript.h"
 
 extern ys::Application app;
 namespace ys {
@@ -35,10 +36,10 @@ namespace ys {
 	}
 	void ys::STAGE1::Init()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Block, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::BackGround, true);
 		//backGrounds
 		//{
 		//	backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));
@@ -62,44 +63,37 @@ namespace ys {
 		}
 		//Player하체
 		{
-			auto PlayerLowerBody = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
+			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
 
 
 
-			auto plysc = PlayerLowerBody->AddComponent<PlayerScript>();
-			plysc->SetSpeed(500.f);
-			plysc->SetTopBody(false);
-			auto cd = PlayerLowerBody->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(-50, -50));
-
-			PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
-
-			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
-
-			auto an = PlayerLowerBody->AddComponent<Animator>();
-			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
-				Vector2(-55.f, -70.f), 1, 0.5f);
-			an->CrateAnimation(L"플레이어우이동하체", texture, Vector2(0.0f, 140.f), Vector2(137.75f, 86)
-				, Vector2(-55.f, -20.f), 12, 0.05f);
-			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
-				, Vector2(-55.f, -20.f), 12, 0.05f);
+			auto plysc = playerLowerBody->AddComponent<PlayerLowerBodyScript>();
 			
+
+			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
+			cd->SetOffset(Vector2(-50, -50));
+			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
+
+
+			auto an = playerLowerBody->AddComponent<Animator>();
+			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
+				Vector2(-55.f, -85.f), 1, 0.5f);
+			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
+				, Vector2(-55.f, -35.f), 12, 0.05f);
+			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
+				, Vector2(-55.f, -35.f), 12, 0.05f);
+
 			an->PlayAnimation(L"플레이어가만하체", true);
-		
+
 		}
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
+			player = object::Instantiate<Player>(LayerType::PlayerTop, { 0, 0 });
+			auto plysc = player->AddComponent<PlayerScript>();
+			
+			plysc->SetLowerBody(playerLowerBody);
+			
 
-			
-			
-			auto plysc =player->AddComponent<PlayerScript>();
-			plysc->SetSpeed(500.f);
-			plysc->SetTopBody(true);
-			auto cd = player->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(-50,-50));
-			
-			player->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
 			
@@ -114,6 +108,7 @@ namespace ys {
 			an->PlayAnimation(L"플레이어가만기본", true);
 			
 		}
+		
 		//Enemy
 		/*{
 			auto enemy = object::Instantiate<Player>(LayerType::Enemy, { app.getScreenf().x, app.getScreen().y * 4 / 10.0f });
@@ -257,9 +252,21 @@ namespace ys {
 		
 	}
 
-	void ys::STAGE1::Render(HDC hDC)
+	void ys::STAGE1::Render(HDC hDC, const int& index)
 	{
-		Scene::Render(hDC);
+		Scene::Render(hDC, index);
+	}
+
+	void STAGE1::Destroy()
+	{
+	}
+
+	void STAGE1::OnEnter()
+	{
+	}
+
+	void STAGE1::OnExit()
+	{
 	}
 
 }

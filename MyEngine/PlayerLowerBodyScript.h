@@ -4,6 +4,12 @@ using namespace ys;
 class PlayerLowerBodyScript : public Script
 {
 public:
+	enum class PlayerState
+	{
+		Idle, Move
+	};
+
+public:
 	PlayerLowerBodyScript();
 	~PlayerLowerBodyScript();
 
@@ -11,12 +17,25 @@ public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	virtual void Render(HDC hDC) override;
-	void setPlayerChest(GameObject* playerChest) { this->playerChest = playerChest; }
+
+	void SetPlayerChest(GameObject* playerChest) { this->playerChest = playerChest; }
+	GameObject* GetPlayerChest() { return playerChest; }
+	PlayerState GetState() { return state; }
 
 	virtual void OnCollisionEnter(class Collider* other) override;
 	virtual void OnCollisionStay(class Collider* other) override;
 	virtual void OnCollisionExit(class Collider* other) override;
 private:
+	void idle();
+	void move();
+	void down();
+	void jump();
+	void slide();
+	void attack();
+	void damaged();
+private:
 	GameObject* playerChest;
+	PlayerState state;
+	float speed;
 };
 

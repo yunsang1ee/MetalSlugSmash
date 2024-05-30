@@ -7,7 +7,11 @@ namespace ys
 	{
 		enum class PlayerState
 		{
-			Idle, Move
+			Idle, Move, Jump, Slide, Attack, Damaged, Sit ,Lookup
+		};
+		enum class BulletDirection
+		{
+			Left, Right, Up, Down
 		};
 	public:
 		PlayerScript();
@@ -19,31 +23,33 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void ShootBullet();
-		void SetSpeed(const float& speed) { this->speed = speed; }
+	
+
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
 
 		
-		void SetTopBody(bool isTopBody=false) { this->isTopBody = isTopBody; }
-		enum BulletDirection
-		{
-			Left,Right,Up,Down
-		};
+		void SetLowerBody(GameObject* PlayerLowerBody) { this->PlayerLowerBody = PlayerLowerBody; }
+		
 	private:
 		void idle();
 		void move();
-
+		void sit();
+		void slide();
+		void attack();
+		void lookup();
 	private:
 		math::Vector2 prevPosition;
 		float time = 0;
 		bool goingDown;
 
-		float speed;
+		
 		float coolTime;
 		int count;
-		bool isTopBody;
+	
 		BulletDirection direction;
+		GameObject* PlayerLowerBody;
 		PlayerState state;
 	};
 }

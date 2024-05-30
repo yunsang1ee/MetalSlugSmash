@@ -41,7 +41,7 @@ void drawBoxScript::Update()
 		pt = app.getmousePosition();
 		rect.right = pt.x;
 		rect.bottom = pt.y;
-		auto scene = dynamic_cast<STAGE1*>(SceneManager::GetaActiveScene());
+		auto scene = dynamic_cast<STAGE1*>(SceneManager::GetActiveScene());
 		auto tr = scene->GetPlayer()->GetComponent<Transform>()->GetPosition() - Vector2(app.getScreen().x/2,app.getScreen().y/2);
 		std::string str;
 		str = "left: " + std::to_string(tr.x+rect.left) + " ";

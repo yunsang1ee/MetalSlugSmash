@@ -54,7 +54,7 @@ namespace ys
 		}
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::Player, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
+			player = object::Instantiate<Player>(LayerType::PlayerTop, { app.getScreen().x / 2.0f, app.getScreen().y * 4 / 10.0f });
 			//auto sr = player->AddComponent<SpriteRenderer>();
 
 			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
@@ -112,7 +112,7 @@ namespace ys
 	}
 	void PlayScene::OnEnter()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::Player, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		auto tr = backBackground->GetComponent<Transform>();
 		tr->SetPosition(Vector2(0, -300));

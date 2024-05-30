@@ -20,8 +20,8 @@ void BlockScript::Init()
 
 void BlockScript::Update()
 {
-	auto scene = dynamic_cast<Scene*>(SceneManager::GetaActiveScene());
-	auto plyr = scene->GetLayer(LayerType::Player)->GetGameObjects()[0];
+	auto scene = dynamic_cast<Scene*>(SceneManager::GetActiveScene());
+	auto plyr = scene->GetLayer(LayerType::PlayerTop)->GetGameObjects()[0];
 	int a = 0;
 }
 
