@@ -38,82 +38,34 @@ namespace ys
 			coolTime -= Timer::getDeltaTime();
 		else
 			coolTime = 0.0f;
+
+		auto tr = GetOwner()->GetComponent<Transform>();
+
+		switch (state)
+		{
+		case ys::PlayerScript::PlayerState::Idle:
+			idle();
+			break;
+		case ys::PlayerScript::PlayerState::Move:
+			move();
+			break;
+		default:
+			break;
+		}
+
 		
-		
-		time += Timer::getDeltaTime();
-		
-		static bool isRight = true;
 		
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey(VK_LEFT))
-		{
-			
-			direction = BulletDirection::Left;
-			auto position = tr->GetPosition();
-			if (isTopBody)
-			{
-				if (an->GetActive()->getName()!=L"플레이어좌이동상체")
-				{
-					an->PlayAnimation(L"플레이어좌이동상체", true);
-				}
-			}
-			else {
-				if (an->GetActive()->getName() != L"플레이어좌이동하체")
-				{
-					an->PlayAnimation(L"플레이어좌이동하체", true);
-				}
-			}
-			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
-		}
-		if (InputManager::getKey(VK_RIGHT))
-		{
-			if (isTopBody)
-			{
-				if (an->GetActive()->getName() != L"플레이어우이동상체")
-				{
-					an->PlayAnimation(L"플레이어우이동상체", true);
-				}
-			}
-			else {
-				if (an->GetActive()->getName() != L"플레이어우이동하체")
-				{
-					an->PlayAnimation(L"플레이어우이동하체", true);
-				}
-			}
-			
-			direction = BulletDirection::Right;
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
-		}
-		if (InputManager::getKey(VK_UP))
-		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
-			direction = BulletDirection::Up;
-			
-			
-		}
-		if (InputManager::getKey(VK_DOWN))
-		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
-			direction = BulletDirection::Down;
-		}
+	
 
 		if ((InputManager::getKey(VK_SPACE) || count != 0) && !coolTime&&isTopBody)
 		{
 			Vector2 position = tr->GetPosition();
 			Vector2 mousePosition =
 				app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
-			if (isRight)
-			{
-				position = { position.x + 40, position.y - 40 };
-			}
-			else {
-				position = { position.x - 40, position.y - 40 };
-			}
 			
+			position = { position.x + 40, position.y - 40 };
 			
 			std::random_device rd;
 			std::mt19937 engine(rd());
@@ -124,25 +76,8 @@ namespace ys
 			if (renderer::mainCamera)
 				position = renderer::mainCamera->CalculatPosition(position);
 
-			Vector2 dest;// = (mousePosition - position).nomalize();
-			switch (direction)
-			{
-			case ys::PlayerScript::Left:
-				dest = dest.Left;
-				break;
-			case ys::PlayerScript::Right:
-				dest = dest.Right;
-				break;
-			case ys::PlayerScript::Up:
-				dest = dest.Up;
-				break;
-			case ys::PlayerScript::Down:
-				dest = dest.Down;
-				break;
-			default:
-				dest = (mousePosition - position).nomalize();
-				break;
-			}
+			Vector2 dest = (mousePosition - position).nomalize();
+			
 			float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 			if (Vector2::Cross(Vector2::Right, dest) < 0)
 				degree = 2 * math::kPi - degree;
@@ -162,20 +97,9 @@ namespace ys
 			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
 		}
 			
-		if (InputManager::getKeyUp(VK_UP)|| InputManager::getKeyUp(VK_RIGHT)|| InputManager::getKeyUp(VK_LEFT)|| InputManager::getKeyUp(VK_DOWN))
-		{
-			if (isTopBody)
-			{
-				an->PlayAnimation(L"플레이어가만기본", true);
-			}
-			else {
-				an->PlayAnimation(L"플레이어가만하체", true);
-			}
-			
-		}
+		
 		if (goingDown)
 		{
-			
 			auto position = tr->GetPosition();
 			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
 		}
@@ -185,10 +109,70 @@ namespace ys
 			time = 0;
 		}
 	}
+	void PlayerScript::idle()
+	{
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey(VK_LEFT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"플레이어좌이동상체");
+		}
+		if (InputManager::getKey(VK_RIGHT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"플레이어우이동상체");
+		}
+		if (InputManager::getKey(VK_UP))
+		{
+			state = PlayerState::Move;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			state = PlayerState::Move;
+		}
+	}
+	void PlayerScript::move()
+	{
+		auto tr = GetOwner()->GetComponent<Transform>();
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey(VK_LEFT))
+		{
+			direction = BulletDirection::Left;
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey(VK_RIGHT))
+		{
+			direction = BulletDirection::Right;
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey(VK_UP))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+			direction = BulletDirection::Up;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+			direction = BulletDirection::Down;
+		}
+		if (InputManager::getKeyUp(VK_UP) || InputManager::getKeyUp(VK_RIGHT) || InputManager::getKeyUp(VK_LEFT) || InputManager::getKeyUp(VK_DOWN))
+		{
+			an->PlayAnimation(L"플레이어가만기본", true);
+			state = PlayerState::Idle;
+		}
+		
+	}
 	void PlayerScript::LateUpdate()
 	{
 	}
 	void PlayerScript::Render(HDC hDC)
+	{
+	}
+	void PlayerScript::ShootBullet()
 	{
 	}
 	void PlayerScript::OnCollisionEnter(Collider* other)
@@ -225,4 +209,5 @@ namespace ys
 	{
 		
 	}
+
 }

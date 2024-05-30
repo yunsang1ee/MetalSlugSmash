@@ -5,6 +5,10 @@ namespace ys
 {
 	class PlayerScript : public Script
 	{
+		enum class PlayerState
+		{
+			Idle, Move
+		};
 	public:
 		PlayerScript();
 		~PlayerScript();
@@ -27,6 +31,11 @@ namespace ys
 			Left,Right,Up,Down
 		};
 	private:
+		void idle();
+		void move();
+
+	
+	private:
 		math::Vector2 prevPosition;
 		float time = 0;
 		bool goingDown;
@@ -35,5 +44,6 @@ namespace ys
 		int count;
 		bool isTopBody;
 		BulletDirection direction;
+		PlayerState state;
 	};
 }
