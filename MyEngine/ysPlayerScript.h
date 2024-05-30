@@ -5,6 +5,11 @@ namespace ys
 {
 	class PlayerScript : public Script
 	{
+		enum class PlayerState
+		{
+			Idle, Move
+		};
+
 	public:
 		PlayerScript();
 		~PlayerScript();
@@ -18,6 +23,12 @@ namespace ys
 		void SetSpeed(const float& speed) { this->speed = speed; }
 
 	private:
+		void idle();
+		void move();
+
+	private:
+		math::Vector2 prevPosit
+		PlayerState state;
 		float speed;
 		float coolTime;
 		int count;

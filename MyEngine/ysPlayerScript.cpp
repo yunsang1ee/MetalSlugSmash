@@ -37,16 +37,17 @@ namespace ys
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		
+		switch (state)
 		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
-		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
-		{
-			auto position = tr->GetPosition();
-			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		case ys::PlayerScript::PlayerState::Idle:
+			idle();
+			break;
+		case ys::PlayerScript::PlayerState::Move:
+			move();
+			break;
+		default:
+			break;
 		}
 		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
 		{
@@ -112,7 +113,84 @@ namespace ys
 		auto sr = bullet->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
-		bullet->AddComponent<BulletScript>();
-		bullet->AddComponent<BoxCollider2D>();
+			bullet->AddComponent<BulletScript>();
+			bullet->AddComponent<BoxCollider2D>();
+			count++;
+			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
+			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
+		}
+			
+		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
+		{
+			speed += 10.0f;
+			coolTime = 0.1f;
+		}
+		if (InputManager::getKey((BYTE)ys::Key::I) && !coolTime)
+		{
+			speed -= 10.0f;
+			coolTime = 0.1f;
+		}
+	}
+	void PlayerScript::LateUpdate()
+	{
+	}
+	void PlayerScript::Render(HDC hDC)
+	{
+	}
+	void PlayerScript::idle()
+	{
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"플레이어좌이동");
+		}
+		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		{
+			state = PlayerState::Move;
+			an->PlayAnimation(L"플레이어우이동");
+		}
+		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
+		{
+			state = PlayerState::Move;
+		}
+		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
+		{
+			state = PlayerState::Move;
+		}
+	}
+	void PlayerScript::move()
+	{
+		auto tr = GetOwner()->GetComponent<Transform>();
+		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		}
+		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+		}
+		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
+		{
+			auto position = tr->GetPosition();
+			tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+		}
+
+		if (InputManager::getKeyUp((BYTE)ys::Key::A) || InputManager::getKeyUp(VK_LEFT)
+			|| InputManager::getKeyUp((BYTE)ys::Key::D) || InputManager::getKeyUp(VK_RIGHT)
+			|| InputManager::getKeyUp((BYTE)ys::Key::W) || InputManager::getKeyUp(VK_UP)
+			|| InputManager::getKeyUp((BYTE)ys::Key::S) || InputManager::getKeyUp(VK_DOWN))
+		{
+			auto an = GetOwner()->GetComponent<Animator>();
+			an->PlayAnimation(L"플레이어좌이동");
+			state = PlayerState::Idle;
+		}
 	}
 }
