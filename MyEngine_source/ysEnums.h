@@ -9,9 +9,9 @@ namespace ys::enums
 		Projectile,
 		Enemy,
 		Player,
+		Block,
 		Particle,
 		Camera,
-		Block,
 		Max = 16
 	};
 

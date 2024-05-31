@@ -28,7 +28,7 @@ namespace ys
 	}
 	void PlayerScript::Init()
 	{
-		
+
 	}
 	void PlayerScript::Update()
 	{
@@ -38,7 +38,7 @@ namespace ys
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		
+
 		switch (state)
 		{
 		case ys::PlayerScript::PlayerState::Idle:
@@ -51,14 +51,14 @@ namespace ys
 			break;
 		}
 
-		if ((InputManager::getKey(VK_LBUTTON) || count != 0) && !coolTime)
+		if ((InputManager::getKey((UINT)Key::B) || count != 0) && !coolTime)
 		{//마우스가 아니라 키보드 상태에 따라 공격방향 정하면 되겠네 $$박경준
 			ShootBullet();
 			count++;
 			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
 		}
-			
+
 		if (InputManager::getKey((BYTE)ys::Key::U) && !coolTime)
 		{
 			speed += 10.0f;
@@ -92,42 +92,65 @@ namespace ys
 
 		if (renderer::mainCamera)
 			position = renderer::mainCamera->CalculatPosition(position);
-
-		Vector2 dest = (mousePosition - position).nomalize();
-		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
-		if (Vector2::Cross(Vector2::Right, dest) < 0)
-			degree = 2 * math::kPi - degree;
+		
 		auto bulletTr = bullet->GetComponent<Transform>();
-		bulletTr->SetRotation(degree);
+		bulletTr->SetRotation(tr->GetRotation());
 		bulletTr->SetScale(Vector2::One * 1.5f);
 
-			auto sr = bullet->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
+		auto sr = bullet->AddComponent<SpriteRenderer>();//Animation
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
-			bullet->AddComponent<BulletScript>();
-			bullet->AddComponent<BoxCollider2D>();
-			count++;
-			coolTime = 0.05f;//총쏘는 애니메이션 duration동안
-			if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
+		bullet->AddComponent<BulletScript>();
+		bullet->AddComponent<BoxCollider2D>();
+		count++;
+		coolTime = 0.05f;//총쏘는 애니메이션 duration동안
+		if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
+	}
+	void PlayerScript::OnCollisionEnter(Collider* other)
+	{
+	}
+	void PlayerScript::OnCollisionStay(Collider* other)
+	{
+	}
+	void PlayerScript::OnCollisionExit(Collider* other)
+	{
 	}
 	void PlayerScript::idle()
 	{
 		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		if (InputManager::getKey(VK_LEFT))
 		{
 			state = PlayerState::Move;
-			an->PlayAnimation(L"플레이어좌이동");
+			if (isTopBody)
+				an->PlayAnimation(L"플레이어좌이동상체");
+			else
+				an->PlayAnimation(L"플레이어좌이동하체");
+
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		if (InputManager::getKey(VK_RIGHT))
 		{
 			state = PlayerState::Move;
-			an->PlayAnimation(L"플레이어우이동");
+			if (isTopBody)
+				an->PlayAnimation(L"플레이어우이동상체");
+			else
+				an->PlayAnimation(L"플레이어우이동하체");
 		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
+		if (InputManager::getKey(VK_UP))
 		{
 			state = PlayerState::Move;
 		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
+		if (InputManager::getKey(VK_OEM_COMMA))
+		{
+			auto rb = GetOwner()->GetComponent<RigidBody>();
+			if(rb->IsGround())
+			{
+				auto velocity = rb->GetVelocity();
+				velocity.y = -800.0f;
+				rb->SetVelocity(velocity);
+				rb->SetGround(false);
+			}
+		}
+		if (InputManager::getKey(VK_DOWN))
 		{
 			state = PlayerState::Move;
 		}
@@ -135,31 +158,55 @@ namespace ys
 
 	void PlayerScript::move()
 	{
+		auto tr = GetOwner()->GetComponent<Transform>();
 		auto rb = GetOwner()->GetComponent<RigidBody>();
-		if (InputManager::getKey((BYTE)ys::Key::A) || InputManager::getKey(VK_LEFT))
+		if (InputManager::getKey(VK_LEFT))
 		{
+			tr->SetRotation(kPi);
 			rb->AddForce(Vector2::Left * speed);
 		}
-		if (InputManager::getKey((BYTE)ys::Key::D) || InputManager::getKey(VK_RIGHT))
+		if (InputManager::getKey(VK_RIGHT))
 		{
+			tr->SetRotation(0.0f);
 			rb->AddForce(Vector2::Right * speed);
 		}
-		if (InputManager::getKey((BYTE)ys::Key::W) || InputManager::getKey(VK_UP))
+		if (InputManager::getKey(VK_UP))
 		{
-			rb->AddForce(Vector2::Up * speed * 10);
+			auto curRotation = tr->GetRotation();
+			if (curRotation > kPi / 2.0f)
+				tr->SetRotation(curRotation - kPi / 6.0f);
+			else if (curRotation < kPi / 2.0f)
+				tr->SetRotation(curRotation + kPi / 6.0f);
 		}
-		if (InputManager::getKey((BYTE)ys::Key::S) || InputManager::getKey(VK_DOWN))
+		if (InputManager::getKey(VK_OEM_COMMA) && rb->IsGround())
+		{
+			auto velocity = rb->GetVelocity();
+			velocity.y = -800.0f;
+			rb->SetVelocity(velocity);
+			rb->SetGround(false);
+		}
+		if (InputManager::getKey(VK_DOWN))
 		{
 			rb->AddForce(Vector2::Down * speed);
 		}
 
-		if (InputManager::getKeyUp((BYTE)ys::Key::A) || InputManager::getKeyUp(VK_LEFT)
-			|| InputManager::getKeyUp((BYTE)ys::Key::D) || InputManager::getKeyUp(VK_RIGHT)
-			|| InputManager::getKeyUp((BYTE)ys::Key::W) || InputManager::getKeyUp(VK_UP)
-			|| InputManager::getKeyUp((BYTE)ys::Key::S) || InputManager::getKeyUp(VK_DOWN))
+		if (InputManager::getKeyUp(VK_LEFT)
+			|| InputManager::getKeyUp(VK_RIGHT)
+			|| InputManager::getKeyUp(VK_UP)
+			|| InputManager::getKeyUp(VK_DOWN))
 		{
 			auto an = GetOwner()->GetComponent<Animator>();
-			an->PlayAnimation(L"플레이어좌이동");
+			if (isTopBody)
+				an->PlayAnimation(L"플레이어가만기본");
+			else
+				an->PlayAnimation(L"플레이어가만하체");
+
+			if (!InputManager::getKeyUp(VK_UP))
+			{
+				auto rb = GetOwner()->GetComponent<RigidBody>();
+				rb->SetVelocity(Vector2(0.0f, rb->GetVelocity().y));
+			}
+
 			state = PlayerState::Idle;
 		}
 	}

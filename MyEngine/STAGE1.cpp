@@ -23,6 +23,7 @@
 #include"drawBoxScript.h"
 #include"ysAnimation.h"
 #include"ysAnimator.h"
+#include <ysRigidBody.h>
 
 extern ys::Application app;
 namespace ys {
@@ -63,9 +64,7 @@ namespace ys {
 		//Player하체
 		{
 			auto PlayerLowerBody = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
-
-
-
+			
 			auto plysc = PlayerLowerBody->AddComponent<PlayerScript>();
 			plysc->SetSpeed(500.f);
 			plysc->SetTopBody(false);
@@ -86,14 +85,13 @@ namespace ys {
 			
 			an->PlayAnimation(L"플레이어가만하체", true);
 		
+			PlayerLowerBody->AddComponent<RigidBody>();
 		}
 		//Player
 		{
 			player = object::Instantiate<Player>(LayerType::Player, { 0, 0 });
 
-			
-			
-			auto plysc =player->AddComponent<PlayerScript>();
+			auto plysc = player->AddComponent<PlayerScript>();
 			plysc->SetSpeed(500.f);
 			plysc->SetTopBody(true);
 			auto cd = player->AddComponent<CircleCollider2D>();
@@ -113,6 +111,7 @@ namespace ys {
 			
 			an->PlayAnimation(L"플레이어가만기본", true);
 			
+			player->AddComponent<RigidBody>();
 		}
 		//Enemy
 		/*{
@@ -246,7 +245,6 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
-		
 		//이게 맞는지?
 		Scene::Update();
 	}
@@ -257,9 +255,9 @@ namespace ys {
 		
 	}
 
-	void ys::STAGE1::Render(HDC hDC)
+	void ys::STAGE1::Render(HDC hDC, const int& index)
 	{
-		Scene::Render(hDC);
+		Scene::Render(hDC, index);
 	}
 
 }

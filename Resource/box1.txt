@@ -1,1 +1,1 @@
-left: 6514.332031  top: 580  right: 6498.332031  bottom: 585 
+left: 9891.254883  top: 807  right: 9891.254883  bottom: 807 

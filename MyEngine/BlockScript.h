@@ -20,5 +20,3 @@ private:
 	float deathTime;
 	float time;
 };
-
-

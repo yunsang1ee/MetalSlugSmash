@@ -21,9 +21,9 @@ namespace ys
 
 		void ShootBullet();
 		void SetSpeed(const float& speed) { this->speed = speed; }
-		virtual void OnCollisionEnter(Collider* other) override;
-		virtual void OnCollisionStay(Collider* other) override;
-		virtual void OnCollisionExit(Collider* other) override;
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
 
 		
 		void SetTopBody(bool isTopBody=false) { this->isTopBody = isTopBody; }
