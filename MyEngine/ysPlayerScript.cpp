@@ -99,6 +99,10 @@ namespace ys
 		{
 			state = PlayerState::Lookup;
 		}
+		if (InputManager::getKeyDown(VK_DOWN))
+		{
+			state = PlayerState::Sit;
+		}
 	}
 	void PlayerScript::move()
 	{
@@ -113,7 +117,7 @@ namespace ys
 			}
 			bulletStartPos = { bulletStartPos.x - 40, bulletStartPos.y - 40 };
 			tr->SetRotation(kPi);
-			
+			direction = Vector2::Left;
 		}
 		if (InputManager::getKey(VK_RIGHT))
 		{
@@ -124,14 +128,16 @@ namespace ys
 			}
 			bulletStartPos = { bulletStartPos.x + 40, bulletStartPos.y - 40 };
 			tr->SetRotation(kPi);
-
+			direction = Vector2::Right;
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
+
 			state = PlayerState::Attack;
 		}
 		if (InputManager::getKeyDown(VK_UP))
 		{
+			direction = Vector2::Up;
 			state = PlayerState::Lookup;
 		}
 		if (InputManager::getKeyDown(VK_DOWN))
@@ -139,7 +145,7 @@ namespace ys
 			state = PlayerState::Sit;
 		}
 		
-		if (InputManager::getKeyUp(VK_LEFT)&&!InputManager::getKeyUp(VK_RIGHT))
+		if (InputManager::getKeyUp(VK_LEFT)||InputManager::getKeyUp(VK_RIGHT))
 		{
 			an->PlayAnimation(L"플레이어가만기본");
 			state = PlayerState::Idle;
@@ -149,8 +155,18 @@ namespace ys
 	{
 		//총쏘는 위치 변경
 		bulletStartPos = { bulletStartPos.x, bulletStartPos.y + 40 };
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (an->GetActive()->getName()!= L"플레이어가만안보임")
+		{
+			an->PlayAnimation(L"플레이어가만안보임");
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			state = PlayerState::Sit;
+		}
 		if (InputManager::getKeyUp(VK_DOWN))
 		{
+			an->PlayAnimation(L"플레이어가만기본");
 			state = PlayerState::Idle;
 		}
 		if (InputManager::getKeyDown(VK_OEM_COMMA))
@@ -200,6 +216,10 @@ namespace ys
 		{
 			state = PlayerState::Idle;
 		}
+		if (InputManager::getKeyDown(VK_DOWN))
+		{
+			state = PlayerState::Sit;
+		}
 	}
 	void PlayerScript::LateUpdate()
 	{
@@ -212,7 +232,7 @@ namespace ys
 
 		auto tr = GetOwner()->GetComponent<Transform>();
 		
-		Vector2 mousePosition = app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+		//Vector2 mousePosition = app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
 		
 		
 
@@ -225,7 +245,7 @@ namespace ys
 		if (renderer::mainCamera)
 			bulletStartPos = renderer::mainCamera->CalculatPosition(bulletStartPos);
 
-		Vector2 dest = (mousePosition - bulletStartPos).nomalize();
+		Vector2 dest = (direction - bulletStartPos).nomalize();
 		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 		if (Vector2::Cross(Vector2::Right, dest) < 0)
 			degree = 2 * math::kPi - degree;

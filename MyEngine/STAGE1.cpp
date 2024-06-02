@@ -24,6 +24,7 @@
 #include"ysAnimation.h"
 #include"ysAnimator.h"
 #include "PlayerLowerBodyScript.h"
+#include <ysRigidBody.h>
 
 extern ys::Application app;
 namespace ys {
@@ -82,10 +83,23 @@ namespace ys {
 				, Vector2(-55.f, -19.f), 12, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
 				, Vector2(-70.f, -19.f), 12, 0.05f);
+			an->CrateAnimation(L"플레이어앉음", Resources::Find<graphics::Texture>(L"플레이어앉음"), Vector2(0.0f, 0.0f), Vector2(142.5f, 152)
+				, Vector2(-60.f, -109.f), 4, 0.5f);
+			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작"), Vector2(0.0f, 0.f), Vector2(135.3f, 152)
+				, Vector2(-60.f, -109.f), 3, 0.05f);
+			an->CrateAnimation(L"플레이어앉기중간", Resources::Find<graphics::Texture>(L"플레이어앉기중간"), Vector2(0.0f, 0.f), Vector2(139.5f, 152)
+				, Vector2(-60.f, -109.f), 4, 0.05f);
+
+			an->GetCompleteEvent(L"플레이어앉기시작") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉기중간") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉음") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
 
 			an->PlayAnimation(L"플레이어가만하체", true);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
+			//an->PlayAnimation(L"플레이어앉기중간", true);
+			auto rb = playerLowerBody->AddComponent<RigidBody>();
 
+			ys::object::DontDestroyOnLoad(playerLowerBody);
 		}
 		//Player
 		{
@@ -107,11 +121,15 @@ namespace ys {
 				, Vector2(-70.0f, -80.f), 12, 0.05f);//약간의 부자연스러움이 있음
 			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
 				, Vector2(-55.f, -120.0f), 4, 0.5f);
+			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
+				Vector2(-50.f, -100.f), 1, 1.f);
 			
 
 			an->PlayAnimation(L"플레이어가만기본", true);
 			//an->PlayAnimation(L"플레이어가만기본총위상체", true);
-			
+			/*an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
+				Vector2(-55.f, -65.f), 1, 0.5f);
+			an->PlayAnimation(L"플레이어가만하체", true);*/
 		}
 		
 		//Enemy

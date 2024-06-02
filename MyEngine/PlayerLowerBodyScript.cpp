@@ -44,7 +44,7 @@ void PlayerLowerBodyScript::Update()
 	case PlayerLowerBodyScript::PlayerState::Move:
 		move();
 		break;
-	case PlayerLowerBodyScript::PlayerState::Down:
+	case PlayerLowerBodyScript::PlayerState::Sit:
 		down();
 		break;
 	case PlayerLowerBodyScript::PlayerState::Jump:
@@ -53,6 +53,8 @@ void PlayerLowerBodyScript::Update()
 	default:
 		break;
 	}
+	auto rb = GetOwner()->GetComponent<RigidBody>();
+	rb->AddForce(Vector2(0, -2000));
 }
 
 
@@ -67,10 +69,14 @@ void PlayerLowerBodyScript::Render(HDC hDC)
 
 void PlayerLowerBodyScript::OnCollisionEnter(Collider* other)
 {
+	auto rb = GetOwner()->GetComponent<RigidBody>();
+	rb->SetMass(0);
 }
 
 void PlayerLowerBodyScript::OnCollisionStay(Collider* other)
 {
+	auto rb = GetOwner()->GetComponent<RigidBody>();
+	rb->SetMass(0);
 }
 
 void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
@@ -90,6 +96,14 @@ void PlayerLowerBodyScript::idle()
 	{
 		state = PlayerState::Move;
 		an->PlayAnimation(L"플레이어우이동하체");
+	}
+	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	{
+		state = PlayerState::Jump;
+	}
+	if (InputManager::getKeyDown(VK_DOWN))
+	{
+		state = PlayerState::Sit;
 	}
 	
 	
@@ -119,11 +133,15 @@ void PlayerLowerBodyScript::move()
 	}
 	if (InputManager::getKey(VK_UP))
 	{
-		state = PlayerState::Jump;
+		state = PlayerState::Lookup;
 	}
 	if (InputManager::getKey(VK_DOWN))
 	{
-		state = PlayerState::Down;
+		state = PlayerState::Sit;
+	}
+	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	{
+		state = PlayerState::Jump;
 	}
 	if (!InputManager::getKey(VK_RIGHT) && !InputManager::getKey(VK_LEFT))
 	{
@@ -136,11 +154,59 @@ void PlayerLowerBodyScript::move()
 void PlayerLowerBodyScript::down()
 {
 	//이미지 앉는 이미지
-
+	auto an = GetOwner()->GetComponent<Animator>();
+	if (an->GetActive()->getName()!=L"플레이어앉음"
+		&& an->GetActive()->getName() != L"플레이어앉기시작" 
+		&& an->GetActive()->getName() != L"플레이어앉기중간" )
+	{
+		an->PlayAnimation(L"플레이어앉기시작",false);
+	}
+	if (InputManager::getKey(VK_DOWN))
+	{
+		state = PlayerState::Sit;
+	}
+	if (InputManager::getKeyUp(VK_DOWN))
+	{
+		an->PlayAnimation(L"플레이어가만하체", true);
+		state = PlayerState::Idle;
+	}
+	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	{
+		state = PlayerState::Jump;
+	}
+		
 }
 
 void PlayerLowerBodyScript::jump()
 {
 	//이미지 점프하는 이미지 상체 무브일때는 무브 점프	
+	auto rb = GetOwner()->GetComponent<RigidBody>();
+	auto timer = Timer::getDeltaTime();
+	timer += Timer::getDeltaTime();
+	
+	if (timer<=1)
+	{
+		rb->AddForce(Vector2(0, -2000));
+	}
+	else
+	{
+		state = PlayerState::Idle;
+	}
+	
+}
 
+void PlayerLowerBodyScript::NextAnimation()
+{
+	auto an = GetOwner()->GetComponent<Animator>();
+	if (an->GetActive()->getName()==L"플레이어앉기시작")
+	{
+		an->PlayAnimation(L"플레이어앉기중간", false);
+		return;
+	}
+	if (an->GetActive()->getName() == L"플레이어앉기중간")
+	{
+		an->PlayAnimation(L"플레이어앉음", true);
+		return;
+	}
+	
 }

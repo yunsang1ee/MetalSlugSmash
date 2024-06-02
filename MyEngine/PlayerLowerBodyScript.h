@@ -6,7 +6,7 @@ class PlayerLowerBodyScript : public Script
 public:
 	enum class PlayerState
 	{
-		Idle, Move, Jump, Down, Slide, Attack, Damaged
+		Idle, Move, Jump, Sit, Slide, Attack, Damaged, Lookup
 	};
 
 public:
@@ -25,6 +25,7 @@ public:
 	virtual void OnCollisionEnter(class Collider* other) override;
 	virtual void OnCollisionStay(class Collider* other) override;
 	virtual void OnCollisionExit(class Collider* other) override;
+	void NextAnimation();
 private:
 	void idle();
 	void move();
@@ -33,7 +34,9 @@ private:
 	void slide();
 	void attack();
 	void damaged();
+	
 private:
+	math::Vector2 Direction;
 	GameObject* playerChest;
 	PlayerState state;
 	float speed;
