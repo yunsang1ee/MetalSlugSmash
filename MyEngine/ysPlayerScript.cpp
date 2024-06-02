@@ -250,10 +250,10 @@ namespace ys
 		if (Vector2::Cross(Vector2::Right, dest) < 0)
 			degree = 2 * math::kPi - degree;
 		auto bulletTr = bullet->GetComponent<Transform>();
-		bulletTr->SetRotation(degree);
+		bulletTr->SetRotation(tr->GetRotation());
 		bulletTr->SetScale(Vector2::One * 1.5f);
 
-		auto sr = bullet->AddComponent<SpriteRenderer>();
+		auto sr = bullet->AddComponent<SpriteRenderer>();//Animation
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
 
 		bullet->AddComponent<BulletScript>();

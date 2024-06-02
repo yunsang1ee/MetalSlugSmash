@@ -7,12 +7,14 @@ namespace ys
 {
 	using namespace math;
 	RigidBody::RigidBody() : Component(enums::ComponentType::RigidBody)
+		, ground(false)
 		, mass(1.0f)
 		, friction(100.0f)
 		, force(Vector2::Zero)
 		, accelation(Vector2::Zero)
+		, limitVelocity(Vector2(500.0f, 1000.0f))
 		, velocity(Vector2::Zero)
-		, gravity(Vector2::Zero)
+		, gravity(Vector2::Down * 9.80665f * 100.0f)
 	{
 	}
 
@@ -26,9 +28,27 @@ namespace ys
 
 	void RigidBody::Update()
 	{
-		gravity = Vector2::Down * 9.80665f * 200.0f * mass;
-		accelation = (force + gravity) / mass;
+		accelation = force / mass;// f = ma
 		velocity += accelation * Timer::getDeltaTime();
+
+		Vector2 tickGravity = gravity;
+		tickGravity.nomalize();
+		float dot = Vector2::Dot(velocity, tickGravity);
+		tickGravity = tickGravity * dot;
+
+		if (ground)
+			velocity = velocity - tickGravity;
+		else
+			velocity += gravity * Timer::getDeltaTime();
+
+		Vector2 sideVelocity = velocity - tickGravity;
+		if (limitVelocity.y < tickGravity.scalar())
+			tickGravity = tickGravity.nomalize() * limitVelocity.y;
+
+		if (limitVelocity.x < sideVelocity.scalar())
+			sideVelocity = sideVelocity.nomalize() * limitVelocity.x;
+
+		velocity = tickGravity + sideVelocity;
 
 		if (velocity != Vector2::Zero)
 		{

@@ -264,7 +264,6 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
-		
 		//이게 맞는지?
 		Scene::Update();
 	}
@@ -288,8 +287,10 @@ namespace ys {
 	{
 	}
 
+	void ys::STAGE1::Render(HDC hDC, const int& index)
 	void STAGE1::OnExit()
 	{
+		Scene::Render(hDC, index);
 	}
 
 }
