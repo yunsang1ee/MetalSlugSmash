@@ -21,8 +21,7 @@ void BlockScript::Init()
 
 void BlockScript::Update()
 {
-	auto scene = dynamic_cast<Scene*>(SceneManager::GetActiveScene());
-	auto plyr = scene->GetLayer(LayerType::Player)->GetGameObjects()[0];
+	
 }
 
 void BlockScript::LateUpdate()
@@ -35,7 +34,7 @@ void BlockScript::Render(HDC hDC)
 
 void BlockScript::OnCollisionEnter(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::Player)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
@@ -64,7 +63,7 @@ void BlockScript::OnCollisionEnter(Collider* other)
 
 void BlockScript::OnCollisionStay(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::Player)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
@@ -93,7 +92,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 
 void BlockScript::OnCollisionExit(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::Player)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
 	{
 		auto rb = other->GetOwner()->GetComponent<RigidBody>();
 		auto tr = other->GetOwner()->GetComponent<Transform>();

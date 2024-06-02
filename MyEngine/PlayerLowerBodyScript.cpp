@@ -54,7 +54,7 @@ void PlayerLowerBodyScript::Update()
 		break;
 	}
 	auto rb = GetOwner()->GetComponent<RigidBody>();
-	rb->AddForce(Vector2(0, -2000));
+	
 }
 
 
@@ -181,17 +181,15 @@ void PlayerLowerBodyScript::jump()
 {
 	//이미지 점프하는 이미지 상체 무브일때는 무브 점프	
 	auto rb = GetOwner()->GetComponent<RigidBody>();
-	auto timer = Timer::getDeltaTime();
-	timer += Timer::getDeltaTime();
-	
-	if (timer<=1)
+	if (rb->GetVelocity() != Vector2::Zero)
 	{
-		rb->AddForce(Vector2(0, -2000));
+		rb->SetVelocity(Vector2(0, -100));
 	}
-	else
-	{
+	else {
 		state = PlayerState::Idle;
 	}
+	
+	
 	
 }
 

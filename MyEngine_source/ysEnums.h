@@ -7,6 +7,7 @@ namespace ys::enums
 		None,
 		BackGround,
 		Projectile,
+		Block,
 		Enemy,
 		PlayerLowerBody,
 		PlayerTop,

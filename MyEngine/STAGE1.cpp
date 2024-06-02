@@ -286,11 +286,9 @@ namespace ys {
 	void STAGE1::OnEnter()
 	{
 	}
-
-	void ys::STAGE1::Render(HDC hDC, const int& index)
-	void STAGE1::OnExit()
+	void STAGE1::OnExit() 
 	{
-		Scene::Render(hDC, index);
 	}
+
 
 }
