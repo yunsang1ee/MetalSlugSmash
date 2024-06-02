@@ -69,14 +69,12 @@ void PlayerLowerBodyScript::Render(HDC hDC)
 
 void PlayerLowerBodyScript::OnCollisionEnter(Collider* other)
 {
-	auto rb = GetOwner()->GetComponent<RigidBody>();
-	rb->SetMass(0);
+	
 }
 
 void PlayerLowerBodyScript::OnCollisionStay(Collider* other)
 {
-	auto rb = GetOwner()->GetComponent<RigidBody>();
-	rb->SetMass(0);
+	
 }
 
 void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
@@ -183,9 +181,14 @@ void PlayerLowerBodyScript::jump()
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	if (rb->GetVelocity() != Vector2::Zero)
 	{
-		rb->SetVelocity(Vector2(0, -100));
+		auto velocity = rb->GetVelocity().y;
+		velocity = -400;
+		rb->SetVelocity({ 0,velocity });
+		rb->SetGround(false);
 	}
 	else {
+		rb->SetVelocity({ 0,0 });
+		rb->SetGround(true);
 		state = PlayerState::Idle;
 	}
 	

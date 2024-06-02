@@ -41,12 +41,12 @@ void BlockScript::OnCollisionEnter(Collider* other)
 		
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
-		auto playerCd = other->GetOwner()->GetComponent<CircleCollider2D>();
+		auto playerCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
 		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerTr->GetPosition().y <= tr->GetPosition().y)
+		if (len<scale&&playerRb->GetVelocity().y>0)
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len - 1.0f;
@@ -70,12 +70,12 @@ void BlockScript::OnCollisionStay(Collider* other)
 
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
-		auto playerCd = other->GetOwner()->GetComponent<CircleCollider2D>();
+		auto playerCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
 		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerTr->GetPosition().y <= tr->GetPosition().y)
+		if (len < scale && playerRb->GetVelocity().y>0)
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len - 1.0f;

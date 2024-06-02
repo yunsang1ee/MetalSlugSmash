@@ -37,10 +37,10 @@ namespace ys {
 	}
 	void ys::STAGE1::Init()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::Block, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerTop, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
 		//backGrounds
 		//{
 		//	backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));

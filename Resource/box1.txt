@@ -1,2 +1,1 @@
-left: 8416.000000  top: 505  right: 8416.000000  bottom: 505 
-left: 9891.254883  top: 807  right: 9891.254883  bottom: 807 
+left: -nan(ind)  top: 356  right: -nan(ind)  bottom: 342 
