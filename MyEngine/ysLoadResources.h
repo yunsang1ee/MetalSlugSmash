@@ -21,6 +21,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어이동", L"..\\Resource\\플레이어_우이동.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어좌이동", L"..\\Resource\\플레이어_좌이동.bmp");
 		
+		Resources::Load<graphics::Texture>(L"플레이어기본총위", L"..\\Resource\\플레이어기본총위.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어기본총아래", L"..\\Resource\\플레이어기본총위.bmp");
 
 
 	}

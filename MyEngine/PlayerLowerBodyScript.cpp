@@ -44,6 +44,12 @@ void PlayerLowerBodyScript::Update()
 	case PlayerLowerBodyScript::PlayerState::Move:
 		move();
 		break;
+	case PlayerLowerBodyScript::PlayerState::Down:
+		down();
+		break;
+	case PlayerLowerBodyScript::PlayerState::Jump:
+		jump();
+		break;
 	default:
 		break;
 	}
@@ -85,14 +91,7 @@ void PlayerLowerBodyScript::idle()
 		state = PlayerState::Move;
 		an->PlayAnimation(L"플레이어우이동하체");
 	}
-	if (InputManager::getKeyDown(VK_UP))
-	{
-		state = PlayerState::Move;
-	}
-	if (InputManager::getKeyDown(VK_DOWN))
-	{
-		state = PlayerState::Move;
-	}
+	
 	
 }
 
@@ -120,18 +119,28 @@ void PlayerLowerBodyScript::move()
 	}
 	if (InputManager::getKey(VK_UP))
 	{
-		auto position = tr->GetPosition();
-		tr->SetPosition({ position.x, position.y - Timer::getDeltaTime() * speed });
+		state = PlayerState::Jump;
 	}
 	if (InputManager::getKey(VK_DOWN))
 	{
-		auto position = tr->GetPosition();
-		tr->SetPosition({ position.x, position.y + Timer::getDeltaTime() * speed });
+		state = PlayerState::Down;
 	}
 	if (!InputManager::getKey(VK_RIGHT) && !InputManager::getKey(VK_LEFT))
 	{
 		an->PlayAnimation(L"플레이어가만하체");
 		state = PlayerState::Idle;
 	}
+
+}
+
+void PlayerLowerBodyScript::down()
+{
+	//이미지 앉는 이미지
+
+}
+
+void PlayerLowerBodyScript::jump()
+{
+	//이미지 점프하는 이미지 상체 무브일때는 무브 점프	
 
 }

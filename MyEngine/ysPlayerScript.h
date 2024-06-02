@@ -9,10 +9,7 @@ namespace ys
 		{
 			Idle, Move, Jump, Slide, Attack, Damaged, Sit ,Lookup
 		};
-		enum class BulletDirection
-		{
-			Left, Right, Up, Down
-		};
+		
 	public:
 		PlayerScript();
 		~PlayerScript();
@@ -41,6 +38,8 @@ namespace ys
 		void lookup();
 	private:
 		math::Vector2 prevPosition;
+		math::Vector2 direction;
+		math::Vector2 bulletStartPos;
 		float time = 0;
 		bool goingDown;
 
@@ -48,7 +47,7 @@ namespace ys
 		float coolTime;
 		int count;
 	
-		BulletDirection direction;
+		
 		GameObject* PlayerLowerBody;
 		PlayerState state;
 	};

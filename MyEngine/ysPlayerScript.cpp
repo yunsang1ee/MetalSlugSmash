@@ -25,8 +25,9 @@ extern ys::Application app;
 
 namespace ys
 {
-	PlayerScript::PlayerScript() :  coolTime(0), count(0)
+	PlayerScript::PlayerScript() : coolTime(0), count(0)
 	{
+		
 	}
 	PlayerScript::~PlayerScript()
 	{
@@ -42,7 +43,8 @@ namespace ys
 		else
 			coolTime = 0.0f;
 
-
+		auto tr = GetOwner()->GetComponent<Transform>();
+		bulletStartPos = tr->GetPosition();
 		switch (state)
 		{
 		case PlayerScript::PlayerState::Idle:
@@ -65,7 +67,7 @@ namespace ys
 		}
 		
 
-		auto tr = GetOwner()->GetComponent<Transform>();
+	
 		auto an = GetOwner()->GetComponent<Animator>();
 
 		tr->SetPosition({ PlayerLowerBody->GetComponent<Transform>()->GetPosition().x, PlayerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
@@ -81,7 +83,7 @@ namespace ys
 		{
 			state = PlayerState::Move;
 			an->PlayAnimation(L"플레이어좌이동상체");
-			tr->SetRotation(kPi);
+			direction = Vector2::Left;
 		}
 		if (InputManager::getKey(VK_RIGHT))
 		{
@@ -92,6 +94,10 @@ namespace ys
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
 			state = PlayerState::Attack;
+		}
+		if (InputManager::getKeyDown(VK_UP))
+		{
+			state = PlayerState::Lookup;
 		}
 	}
 	void PlayerScript::move()
@@ -105,6 +111,8 @@ namespace ys
 			{
 				an->PlayAnimation(L"플레이어좌이동상체");
 			}
+			bulletStartPos = { bulletStartPos.x - 40, bulletStartPos.y - 40 };
+			tr->SetRotation(kPi);
 			
 		}
 		if (InputManager::getKey(VK_RIGHT))
@@ -114,6 +122,8 @@ namespace ys
 			{
 				an->PlayAnimation(L"플레이어우이동상체");
 			}
+			bulletStartPos = { bulletStartPos.x + 40, bulletStartPos.y - 40 };
+			tr->SetRotation(kPi);
 
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
@@ -127,12 +137,9 @@ namespace ys
 		if (InputManager::getKeyDown(VK_DOWN))
 		{
 			state = PlayerState::Sit;
-			//다운일때는 애니메이션끄기
-			//총 쏘는 위치 변경
-			//콜리전 영역 축소
 		}
 		
-		if (!InputManager::getKey(VK_LEFT)&&!InputManager::getKey(VK_RIGHT))
+		if (InputManager::getKeyUp(VK_LEFT)&&!InputManager::getKeyUp(VK_RIGHT))
 		{
 			an->PlayAnimation(L"플레이어가만기본");
 			state = PlayerState::Idle;
@@ -140,6 +147,8 @@ namespace ys
 	}
 	void PlayerScript::sit()
 	{
+		//총쏘는 위치 변경
+		bulletStartPos = { bulletStartPos.x, bulletStartPos.y + 40 };
 		if (InputManager::getKeyUp(VK_DOWN))
 		{
 			state = PlayerState::Idle;
@@ -150,19 +159,29 @@ namespace ys
 		}
 		if (InputManager::getKey(VK_SPACE))
 		{
-			//슬라이딩하면서 총쏘기
+			ShootBullet();
 		}
 		
 	}
 	void PlayerScript::slide()
 	{
 		//애니메이션 끄기
+		
+		auto tr = GetOwner()->GetComponent<Transform>();
+		
+		
 	}
 	void PlayerScript::attack()
 	{
+		//보고있는 방향으로 총쏘기
+		
 		if (!coolTime)
 		{
 			ShootBullet();
+			bulletStartPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			
+		}
+		else {
 			state = PlayerState::Idle;
 		}
 		
@@ -170,12 +189,17 @@ namespace ys
 	}
 	void PlayerScript::lookup()
 	{
+  		auto an = GetOwner()->GetComponent<Animator>();
+		
+		if (an->getName()!= L"플레이어기본총위상체")
+		{
+			an->PlayAnimation(L"플레이어기본총위상체");
+		}
+		
 		if (InputManager::getKeyUp(VK_UP))
 		{
 			state = PlayerState::Idle;
 		}
-
-		
 	}
 	void PlayerScript::LateUpdate()
 	{
@@ -187,21 +211,21 @@ namespace ys
 	{
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		Vector2 position = tr->GetPosition();
-		Vector2 mousePosition =
-			app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
-		position = { position.x + 40, position.y - 40 };
+		
+		Vector2 mousePosition = app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+		
+		
 
 		std::random_device rd;
 		std::mt19937 engine(rd());
 		std::uniform_real_distribution<> urd(-1.0, 1.0);
 		auto bullet = object::Instantiate<GameObject>(LayerType::Projectile
-			, Vector2(position.x, position.y) + Vector2::One * 10.0f * urd(engine));
+			, Vector2(bulletStartPos.x, bulletStartPos.y) + Vector2::One * 10.0f * urd(engine));
 
 		if (renderer::mainCamera)
-			position = renderer::mainCamera->CalculatPosition(position);
+			bulletStartPos = renderer::mainCamera->CalculatPosition(bulletStartPos);
 
-		Vector2 dest = (mousePosition - position).nomalize();
+		Vector2 dest = (mousePosition - bulletStartPos).nomalize();
 		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 		if (Vector2::Cross(Vector2::Right, dest) < 0)
 			degree = 2 * math::kPi - degree;
