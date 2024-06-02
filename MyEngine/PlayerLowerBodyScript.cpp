@@ -50,6 +50,9 @@ void PlayerLowerBodyScript::Update()
 	case PlayerLowerBodyScript::PlayerState::Jump:
 		jump();
 		break;
+	case PlayerLowerBodyScript::PlayerState::Lookup:
+		lookUp();
+		break;
 	default:
 		break;
 	}
@@ -85,21 +88,21 @@ void PlayerLowerBodyScript::idle()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
 	
-	if (InputManager::getKeyDown(VK_LEFT))
+	if (InputManager::getKey(VK_LEFT))
 	{
 		state = PlayerState::Move;
 		an->PlayAnimation(L"플레이어좌이동하체");
 	}
-	if (InputManager::getKeyDown(VK_RIGHT))
+	if (InputManager::getKey(VK_RIGHT))
 	{
 		state = PlayerState::Move;
 		an->PlayAnimation(L"플레이어우이동하체");
 	}
-	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	if (InputManager::getKey(VK_OEM_COMMA))
 	{
 		state = PlayerState::Jump;
 	}
-	if (InputManager::getKeyDown(VK_DOWN))
+	if (InputManager::getKey(VK_DOWN))
 	{
 		state = PlayerState::Sit;
 	}
@@ -111,28 +114,29 @@ void PlayerLowerBodyScript::move()
 {
 	auto tr = GetOwner()->GetComponent<Transform>();
 	auto an = GetOwner()->GetComponent<Animator>();
+	auto rb = GetOwner()->GetComponent<RigidBody>();
 	if (InputManager::getKey(VK_LEFT))
 	{
-		auto position = tr->GetPosition();
+		
+		tr->SetRotation(kPi);
+		rb->AddForce(Vector2::Left * speed);
 		if (an->GetActive()->getName() != L"플레이어좌이동하체")
 		{
 			an->PlayAnimation(L"플레이어좌이동하체");
 		}
-		tr->SetPosition({ position.x - Timer::getDeltaTime() * speed, position.y });
+		
 	}
 	if (InputManager::getKey(VK_RIGHT))
 	{
-		auto position = tr->GetPosition();
+		
 		if (an->GetActive()->getName() != L"플레이어우이동하체")
 		{
 			an->PlayAnimation(L"플레이어우이동하체");
 		}
-		tr->SetPosition({ position.x + Timer::getDeltaTime() * speed, position.y });
+		tr->SetRotation(kPi);
+		rb->AddForce(Vector2::Right * speed);
 	}
-	if (InputManager::getKey(VK_UP))
-	{
-		state = PlayerState::Lookup;
-	}
+	
 	if (InputManager::getKey(VK_DOWN))
 	{
 		state = PlayerState::Sit;
@@ -179,20 +183,29 @@ void PlayerLowerBodyScript::jump()
 {
 	//이미지 점프하는 이미지 상체 무브일때는 무브 점프	
 	auto rb = GetOwner()->GetComponent<RigidBody>();
-	if (rb->GetVelocity() != Vector2::Zero)
+	if (InputManager::getKey(VK_OEM_COMMA))
 	{
-		auto velocity = rb->GetVelocity().y;
-		velocity = -400;
-		rb->SetVelocity({ 0,velocity });
-		rb->SetGround(false);
+		auto rb = GetOwner()->GetComponent<RigidBody>();
+		if (rb->IsGround())
+		{
+			auto velocity = rb->GetVelocity();
+			velocity.y = -800.0f;
+			rb->AddForce(Vector2::Up * 1000.0f);
+			rb->SetVelocity(velocity);
+			rb->SetGround(false);
+		}
 	}
 	else {
-		rb->SetVelocity({ 0,0 });
-		rb->SetGround(true);
 		state = PlayerState::Idle;
 	}
 	
 	
+	
+	
+}
+
+void PlayerLowerBodyScript::lookUp()
+{
 	
 }
 

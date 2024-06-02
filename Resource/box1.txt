@@ -1,1 +1,1 @@
-left: -nan(ind)  top: 356  right: -nan(ind)  bottom: 342 
+left: 9193.000000  top: 608  right: 9194.000000  bottom: 608 

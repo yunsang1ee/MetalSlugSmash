@@ -31,6 +31,7 @@ private:
 	void move();
 	void down();
 	void jump();
+	void lookUp();
 	void slide();
 	void attack();
 	void damaged();

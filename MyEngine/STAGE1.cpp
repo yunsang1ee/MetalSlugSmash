@@ -164,7 +164,7 @@ namespace ys {
 			auto bx=block->AddComponent<BoxCollider2D>();
 			bx->setName(L"BackGround");
 			//tr->SetScale(Vector2(500, 0.1f));
-			bx->SetSize(Vector2(500, 0.1f));
+			bx->SetSize(Vector2(500, 1.f));
 			block->AddComponent<BlockScript>();
 			
 		}

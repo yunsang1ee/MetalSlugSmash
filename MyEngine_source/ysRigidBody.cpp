@@ -14,7 +14,7 @@ namespace ys
 		, accelation(Vector2::Zero)
 		, limitVelocity(Vector2(500.0f, 1000.0f))
 		, velocity(Vector2::Zero)
-		, gravity(Vector2::Down * 9.80665f * 100.0f)
+		, gravity(Vector2::Down * 6.80665f * 100.0f)
 	{
 	}
 
