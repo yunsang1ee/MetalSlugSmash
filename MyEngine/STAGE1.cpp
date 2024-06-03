@@ -68,8 +68,8 @@ namespace ys {
 			auto plysc = PlayerLowerBody->AddComponent<PlayerScript>();
 			plysc->SetSpeed(500.f);
 			plysc->SetTopBody(false);
-			auto cd = PlayerLowerBody->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(-50, -50));
+			auto cd = PlayerLowerBody->AddComponent<BoxCollider2D>();
+			cd->SetOffset(-(cd->GetSize() * 100 / 2));
 
 			PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
@@ -94,8 +94,8 @@ namespace ys {
 			auto plysc = player->AddComponent<PlayerScript>();
 			plysc->SetSpeed(500.f);
 			plysc->SetTopBody(true);
-			auto cd = player->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(-50,-50));
+			auto cd = player->AddComponent<BoxCollider2D>();
+			cd->SetOffset(-(cd->GetSize() * 100 / 2));
 			
 			player->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
@@ -222,7 +222,7 @@ namespace ys {
 			auto block = Blocks[Blocks.size() - 1];
 			auto bx = block->AddComponent<BoxCollider2D>();
 
-			bx->setName(L"BackGround");
+			bx->setName(L"problem");
 			bx->SetSize(Vector2(3.64f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
