@@ -7,7 +7,7 @@ namespace ys
 	{
 		enum class PlayerState
 		{
-			Idle, Move, Jump, Slide, Attack, Damaged, Sit ,Lookup
+			Idle, Move, Jump, Slide, Damaged, Sit ,Lookup
 		};
 		
 	public:

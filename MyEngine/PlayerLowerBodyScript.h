@@ -6,7 +6,7 @@ class PlayerLowerBodyScript : public Script
 public:
 	enum class PlayerState
 	{
-		Idle, Move, Jump, Sit, Slide, Attack, Damaged, Lookup
+		Idle, Move, Sit, Slide, Attack, Damaged, Lookup
 	};
 
 public:

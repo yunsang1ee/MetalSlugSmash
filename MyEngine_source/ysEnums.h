@@ -8,10 +8,12 @@ namespace ys::enums
 		BackGround,
 		Projectile,
 		Block,
+		Impediments,
 		Enemy,
 		PlayerLowerBody,
 		PlayerTop,
 		Particle,
+		FrontGround,
 		Camera,
 		Max = 16
 	};

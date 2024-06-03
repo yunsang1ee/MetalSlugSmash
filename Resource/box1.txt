@@ -1,1 +1,1 @@
-left: 9327.000000  top: 209  right: 9327.000000  bottom: 209 
+left: 6157.000000  top: 545  right: 6161.000000  bottom: 546 

@@ -47,14 +47,11 @@ namespace ys
 		bulletStartPos = tr->GetPosition();
 		switch (state)
 		{
-		case PlayerScript::PlayerState::Idle:
+		case PlayerState::Idle:
 			idle();
 			break;
-		case PlayerScript::PlayerState::Move:
+		case PlayerState::Move:
 			move();
-			break;
-		case PlayerState::Attack:
-			attack();
 			break;
 		case PlayerState::Sit:
 			sit();
@@ -89,11 +86,11 @@ namespace ys
 		{
 			state = PlayerState::Move;
 			an->PlayAnimation(L"플레이어우이동상체");
-			tr->SetRotation(kPi);
+			direction = Vector2::Right;
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
-			state = PlayerState::Attack;
+			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
 		{
@@ -133,7 +130,7 @@ namespace ys
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
 
-			state = PlayerState::Attack;
+			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
 		{
@@ -154,7 +151,8 @@ namespace ys
 	void PlayerScript::sit()
 	{
 		//총쏘는 위치 변경
-		bulletStartPos = { bulletStartPos.x, bulletStartPos.y + 40 };
+		auto tr = GetOwner()->GetComponent<Transform>();
+		bulletStartPos = { tr->GetPosition().x + 40, bulletStartPos.y + 40};
 		auto an = GetOwner()->GetComponent<Animator>();
 		if (an->GetActive()->getName()!= L"플레이어가만안보임")
 		{
@@ -173,6 +171,10 @@ namespace ys
 		{
 			direction = Vector2::Left;
 		}
+		if (InputManager::getKey(VK_RIGHT))
+		{
+			direction = Vector2::Right;
+		}
 		if (InputManager::getKeyDown(VK_OEM_COMMA))
 		{
 			state = PlayerState::Slide;
@@ -186,25 +188,17 @@ namespace ys
 	void PlayerScript::slide()
 	{
 		//애니메이션 끄기
-		
 		auto tr = GetOwner()->GetComponent<Transform>();
-		
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (an->GetActive()->getName() != L"플레이어안보임") {
+			an->PlayAnimation(L"플레이어안보임");
+		}
+
 		
 	}
 	void PlayerScript::attack()
 	{
 		//보고있는 방향으로 총쏘기
-		
-		if (!coolTime)
-		{
-			ShootBullet();
-			bulletStartPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			
-		}
-		else {
-			state = PlayerState::Idle;
-		}
-		
 		
 	}
 	void PlayerScript::lookup()
@@ -252,6 +246,7 @@ namespace ys
 		if (renderer::mainCamera)
 			bulletStartPos = renderer::mainCamera->CalculatPosition(bulletStartPos);
 
+		
 		Vector2 dest = (direction - bulletStartPos).nomalize();
 		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 		if (Vector2::Cross(Vector2::Right, dest) < 0)
@@ -264,7 +259,8 @@ namespace ys
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
 		bullet->AddComponent<BulletScript>();
-		bullet->AddComponent<BoxCollider2D>();
+		bullet->AddComponent<CircleCollider2D>()->SetSize(Vector2(0.5f, 0.5f));
+		bullet->AddComponent<RigidBody>()->SetMass(0.1f);
 		count++;
 		coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 		if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ
