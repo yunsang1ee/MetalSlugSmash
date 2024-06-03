@@ -132,7 +132,7 @@ namespace ys {
 			
 			block->AddComponent<BoxCollider2D>();
 			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
+			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 2.0f));
 			block->AddComponent<BlockScript>();
 
 		}

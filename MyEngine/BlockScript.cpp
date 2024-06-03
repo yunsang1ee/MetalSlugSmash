@@ -47,7 +47,7 @@ void BlockScript::OnCollisionEnter(Collider* other)
 		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerTr->GetPosition().y <= tr->GetPosition().y)
+		if (len < scale && playerRb->GetVelocity().y > 0)
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len - 1.0f;
@@ -55,7 +55,7 @@ void BlockScript::OnCollisionEnter(Collider* other)
 			playerTr->SetPosition(playerPosition);
 		}
 
-		if(playerTr->GetPosition().y <= tr->GetPosition().y)
+		if(playerRb->GetVelocity().y > 0)
 			playerRb->SetGround(true);
 		else
 			playerRb->SetGround(false);
@@ -76,7 +76,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerTr->GetPosition().y <= tr->GetPosition().y)
+		if (len < scale && playerRb->GetVelocity().y > 0)
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len - 1.0f;
@@ -84,7 +84,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 			playerTr->SetPosition(playerPosition);
 		}
 
-		if (playerTr->GetPosition().y <= tr->GetPosition().y)
+		if (playerRb->GetVelocity().y > 0)
 			playerRb->SetGround(true);
 		else
 			playerRb->SetGround(false);
