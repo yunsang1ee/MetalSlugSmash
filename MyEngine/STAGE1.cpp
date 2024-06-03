@@ -72,8 +72,7 @@ namespace ys {
 			
 
 			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
-			cd->SetOffset(Vector2(-50, -50));
-			cd->SetSize(Vector2(1, 1.f));
+			cd->SetOffset(Vector2(-50, 0));
 			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
 

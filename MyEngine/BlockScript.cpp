@@ -6,6 +6,7 @@
 #include <ysRigidBody.h>
 #include <ysTransform.h>
 #include <ysCircleCollider2D.h>
+#include<ysCollisionManager.h>
 using namespace ys;
 BlockScript::BlockScript()
 {
@@ -44,12 +45,17 @@ void BlockScript::OnCollisionEnter(Collider* other)
 		auto playerCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
 		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
+		//이렇게 말고 콜라이더의 겹친 값만큼 보정해줘야지
+		// 
+		//플레이어의 y좌표 빼기 박스의 y좌표 
+		//플레이어의 트랜스폼이 계속 플레이어의 가운데를 가르킨다면 맞는식
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
-
-		if (len<scale&&playerRb->GetVelocity().y>0)
+		//플레이어의 박스 콜라이더의 사이즈*100 나누기 2-> 박스의 사이즈
+		
+		if (len < scale && playerRb->GetVelocity().y > 0)
 		{
 			auto playerPosition = playerTr->GetPosition();
-			playerPosition.y -= scale - len - 1.0f;
+			playerPosition.y -= scale - len;
 
 			playerTr->SetPosition(playerPosition);
 		}
