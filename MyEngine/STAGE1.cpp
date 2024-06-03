@@ -151,7 +151,7 @@ namespace ys {
 			
 			block->AddComponent<BoxCollider2D>();
 			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
+			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 2.0f));
 			block->AddComponent<BlockScript>();
 
 		}
@@ -241,7 +241,7 @@ namespace ys {
 			auto block = Blocks[Blocks.size() - 1];
 			auto bx = block->AddComponent<BoxCollider2D>();
 
-			bx->setName(L"BackGround");
+			bx->setName(L"problem");
 			bx->SetSize(Vector2(3.64f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}

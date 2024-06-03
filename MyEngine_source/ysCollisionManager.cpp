@@ -117,11 +117,13 @@ namespace ys
 
 		auto LType = left->GetColliderType();
 		auto RType = right->GetColliderType();
-
+		
 		if(LType == enums::ColliderType::Box2D && RType == enums::ColliderType::Box2D)
 		{
-			if (fabs(LPosition.x - RPosition.x) < LSize.x / 2.0f + RSize.x / 2.0f
-				&& fabs(LPosition.y - RPosition.y) < LSize.y / 2.0f + RSize.y / 2.0f)
+			auto LBoxCenter = LPosition + (LSize / 2.0f);
+			auto RBoxCenter = RPosition + (RSize / 2.0f);
+			if (fabs(LBoxCenter.x - RBoxCenter.x) < fabs(LSize.x / 2.0f + RSize.x / 2.0f)
+				&& fabs(LBoxCenter.y - RBoxCenter.y) < fabs(LSize.y / 2.0f + RSize.y / 2.0f))
 			{
 				return true;
 			}
