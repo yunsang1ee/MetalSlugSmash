@@ -10,6 +10,7 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"배경", L"..\\Resource\\스테이지1.bmp");
 		//Resources::Load<graphics::Texture>(L"플레이어가만", L"..\\Resource\\플레이어가만.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_가만", L"..\\Resource\\플레이어_가만.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_좌가만", L"..\\Resource\\플레이어_좌가만.bmp");
 		
 		Resources::Load<graphics::Texture>(L"총알png", L"..\\Resource\\heavyBullet.png");
 		Resources::Load<graphics::Texture>(L"총알", L"..\\Resource\\heavyBullet.bmp");

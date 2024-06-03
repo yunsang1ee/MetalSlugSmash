@@ -172,6 +172,13 @@ void PlayerLowerBodyScript::down()
 		an->PlayAnimation(L"플레이어가만하체", true);
 		state = PlayerState::Idle;
 	}
+	if (InputManager::getKey(VK_LEFT))
+	{
+		if (an->GetActive()->getName() == L"플레이어앉음")
+		{
+			an->PlayAnimation(L"플레이어앉음좌");
+		}
+	}
 	if (InputManager::getKeyDown(VK_OEM_COMMA))
 	{
 		state = PlayerState::Jump;

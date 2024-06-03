@@ -73,12 +73,13 @@ namespace ys {
 
 			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
+			cd->SetSize(Vector2(1, 1.f));
 			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(9000, app.getScreen().y / 2.f));
 
 
 			auto an = playerLowerBody->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
-				Vector2(-55.f, -85.f), 1, 0.5f);
+				Vector2(-55.f, -85.f), 1, 0.05f);
 			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
 				, Vector2(-55.f, -19.f), 12, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
@@ -114,13 +115,13 @@ namespace ys {
 			
 			auto an = player->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(10, 0), Vector2(127.72f, 148),
-				Vector2(-50.f, -100.f), 4, 0.5f);
+				Vector2(-50.f, -100.f), 4, 0.05f);
 			an->CrateAnimation(L"플레이어우이동상체", texture, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f)
 				, Vector2(-50.f,-80.f), 12, 0.05f);
 			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f)
 				, Vector2(-70.0f, -80.f), 12, 0.05f);//약간의 부자연스러움이 있음
 			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
-				, Vector2(-55.f, -120.0f), 4, 0.5f);
+				, Vector2(-55.f, -120.0f), 4, 0.05f);
 			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
 				Vector2(-50.f, -100.f), 1, 1.f);
 			

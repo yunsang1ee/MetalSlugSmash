@@ -169,6 +169,10 @@ namespace ys
 			an->PlayAnimation(L"플레이어가만기본");
 			state = PlayerState::Idle;
 		}
+		if (InputManager::getKey(VK_LEFT))
+		{
+			direction = Vector2::Left;
+		}
 		if (InputManager::getKeyDown(VK_OEM_COMMA))
 		{
 			state = PlayerState::Slide;
@@ -207,11 +211,14 @@ namespace ys
 	{
   		auto an = GetOwner()->GetComponent<Animator>();
 		
-		if (an->getName()!= L"플레이어기본총위상체")
+		if (an->GetActive()->getName() != L"플레이어기본총위상체")
 		{
 			an->PlayAnimation(L"플레이어기본총위상체");
 		}
-		
+		if (InputManager::getKey(VK_UP))
+		{
+			state = PlayerState::Lookup;
+		}
 		if (InputManager::getKeyUp(VK_UP))
 		{
 			state = PlayerState::Idle;
