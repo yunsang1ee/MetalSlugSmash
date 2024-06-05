@@ -62,7 +62,7 @@ namespace ys {
 			bs->SetParallax(0);
 		}
 		{
-			background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
+			auto background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
 
@@ -71,6 +71,7 @@ namespace ys {
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(0);
 		}
+		
 		//Player하체
 		{
 			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
@@ -150,6 +151,15 @@ namespace ys {
 				, Vector2(-65.f, -120.0f), 4, 0.1f);
 			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
 				Vector2(-50.f, -100.f), 1, 1.f);
+
+			an->CrateAnimation(L"플레이어_기본총_우공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(0, 0), Vector2(205.f, 120.f),
+				Vector2(-50.f, -100.f), 10, 0.1f);
+			an->CrateAnimation(L"플레이어_기본총_우공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(2053.5, 0), Vector2(205.f, 120.f),
+				Vector2(-50.f, -100.f), 10, 0.1f);
+			an->CrateAnimation(L"플레이어_기본총_좌공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(0, 0), Vector2(205.f, 120.f),
+				Vector2(-50.f, -100.f), 10, 0.1f);
+			an->CrateAnimation(L"플레이어_기본총_좌공격_가만", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(2053.5, 0), Vector2(205.f, 120.f),
+				Vector2(-50.f, -100.f), 10, 0.1f);
 			
 
 			an->PlayAnimation(L"플레이어가만기본", true);

@@ -25,6 +25,9 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어이동", L"..\\Resource\\플레이어_우이동.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어좌이동", L"..\\Resource\\플레이어_좌이동.bmp");
 		
+		Resources::Load<graphics::Texture>(L"플레이어_기본총_우공격", L"..\\Resource\\플레이어_기본총_우공격_상체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_기본총_좌공격", L"..\\Resource\\플레이어_기본총_좌공격_상체.bmp");
+
 		Resources::Load<graphics::Texture>(L"플레이어기본총위", L"..\\Resource\\플레이어기본총위.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어기본총위좌", L"..\\Resource\\플레이어_기본총위좌.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_기본총_위공격_우", L"..\\Resource\\플레이어_기본총_위공격.bmp");

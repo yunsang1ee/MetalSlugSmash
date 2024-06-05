@@ -253,7 +253,7 @@ namespace ys
 	}
 	void PlayerScript::ShootBullet()
 	{
-
+		
 		auto tr = GetOwner()->GetComponent<Transform>();
 		//Vector2 position = tr->GetPosition();
 		Vector2 mousePosition =
