@@ -84,7 +84,13 @@ void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
 void PlayerLowerBodyScript::idle()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
-	
+	if (Direction == Vector2::Left)
+	{
+		an->PlayAnimation(L"플레이어가만하체좌");
+	}
+	else {
+		an->PlayAnimation(L"플레이어가만하체");
+	}
 	if (InputManager::getKey(VK_LEFT))
 	{
 		state = PlayerState::Move;
@@ -115,13 +121,12 @@ void PlayerLowerBodyScript::move()
 	if (InputManager::getKey(VK_LEFT))
 	{
 		
-		tr->SetRotation(kPi);
 		rb->AddForce(Vector2::Left * speed);
 		if (an->GetActive()->getName() != L"플레이어좌이동하체")
 		{
 			an->PlayAnimation(L"플레이어좌이동하체");
 		}
-		
+		Direction = Vector2::Left;
 	}
 	if (InputManager::getKey(VK_RIGHT))
 	{
@@ -130,7 +135,7 @@ void PlayerLowerBodyScript::move()
 		{
 			an->PlayAnimation(L"플레이어우이동하체");
 		}
-		tr->SetRotation(kPi);
+		Direction = Vector2::Right;
 		rb->AddForce(Vector2::Right * speed);
 	}
 	
@@ -144,8 +149,8 @@ void PlayerLowerBodyScript::move()
 	}
 	if (!InputManager::getKey(VK_RIGHT) && !InputManager::getKey(VK_LEFT))
 	{
-		an->PlayAnimation(L"플레이어가만하체");
 		state = PlayerState::Idle;
+		idle();
 	}
 
 }
@@ -156,9 +161,15 @@ void PlayerLowerBodyScript::down()
 	auto an = GetOwner()->GetComponent<Animator>();
 	if (an->GetActive()->getName()!=L"플레이어앉음"
 		&& an->GetActive()->getName() != L"플레이어앉기시작" 
-		&& an->GetActive()->getName() != L"플레이어앉기중간" )
+		&& an->GetActive()->getName() != L"플레이어앉기중간" && Direction == Vector2::Right)
 	{
 		an->PlayAnimation(L"플레이어앉기시작",false);
+	}
+	if (an->GetActive()->getName() != L"플레이어앉음좌"
+		&& an->GetActive()->getName() != L"플레이어앉기시작좌"
+		&& an->GetActive()->getName() != L"플레이어앉기중간좌" && Direction == Vector2::Left)
+	{
+		an->PlayAnimation(L"플레이어앉기시작좌", false);
 	}
 	if (InputManager::getKey(VK_DOWN))
 	{
