@@ -43,6 +43,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩", L"..\\Resource\\플레이어_슬라이딩.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩좌", L"..\\Resource\\플레이어_슬라이딩좌.bmp");
 
+		Resources::Load<graphics::Texture>(L"뒷배경숲", L"..\\Resource\\뒷배경숲.bmp");
+		Resources::Load<graphics::Texture>(L"초가집1", L"..\\Resource\\초가집1.bmp");
 		
 	}
 }

@@ -38,23 +38,29 @@ void drawBoxScript::Update()
 	else if (InputManager::getKeyUp(VK_LBUTTON))
 	{
 		Vector2 pt;
+		static int count = 0;
 		pt = app.getmousePosition();
 		rect.right = pt.x;
 		rect.bottom = pt.y;
 		auto scene = dynamic_cast<STAGE1*>(SceneManager::GetActiveScene());
 		auto tr = scene->GetPlayer()->GetComponent<Transform>()->GetPosition() - Vector2(app.getScreen().x/2,app.getScreen().y/2);
+		//카메라는 맵의 좌표를 알려줄수 없음
+		// //auto tr = scene->GetLayer(LayerType::Camera)->GetGameObjects()[0]->GetComponent<Transform>()->GetPosition();
 		std::string str;
-		str = "left: " + std::to_string(tr.x+rect.left) + " ";
+		str = std::to_string(count++) + "-> ";
+		str += "left: " + std::to_string(tr.x+rect.left) + " ";
 		str += " top: " + std::to_string(rect.top) + " ";
 		str += " right: " + std::to_string(tr.x+rect.right) + " ";
 		str += " bottom: " + std::to_string(rect.bottom) + " ";
+		str += "\n";
 
 		std::ofstream file;
-		file.open("..\\Resource\\box1.txt");
+		file.open("..\\Resource\\box1.txt", std::ios::app);
 		if (file.is_open())
 		{
 			file << str;
 		}
+		file.close();
 		
 	}
 }

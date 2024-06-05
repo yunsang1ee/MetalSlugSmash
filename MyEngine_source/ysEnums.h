@@ -5,6 +5,7 @@ namespace ys::enums
 	enum class LayerType
 	{
 		None,
+		BackBackGround,
 		BackGround,
 		Projectile,
 		Block,

@@ -37,7 +37,7 @@ namespace ys
 		void attack();
 		void lookup();
 	private:
-		math::Vector2 prevPosition;
+		math::Vector2 shootedPos = { 1000,800 };
 		math::Vector2 direction;
 		math::Vector2 bulletStartPos;
 		float time = 0;

@@ -185,7 +185,7 @@ namespace ys
 		{
 			state = PlayerState::Slide;
 		}
-		if (InputManager::getKey(VK_SPACE))
+		if (InputManager::getKeyDown(VK_SPACE))
 		{
 			ShootBullet();
 		}
@@ -235,6 +235,11 @@ namespace ys
 		{
 			direction = Vector2::Left;
 		}
+		if (InputManager::getKeyDown(VK_SPACE))
+		{
+			direction = Vector2::Up;
+			ShootBullet();
+		}
 		if (InputManager::getKeyDown(VK_DOWN))
 		{
 			state = PlayerState::Sit;
@@ -250,10 +255,10 @@ namespace ys
 	{
 
 		auto tr = GetOwner()->GetComponent<Transform>();
-		
-		//Vector2 mousePosition = app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
-		
-		
+		//Vector2 position = tr->GetPosition();
+		Vector2 mousePosition =
+			app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
+		//position = { position.x + 40, position.y - 40 };
 
 		std::random_device rd;
 		std::mt19937 engine(rd());
@@ -264,21 +269,21 @@ namespace ys
 		if (renderer::mainCamera)
 			bulletStartPos = renderer::mainCamera->CalculatPosition(bulletStartPos);
 
-		Vector2 mousePosition = app.getmousePosition();
-		Vector2 dest = (mousePosition - bulletStartPos).nomalize();
+		//Vector2 dest = (mousePosition - bulletStartPos).nomalize();
+		Vector2 dest = direction;
 		float degree = acosf(Vector2::Dot(Vector2::Right, dest));
 		if (Vector2::Cross(Vector2::Right, dest) < 0)
 			degree = 2 * math::kPi - degree;
 		auto bulletTr = bullet->GetComponent<Transform>();
-		bulletTr->SetRotation(tr->GetRotation());
+		bulletTr->SetRotation(degree);
 		bulletTr->SetScale(Vector2::One * 1.5f);
 
-		auto sr = bullet->AddComponent<SpriteRenderer>();//Animation
+		auto sr = bullet->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
 
 		bullet->AddComponent<BulletScript>();
-		bullet->AddComponent<CircleCollider2D>()->SetSize(Vector2(0.5f, 0.5f));
-		
+		bullet->AddComponent<CircleCollider2D>()->SetSize(Vector2(0.02f,0.02f));//setsize가 작동안함
+		bullet->AddComponent<CircleCollider2D>()->SetOffset(Vector2(0, 0));
 		count++;
 		coolTime = 0.05f;//총쏘는 애니메이션 duration동안
 		if (count == 5) count = 0;//헤비머신건의 경우 한번에 5발씩 쏘니까 이런식으로 넣어봄 ㅇㅇ

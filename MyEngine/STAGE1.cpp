@@ -57,7 +57,17 @@ namespace ys {
 			auto sr = background->AddComponent<SpriteRenderer>();
 			
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
-			//background->AddComponent<Transform>();
+			
+			auto bs = background->AddComponent<BackGroundScript>();
+			bs->SetParallax(0);
+		}
+		{
+			background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
+
+			auto sr = background->AddComponent<SpriteRenderer>();
+
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
+			
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(0);
 		}
@@ -72,7 +82,7 @@ namespace ys {
 
 			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
-			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000, app.getScreen().y / 2.f));
+			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(10000, app.getScreen().y / 2.f));
 
 
 			auto an = playerLowerBody->AddComponent<Animator>();
@@ -274,6 +284,90 @@ namespace ys {
 			bx->SetSize(Vector2(3.64f, 0.23f));
 			block->AddComponent<BlockScript>();
 		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 9715, 280 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(1.83f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10140, 480 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(3.66f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11013, 630 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(1.42f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11083, 454 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(1.47f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10786, 270 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(6.25f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10572, 310 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(1.77f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11564, 457 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(4.12f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		{
+			Blocks.resize(Blocks.size() + 1);
+			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 12129, 280 });
+			auto block = Blocks[Blocks.size() - 1];
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(Vector2(2.08f, 0.23f));
+			block->AddComponent<BlockScript>();
+		}
+		
+
+
+	
 		//플레이어보다 앞에있는 배경
 		{
 			auto frontBackground = object::Instantiate<GameObject>(LayerType::FrontGround, { 5576, 691 });
