@@ -64,11 +64,11 @@ namespace ys {
 		{
 			auto background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
 
-			auto sr = backBackground->AddComponent<SpriteRenderer>();
+			auto sr = background->AddComponent<SpriteRenderer>();
 
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
 			
-			auto bs = backBackground->AddComponent<BackGroundScript>();
+			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(0);
 		}
 		
@@ -80,6 +80,7 @@ namespace ys {
 
 			auto plysc = playerLowerBody->AddComponent<PlayerLowerBodyScript>();
 			
+			
 
 			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
@@ -90,12 +91,12 @@ namespace ys {
 			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어위_우_하체")
 				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
 			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어위_좌_하체")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f,true);
 
 			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만")
 				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
 			an->CrateAnimation(L"플레이어가만하체좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f,true);
 
 			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동")
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-55.f, -19.f), 12, 0.1f);
@@ -106,17 +107,17 @@ namespace ys {
 			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작")
 				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
 			an->CrateAnimation(L"플레이어앉기시작좌", Resources::Find<graphics::Texture>(L"플레이어앉기시작좌")
-				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
+				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f,true);
 
 			an->CrateAnimation(L"플레이어앉기중간", Resources::Find<graphics::Texture>(L"플레이어앉기중간")
 				, Vector2(0.0f, 0.f), Vector2(139.5f, 152), Vector2(-60.f, -109.f), 4, 0.05f);
 			an->CrateAnimation(L"플레이어앉기중간좌", Resources::Find<graphics::Texture>(L"플레이어앉기중간좌")
-				, Vector2(0.0f, 0.f), Vector2(139.5f, 152), Vector2(-60.f, -109.f), 4, 0.05f);
+				, Vector2(0.0f, 0.f), Vector2(139.5f, 152), Vector2(-60.f, -109.f), 4, 0.05f,true);
 
 			an->CrateAnimation(L"플레이어앉음", Resources::Find<graphics::Texture>(L"플레이어앉음")
 				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f);
 			an->CrateAnimation(L"플레이어앉음좌", Resources::Find<graphics::Texture>(L"플레이어앉음좌")
-				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f);
+				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f,true);
 
 			an->GetCompleteEvent(L"플레이어앉기시작") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어앉기시작좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
@@ -126,7 +127,7 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어앉음좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
-			an->PlayAnimation(L"플레이어우이동하체", true);
+			an->PlayAnimation(L"플레이어가만하체좌", true);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
@@ -142,61 +143,87 @@ namespace ys {
 			
 
 
-			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
+			
 			
 			auto an = player->AddComponent<Animator>();
-			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(10, 0), Vector2(127.72f, 148),
-				Vector2(-50.f, -100.f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어가만기본좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만"), Vector2(10, 0), Vector2(127.72f, 148),
-				Vector2(-83.f, -100.f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어우이동상체", texture, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f)
+			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(10, 0)
+				, Vector2(127.72f, 148)
+				, Vector2(-50.f, -100.f), 4, 0.1f);
+			an->CrateAnimation(L"플레이어가만기본좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
+				, Vector2(10, 0)
+				, Vector2(127.72f, 148)
+				, Vector2(-83.f, -100.f), 4, 0.1f, true);
+			an->CrateAnimation(L"플레이어우이동상체", Resources::Find<graphics::Texture>(L"플레이어이동")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(137.75f, 113.0f)
 				, Vector2(-50.f,-80.f), 12, 0.1f);
-			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f)
-				, Vector2(-70.0f, -80.f), 12, 0.1f, true);//약간의 부자연스러움이 있음
-			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
+			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(137.75f, 146.0f)
+				, Vector2(-70.0f, -80.f), 12, 0.1f, true); //약간의 부자연스러움이 있음
+			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(123.5f, 149.0f)
 				, Vector2(-45.f, -120.0f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
-				, Vector2(-65.f, -120.0f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
-				Vector2(-50.f, -100.f), 1, 1.f);
+			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(123.5f, 149.0f)
+				, Vector2(-65.f, -120.0f), 4, 0.1f, true);
+			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(800, 0)
+				, Vector2(127.72f, 148)
+				, Vector2(-50.f, -100.f), 1, 1.f);
 			
-			an->CrateAnimation(L"플레이어_기본총_우공격_달리기_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+
+
+
+			an->CrateAnimation(L"플레이어_기본총_우공격_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
 				, Vector2(0, 0)
 				, Vector2(200, 110)
 				, Vector2(-50.f, -75.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+			an->CrateAnimation(L"플레이어_기본총_우공격", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
 				, Vector2(600, 0)
 				, Vector2(145.5f, 110)
 				, Vector2(-50.f, -100.f), 7, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_가만_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+			an->CrateAnimation(L"플레이어_기본총_우공격_점프_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
 				, Vector2(1620, 0)
 				, Vector2(200, 110.f)
 				, Vector2(-50.f, -80.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+			an->CrateAnimation(L"플레이어_기본총_우공격_점프", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
 				, Vector2(2210, 0)
 				, Vector2(144.9f, 110.f)
 				, Vector2(-50.f, -80.f), 7, 0.05f);
 
-			an->CrateAnimation(L"플레이어_기본총_좌공격_달리기_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(0, 0), Vector2(205.f, 110.f),
-				Vector2(-50.f, -100.f), 10, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_좌공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(600, 0), Vector2(205.f, 110.f),
-				Vector2(-50.f, -100.f), 10, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_좌공격_가만_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(1600, 0), Vector2(205.f, 110.f),
-				Vector2(-50.f, -100.f), 10, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_좌공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(2200, 0), Vector2(205.f, 110.f),
-				Vector2(-50.f, -100.f), 10, 0.1f);
 
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_달리기_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_달리기") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->CrateAnimation(L"플레이어_기본총_좌공격_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
+				, Vector2(0, 0)
+				, Vector2(200, 110)
+				, Vector2(-50.f, -75.f), 3, 0.05f, true);
+			an->CrateAnimation(L"플레이어_기본총_좌공격", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
+				, Vector2(600, 0)
+				, Vector2(145.5f, 110)
+				, Vector2(-50.f, -100.f), 7, 0.05f, true);
+			an->CrateAnimation(L"플레이어_기본총_좌공격_점프_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
+				, Vector2(1620, 0)
+				, Vector2(200, 110.f)
+				, Vector2(-140.f, -80.f), 3, 0.05f, true);
+			an->CrateAnimation(L"플레이어_기본총_좌공격_점프", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
+				, Vector2(2210, 0)
+				, Vector2(144.9f, 110.f)
+				, Vector2(-50.f, -80.f), 7, 0.05f, true);
 
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_달리기_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_달리기") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_가만") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_점프_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_점프") = std::bind(&PlayerScript::NextAnimation, plysc);
 
-			an->PlayAnimation(L"플레이어_기본총_우공격_가만", true);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격_점프_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격_점프") = std::bind(&PlayerScript::NextAnimation, plysc);
+
+			an->PlayAnimation(L"플레이어_기본총_좌공격_화염", true);
 			
 		}
 		
@@ -439,7 +466,6 @@ namespace ys {
 
 	void ys::STAGE1::Update()
 	{
-		//이게 맞는지?
 		Scene::Update();
 	}
 

@@ -7,7 +7,7 @@ namespace ys
 	{
 		enum class PlayerState
 		{
-			Idle, Move, Jump, Slide, Damaged, Sit ,Lookup
+			Idle, Move, IdleJump,MoveJump, Slide, Damaged, Sit, Lookup, lookdown
 		};
 		
 	public:
@@ -36,18 +36,19 @@ namespace ys
 		void slide();
 		void attack();
 		void lookup();
+		void idleJump();
+		void moveJump();
+
+		void jumpAttack();
+		void idleAttack();
 	private:
 		math::Vector2 shootedPos = { 1000,800 };
 		math::Vector2 direction;
 		math::Vector2 bulletStartPos;
 		float time = 0;
 		bool goingDown;
-
-		
 		float coolTime;
 		int count;
-	
-		
 		GameObject* PlayerLowerBody;
 		PlayerState state;
 	};

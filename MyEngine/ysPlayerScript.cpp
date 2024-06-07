@@ -45,6 +45,7 @@ namespace ys
 
 		auto tr = GetOwner()->GetComponent<Transform>();
 		bulletStartPos = tr->GetPosition();
+
 		switch (state)
 		{
 		case PlayerState::Idle:
@@ -59,31 +60,48 @@ namespace ys
 		case PlayerState::Lookup:
 			lookup();
 			break;
+		case PlayerState::IdleJump:
+			idleJump();
+			break;
+		case PlayerState::MoveJump:
+			moveJump();
+			break;
 		default:
 			break;
 		}
 		
 		auto an = GetOwner()->GetComponent<Animator>();
-
 		tr->SetPosition({ PlayerLowerBody->GetComponent<Transform>()->GetPosition().x, PlayerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
 	}
 	void PlayerScript::NextAnimation()
 	{
 		auto an = GetOwner()->GetComponent<Animator>();
+		if (an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_Á¡ÇÁ_È­¿°" || an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_Á¡ÇÁ_È­¿°")
+		{
+			if (direction == Vector2::Right)
+			{
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_Á¡ÇÁ", false);
+			}
+			else
+			{
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_Á¡ÇÁ", false);
+			}
+			return;
+		}
 		if (an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_È­¿°" || an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_È­¿°")
 		{
 			if (direction == Vector2::Right)
 			{
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_´Þ¸®±â", false);
-				
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý", false);
 			}
 			else
 			{
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_´Þ¸®±â", false);
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý", false);
 			}
 			return;
 		}
-		if (an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_´Þ¸®±â" || an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_´Þ¸®±â")
+		if (an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý" || an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý"
+			|| an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_Á¡ÇÁ"|| an->GetActive()->getName() == L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_Á¡ÇÁ")
 		{
 			if (state==PlayerState::Move)
 			{
@@ -101,8 +119,8 @@ namespace ys
 				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸±âº»");
 				return;
 			}
-			
 		}
+		
 	}
 	void PlayerScript::idle()
 	{
@@ -123,13 +141,14 @@ namespace ys
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
-			if (direction == Vector2::Left)
+			if (direction == Vector2::Right)
 			{
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_°¡¸¸", false);
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_È­¿°", false);
 			}
 			else {
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_°¡¸¸", false);
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_È­¿°", false);
 			}
+			
 			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
@@ -139,6 +158,10 @@ namespace ys
 		if (InputManager::getKeyDown(VK_DOWN))
 		{
 			state = PlayerState::Sit;
+		}
+		if (InputManager::getKey(VK_OEM_COMMA))
+		{
+			state = PlayerState::IdleJump;
 		}
 	}
 	void PlayerScript::move()
@@ -169,12 +192,12 @@ namespace ys
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
-			if (direction==Vector2::Right)
+			if (direction == Vector2::Right)
 			{
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_´Þ±â±â", false);
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_È­¿°", false);
 			}
 			else {
-				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_´Þ±â±â", false);
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_È­¿°", false);
 			}
 			ShootBullet();
 		}
@@ -210,6 +233,10 @@ namespace ys
 		{
 			an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸±âº»ÁÂ");
 			state = PlayerState::Idle;
+		}
+		if (InputManager::getKeyDown(VK_OEM_COMMA))
+		{
+			state = PlayerState::MoveJump;
 		}
 	}
 	void PlayerScript::sit()
@@ -309,6 +336,34 @@ namespace ys
 			state = PlayerState::Sit;
 		}
 	}
+	void PlayerScript::idleJump()
+	{
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (InputManager::getKey(VK_SPACE))
+		{
+			if (direction == Vector2::Right)
+			{
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_¿ì°ø°Ý_Á¡ÇÁ_È­¿°", false);
+			}
+			else {
+				an->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_±âº»ÃÑ_ÁÂ°ø°Ý_Á¡ÇÁ_È­¿°", false);
+			}
+		}
+	}
+	void PlayerScript::moveJump()
+	{
+		
+	}
+
+	void PlayerScript::jumpAttack()
+	{
+
+	}
+
+	void PlayerScript::idleAttack()
+	{
+	}
+	
 	void PlayerScript::LateUpdate()
 	{
 	}
