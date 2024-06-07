@@ -48,7 +48,7 @@ namespace ys
 	}
 	void Animator::CrateAnimation(const std::wstring& name, graphics::Texture* spriteSheet
 		, const math::Vector2& leftTop, const math::Vector2& size, const math::Vector2& offset
-		, const UINT lenth, const float duration)
+		, const UINT lenth, const float duration, const bool& isReverse)
 	{
 		Animation* animation{ nullptr };
 		animation = FindAnimation(name);
@@ -57,7 +57,7 @@ namespace ys
 
 		animation = new Animation();
 		animation->CrateAnimation(name, spriteSheet
-			, leftTop, size, offset, lenth, duration);
+			, leftTop, size, offset, lenth, duration, isReverse);
 		animation->SetAnimatior(this);
 
 		Events* events = new Events();

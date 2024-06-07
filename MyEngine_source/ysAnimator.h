@@ -38,7 +38,7 @@ namespace ys
 
 		void CrateAnimation(const std::wstring& name, graphics::Texture* spriteSheet
 			, const math::Vector2& leftTop, const math::Vector2& size, const math::Vector2& offset
-			, const UINT lenth, const float duration);
+			, const UINT lenth, const float duration, const bool& isReverse = false);
 
 		Animation* FindAnimation(const std::wstring& name);
 		Animation* GetActive() { return activeAnimation; }

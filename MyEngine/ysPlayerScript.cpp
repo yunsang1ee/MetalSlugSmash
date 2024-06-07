@@ -63,13 +63,9 @@ namespace ys
 			break;
 		}
 		
-
-	
 		auto an = GetOwner()->GetComponent<Animator>();
 
 		tr->SetPosition({ PlayerLowerBody->GetComponent<Transform>()->GetPosition().x, PlayerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
-		
-		
 	}
 	void PlayerScript::NextAnimation()
 	{
@@ -199,7 +195,7 @@ namespace ys
 			state = PlayerState::Sit;
 		}
 		
-		if (InputManager::getKeyUp(VK_LEFT)||InputManager::getKeyUp(VK_RIGHT))
+		if (InputManager::getKeyUp(VK_RIGHT))
 		{
 			if (direction == Vector2::Left)
 			{
@@ -208,6 +204,11 @@ namespace ys
 			else {
 				an->PlayAnimation(L"플레이어가만기본");
 			}
+			state = PlayerState::Idle;
+		}
+		if(InputManager::getKeyUp(VK_LEFT))
+		{
+			an->PlayAnimation(L"플레이어가만기본좌");
 			state = PlayerState::Idle;
 		}
 	}
