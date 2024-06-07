@@ -71,17 +71,44 @@ namespace ys
 		
 		
 	}
+	void PlayerScript::NextAnimation()
+	{
+		auto an = GetOwner()->GetComponent<Animator>();
+		if (an->GetActive()->getName() == L"플레이어_기본총_우공격_화염" || an->GetActive()->getName() == L"플레이어_기본총_좌공격_화염")
+		{
+			if (direction == Vector2::Right)
+			{
+				an->PlayAnimation(L"플레이어_기본총_우공격_달리기", false);
+			}
+			else
+			{
+				an->PlayAnimation(L"플레이어_기본총_좌공격_달리기", false);
+			}
+		}
+		if (an->GetActive()->getName() == L"플레이어_기본총_우공격_달기기" || an->GetActive()->getName() == L"플레이어_기본총_좌공격_달기기")
+		{
+			if (state==PlayerState::Move)
+			{
+				if (direction==Vector2::Right)
+				{
+					an->PlayAnimation(L"플레이어우이동상체");
+				}
+				else {
+					an->PlayAnimation(L"플레이어좌이동상체");
+				}
+			}
+			if (state==PlayerState::Idle)
+			{
+				an->PlayAnimation(L"플레이어가만기본");
+			}
+			
+		}
+	}
 	void PlayerScript::idle()
 	{
 		auto an = GetOwner()->GetComponent<Animator>();
 		auto tr = GetOwner()->GetComponent<Transform>();
-		if (direction == Vector2::Left)
-		{
-			an->PlayAnimation(L"플레이어가만기본좌");
-		}
-		else {
-			an->PlayAnimation(L"플레이어가만기본");
-		}
+		
 		if (InputManager::getKey(VK_LEFT))
 		{
 			state = PlayerState::Move;
@@ -96,6 +123,13 @@ namespace ys
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
+			if (direction == Vector2::Left)
+			{
+				an->PlayAnimation(L"플레이어_기본총_우공격_가만", false);
+			}
+			else {
+				an->PlayAnimation(L"플레이어_기본총_좌공격_가만", false);
+			}
 			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
@@ -135,12 +169,25 @@ namespace ys
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
-
+			if (direction==Vector2::Right)
+			{
+				an->PlayAnimation(L"플레이어_기본총_우공격_달기기", false);
+			}
+			else {
+				an->PlayAnimation(L"플레이어_기본총_좌공격_달기기", false);
+			}
 			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
 		{
-			
+			if (an->GetActive()->getName() != L"플레이어기본총위상체" && direction == Vector2::Right)
+			{
+				an->PlayAnimation(L"플레이어기본총위상체");
+			}
+			else if (an->GetActive()->getName() != L"플레이어기본총위상체좌" && direction == Vector2::Left)
+			{
+				an->PlayAnimation(L"플레이어기본총위상체좌");
+			}
 			state = PlayerState::Lookup;
 		}
 		if (InputManager::getKeyDown(VK_DOWN))
@@ -150,7 +197,13 @@ namespace ys
 		
 		if (InputManager::getKeyUp(VK_LEFT)||InputManager::getKeyUp(VK_RIGHT))
 		{
-			an->PlayAnimation(L"플레이어가만기본");
+			if (direction == Vector2::Left)
+			{
+				an->PlayAnimation(L"플레이어가만기본좌");
+			}
+			else {
+				an->PlayAnimation(L"플레이어가만기본");
+			}
 			state = PlayerState::Idle;
 		}
 	}
@@ -170,7 +223,13 @@ namespace ys
 		}
 		if (InputManager::getKeyUp(VK_DOWN))
 		{
-			an->PlayAnimation(L"플레이어가만기본");
+			if (direction == Vector2::Left)
+			{
+				an->PlayAnimation(L"플레이어가만기본좌");
+			}
+			else {
+				an->PlayAnimation(L"플레이어가만기본");
+			}
 			state = PlayerState::Idle;
 		}
 		if (InputManager::getKey(VK_LEFT))
@@ -211,20 +270,20 @@ namespace ys
 	{
   		auto an = GetOwner()->GetComponent<Animator>();
 		bulletStartPos = { bulletStartPos.x, GetOwner()->GetComponent<Transform>()->GetPosition().y - 40 };
-		if (an->GetActive()->getName() != L"플레이어기본총위상체" && direction == Vector2::Right)
-		{
-			an->PlayAnimation(L"플레이어기본총위상체");
-		}
-		else if (an->GetActive()->getName() != L"플레이어기본총위상체좌" && direction == Vector2::Left)
-		{
-			an->PlayAnimation(L"플레이어기본총위상체좌");
-		}
+		
 		if (InputManager::getKey(VK_UP))
 		{
 			state = PlayerState::Lookup;
 		}
 		if (InputManager::getKeyUp(VK_UP))
 		{
+			if (direction == Vector2::Left)
+			{
+				an->PlayAnimation(L"플레이어가만기본좌");
+			}
+			else {
+				an->PlayAnimation(L"플레이어가만기본");
+			}
 			state = PlayerState::Idle;
 		}
 		if (InputManager::getKey(VK_RIGHT))

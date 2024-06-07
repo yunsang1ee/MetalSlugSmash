@@ -28,7 +28,7 @@ namespace ys
 
 		
 		void SetLowerBody(GameObject* PlayerLowerBody) { this->PlayerLowerBody = PlayerLowerBody; }
-		
+		void NextAnimation();
 	private:
 		void idle();
 		void move();

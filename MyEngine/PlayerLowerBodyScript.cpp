@@ -84,13 +84,7 @@ void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
 void PlayerLowerBodyScript::idle()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
-	if (Direction == Vector2::Left)
-	{
-		an->PlayAnimation(L"플레이어가만하체좌");
-	}
-	else {
-		an->PlayAnimation(L"플레이어가만하체");
-	}
+	
 	if (InputManager::getKey(VK_LEFT))
 	{
 		state = PlayerState::Move;
@@ -149,8 +143,14 @@ void PlayerLowerBodyScript::move()
 	}
 	if (!InputManager::getKey(VK_RIGHT) && !InputManager::getKey(VK_LEFT))
 	{
+		if (Direction == Vector2::Left)
+		{
+			an->PlayAnimation(L"플레이어가만하체좌");
+		}
+		else {
+			an->PlayAnimation(L"플레이어가만하체");
+		}
 		state = PlayerState::Idle;
-		idle();
 	}
 
 }
