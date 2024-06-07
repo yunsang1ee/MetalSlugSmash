@@ -63,13 +63,9 @@ namespace ys
 			break;
 		}
 		
-
-	
 		auto an = GetOwner()->GetComponent<Animator>();
 
 		tr->SetPosition({ PlayerLowerBody->GetComponent<Transform>()->GetPosition().x, PlayerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
-		
-		
 	}
 	void PlayerScript::idle()
 	{
@@ -135,12 +131,10 @@ namespace ys
 		}
 		if (InputManager::getKeyDown(VK_SPACE))
 		{
-
 			ShootBullet();
 		}
 		if (InputManager::getKeyDown(VK_UP))
 		{
-			
 			state = PlayerState::Lookup;
 		}
 		if (InputManager::getKeyDown(VK_DOWN))
@@ -148,9 +142,14 @@ namespace ys
 			state = PlayerState::Sit;
 		}
 		
-		if (InputManager::getKeyUp(VK_LEFT)||InputManager::getKeyUp(VK_RIGHT))
+		if (InputManager::getKeyUp(VK_RIGHT))
 		{
 			an->PlayAnimation(L"플레이어가만기본");
+			state = PlayerState::Idle;
+		}
+		if(InputManager::getKeyUp(VK_LEFT))
+		{
+			an->PlayAnimation(L"플레이어가만기본좌");
 			state = PlayerState::Idle;
 		}
 	}

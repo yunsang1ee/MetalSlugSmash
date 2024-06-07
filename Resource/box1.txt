@@ -1,1 +1,20 @@
 left: 5877.773926  top: 452  right: 5924.773926  bottom: 452 0-> left: 10779.168945  top: 609  right: 10779.168945  bottom: 609 
+0-> left: 10297.000000  top: 672  right: 10297.000000  bottom: 672 
+0-> left: 10317.000000  top: 460  right: 10317.000000  bottom: 460 
+1-> left: 7512.039551  top: 6  right: 7512.039551  bottom: 6 
+0-> left: 10280.000000  top: 764  right: 10280.000000  bottom: 763 
+0-> left: 10116.000000  top: 598  right: 10116.000000  bottom: 598 
+0-> left: 5594.981934  top: 546  right: 5594.981934  bottom: 546 
+0-> left: 10200.000000  top: 623  right: 10200.000000  bottom: 623 
+0-> left: 10105.083008  top: 323  right: 10502.083008  bottom: 517 
+1-> left: 10139.083008  top: 528  right: 10504.083008  bottom: 548 
+0-> left: 10564.000000  top: 5  right: 10564.000000  bottom: 5 
+0-> left: 12244.958984  top: 405  right: 12234.958984  bottom: 416 
+1-> left: 11482.958984  top: 510  right: 11489.958984  bottom: 508 
+0-> left: 12939.180664  top: 445  right: 12939.180664  bottom: 445 
+0-> left: 10241.000000  top: 742  right: 10241.000000  bottom: 742 
+0-> left: 10223.338867  top: 651  right: 10223.338867  bottom: 651 
+0-> left: 10205.000000  top: 673  right: 10205.000000  bottom: 673 
+0-> left: 10071.000000  top: 828  right: 10071.000000  bottom: 828 
+1-> left: 10273.000000  top: 631  right: 10273.000000  bottom: 631 
+0-> left: 10326.104492  top: 744  right: 10357.104492  bottom: 744 

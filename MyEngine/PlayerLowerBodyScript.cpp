@@ -91,6 +91,8 @@ void PlayerLowerBodyScript::idle()
 	else {
 		an->PlayAnimation(L"플레이어가만하체");
 	}
+
+
 	if (InputManager::getKey(VK_LEFT))
 	{
 		state = PlayerState::Move;
@@ -104,6 +106,10 @@ void PlayerLowerBodyScript::idle()
 	if (InputManager::getKey(VK_OEM_COMMA))
 	{
 		jump();
+	}
+	if (InputManager::getKeyDown(VK_UP))
+	{
+		state = PlayerState::Lookup;
 	}
 	if (InputManager::getKey(VK_DOWN))
 	{
@@ -120,17 +126,15 @@ void PlayerLowerBodyScript::move()
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	if (InputManager::getKey(VK_LEFT))
 	{
-		
-		rb->AddForce(Vector2::Left * speed);
 		if (an->GetActive()->getName() != L"플레이어좌이동하체")
 		{
 			an->PlayAnimation(L"플레이어좌이동하체");
 		}
 		Direction = Vector2::Left;
+		rb->AddForce(Vector2::Left * speed);
 	}
 	if (InputManager::getKey(VK_RIGHT))
 	{
-		
 		if (an->GetActive()->getName() != L"플레이어우이동하체")
 		{
 			an->PlayAnimation(L"플레이어우이동하체");
@@ -147,10 +151,11 @@ void PlayerLowerBodyScript::move()
 	{
 		jump();
 	}
-	if (!InputManager::getKey(VK_RIGHT) && !InputManager::getKey(VK_LEFT))
+	if (InputManager::getKeyUp(VK_RIGHT) || InputManager::getKeyUp(VK_LEFT))
 	{
+		auto rb = GetOwner()->GetComponent<RigidBody>();
+		rb->SetVelocity(Vector2(0.0f, rb->GetVelocity().y));
 		state = PlayerState::Idle;
-		idle();
 	}
 
 }
@@ -159,15 +164,16 @@ void PlayerLowerBodyScript::down()
 {
 	//이미지 앉는 이미지
 	auto an = GetOwner()->GetComponent<Animator>();
-	if (an->GetActive()->getName()!=L"플레이어앉음"
-		&& an->GetActive()->getName() != L"플레이어앉기시작" 
-		&& an->GetActive()->getName() != L"플레이어앉기중간" && Direction == Vector2::Right)
+	auto animationName = an->GetActive()->getName();
+	if (animationName !=L"플레이어앉음"
+		&& animationName != L"플레이어앉기시작"
+		&& animationName != L"플레이어앉기중간" && Direction == Vector2::Right)
 	{
 		an->PlayAnimation(L"플레이어앉기시작",false);
 	}
-	if (an->GetActive()->getName() != L"플레이어앉음좌"
-		&& an->GetActive()->getName() != L"플레이어앉기시작좌"
-		&& an->GetActive()->getName() != L"플레이어앉기중간좌" && Direction == Vector2::Left)
+	if (animationName != L"플레이어앉음좌"
+		&& animationName != L"플레이어앉기시작좌"
+		&& animationName != L"플레이어앉기중간좌" && Direction == Vector2::Left)
 	{
 		an->PlayAnimation(L"플레이어앉기시작좌", false);
 	}
@@ -202,7 +208,7 @@ void PlayerLowerBodyScript::jump()
 	{
 			auto velocity = rb->GetVelocity();
 			velocity.y = -800.0f;
-			rb->AddForce(Vector2::Up * 1000.0f);
+			//rb->AddForce(Vector2::Up * 1000.0f);
 			rb->SetVelocity(velocity);
 			rb->SetGround(false);
 	}
@@ -213,28 +219,30 @@ void PlayerLowerBodyScript::lookUp()
 	
 }
 
-void PlayerLowerBodyScript::NextAnimation()
+void PlayerLowerBodyScript::NextSitAnimation()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
-	if (an->GetActive()->getName()==L"플레이어앉기시작")
+	auto animationName = an->GetActive()->getName();
+
+	if (animationName == L"플레이어앉기시작")
 	{
 		an->PlayAnimation(L"플레이어앉기중간", false);
 		return;
 	}
-	if (an->GetActive()->getName() == L"플레이어앉기중간")
+	if (animationName == L"플레이어앉기중간")
 	{
 		an->PlayAnimation(L"플레이어앉음", true);
 		return;
 	}
-	if (an->GetActive()->getName()==L"플레이어앉기시작좌")
+	if (animationName == L"플레이어앉기시작좌")
 	{
 		an->PlayAnimation(L"플레이어앉기중간좌", false);
 		return;
 	}
-	if (an->GetActive()->getName() == L"플레이어앉기중간좌")
+	if (animationName == L"플레이어앉기중간좌")
 	{
 		an->PlayAnimation(L"플레이어앉음좌", true);
 		return;
 	}
-	
+
 }

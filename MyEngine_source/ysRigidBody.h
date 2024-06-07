@@ -18,7 +18,7 @@ namespace ys
 		void SetFriction(const float& friction) { this->friction = friction; }
 		void SetGround(const bool& ground) { this->ground = ground; }
 		void SetVelocity(const math::Vector2 velocity) { this->velocity = velocity; }
-		void AddForce(const math::Vector2 force) { this->force = force; }
+		void AddForce(const math::Vector2 force) { this->force += force; }
 
 		math::Vector2 GetVelocity() const { return velocity; }
 		bool IsGround() const { return ground; }

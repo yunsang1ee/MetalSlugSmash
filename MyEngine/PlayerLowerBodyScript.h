@@ -25,7 +25,7 @@ public:
 	virtual void OnCollisionEnter(class Collider* other) override;
 	virtual void OnCollisionStay(class Collider* other) override;
 	virtual void OnCollisionExit(class Collider* other) override;
-	void NextAnimation();
+	void NextSitAnimation();
 private:
 	void idle();
 	void move();

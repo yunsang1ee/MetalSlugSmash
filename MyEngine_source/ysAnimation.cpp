@@ -61,6 +61,7 @@ namespace ys
 				, sprite.size.x
 				, sprite.size.y
 				, RGB(255, 0, 255));
+			
 			//BLENDFUNCTION bf;
 			//bf.AlphaFormat = AC_SRC_ALPHA;
 			//bf.BlendFlags = 0;
@@ -96,7 +97,7 @@ namespace ys
 	}
 	void Animation::CrateAnimation(const std::wstring& name, graphics::Texture* spriteSheet
 		, const math::Vector2& leftTop, const math::Vector2& size, const math::Vector2& offset
-		, const UINT lenth, const float duration)
+		, const UINT lenth, const float duration, const bool& isReverse)
 	{
 		setName(name);
 		texture = spriteSheet;
@@ -109,6 +110,24 @@ namespace ys
 			sprite.offset = offset;
 			sprite.duration = duration;
 			animationSheet.push_back(sprite);
+		}
+
+		if (isReverse)
+		{
+			for(auto& sprite : animationSheet)
+			{
+				StretchBlt(texture->GetDC()
+					, sprite.leftTop.x + sprite.size.x
+					, sprite.leftTop.y
+					, -sprite.size.x
+					, sprite.size.y
+					, texture->GetDC()
+					, sprite.leftTop.x
+					, sprite.leftTop.y
+					, sprite.size.x
+					, sprite.size.y
+					, SRCCOPY);
+			}
 		}
 	}
 	void Animation::Reset()

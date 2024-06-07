@@ -62,13 +62,13 @@ namespace ys {
 			bs->SetParallax(0);
 		}
 		{
-			background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
+			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9100, -250));
 
-			auto sr = background->AddComponent<SpriteRenderer>();
+			auto sr = backBackground->AddComponent<SpriteRenderer>();
 
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
 			
-			auto bs = background->AddComponent<BackGroundScript>();
+			auto bs = backBackground->AddComponent<BackGroundScript>();
 			bs->SetParallax(0);
 		}
 		//Player하체
@@ -86,35 +86,43 @@ namespace ys {
 
 
 			auto an = playerLowerBody->AddComponent<Animator>();
-			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
-				Vector2(-55.f, -85.f), 1, 0.1f);
-			an->CrateAnimation(L"플레이어가만하체좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만"), Vector2(550, 0), Vector2(127.72f, 148),
-				Vector2(-55.f, -85.f), 1, 0.1f);
-			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
-				, Vector2(-55.f, -19.f), 12, 0.1f);
-			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 140.f), Vector2(137.75f, 86)
-				, Vector2(-70.f, -19.f), 12, 0.1f);
+			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어위_우_하체")
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어위_좌_하체")
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+
+			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+			an->CrateAnimation(L"플레이어가만하체좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
+				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+
+			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동")
+				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-55.f, -19.f), 12, 0.1f);
+			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동")
+				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-70.f, -19.f), 12, 0.1f, true);
 			
-			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작"), Vector2(0.0f, 0.f), Vector2(135.3f, 152)
-				, Vector2(-60.f, -109.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어앉기시작좌", Resources::Find<graphics::Texture>(L"플레이어앉기시작좌"), Vector2(0.0f, 0.f), Vector2(135.3f, 152)
-				, Vector2(-60.f, -109.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어앉기중간", Resources::Find<graphics::Texture>(L"플레이어앉기중간"), Vector2(0.0f, 0.f), Vector2(139.5f, 152)
-				, Vector2(-60.f, -109.f), 4, 0.05f);
-			an->CrateAnimation(L"플레이어앉기중간좌", Resources::Find<graphics::Texture>(L"플레이어앉기중간좌"), Vector2(0.0f, 0.f), Vector2(139.5f, 152)
-				, Vector2(-60.f, -109.f), 4, 0.05f);
 
-			an->CrateAnimation(L"플레이어앉음", Resources::Find<graphics::Texture>(L"플레이어앉음"), Vector2(0.0f, 0.0f), Vector2(142.5f, 152)
-				, Vector2(-60.f, -109.f), 4, 0.5f);
-			an->CrateAnimation(L"플레이어앉음좌", Resources::Find<graphics::Texture>(L"플레이어앉음좌"), Vector2(0.0f, 0.0f), Vector2(142.5f, 152)
-				, Vector2(-60.f, -109.f), 4, 0.5f);
+			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작")
+				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
+			an->CrateAnimation(L"플레이어앉기시작좌", Resources::Find<graphics::Texture>(L"플레이어앉기시작좌")
+				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
 
-			an->GetCompleteEvent(L"플레이어앉기시작") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어앉기시작좌") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어앉기중간") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어앉기중간좌") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어앉음") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어앉음좌") = std::bind(&PlayerLowerBodyScript::NextAnimation, plysc);
+			an->CrateAnimation(L"플레이어앉기중간", Resources::Find<graphics::Texture>(L"플레이어앉기중간")
+				, Vector2(0.0f, 0.f), Vector2(139.5f, 152), Vector2(-60.f, -109.f), 4, 0.05f);
+			an->CrateAnimation(L"플레이어앉기중간좌", Resources::Find<graphics::Texture>(L"플레이어앉기중간좌")
+				, Vector2(0.0f, 0.f), Vector2(139.5f, 152), Vector2(-60.f, -109.f), 4, 0.05f);
+
+			an->CrateAnimation(L"플레이어앉음", Resources::Find<graphics::Texture>(L"플레이어앉음")
+				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f);
+			an->CrateAnimation(L"플레이어앉음좌", Resources::Find<graphics::Texture>(L"플레이어앉음좌")
+				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f);
+
+			an->GetCompleteEvent(L"플레이어앉기시작") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉기시작좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉기중간") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉기중간좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉음") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어앉음좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
 			an->PlayAnimation(L"플레이어가만하체", true);
@@ -143,7 +151,7 @@ namespace ys {
 			an->CrateAnimation(L"플레이어우이동상체", texture, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f)
 				, Vector2(-50.f,-80.f), 12, 0.1f);
 			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f)
-				, Vector2(-70.0f, -80.f), 12, 0.1f);//약간의 부자연스러움이 있음
+				, Vector2(-70.0f, -80.f), 12, 0.1f, true);//약간의 부자연스러움이 있음
 			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
 				, Vector2(-45.f, -120.0f), 4, 0.1f);
 			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
