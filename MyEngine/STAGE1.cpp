@@ -151,15 +151,23 @@ namespace ys {
 				, Vector2(-65.f, -120.0f), 4, 0.1f);
 			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
 				Vector2(-50.f, -100.f), 1, 1.f);
-
-			an->CrateAnimation(L"플레이어_기본총_우공격_달리기_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(0, 0), Vector2(200, 110),
-				Vector2(-50.f, -75.f), 3, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(600, 0), Vector2(143, 110),
-				Vector2(-50.f, -100.f), 7, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_가만_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(1600, 0), Vector2(200, 110.f),
-				Vector2(-50.f, -80.f), 3, 0.1f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격"), Vector2(2200, 0), Vector2(143, 110.f),
-				Vector2(-50.f, -80.f), 7, 0.1f);
+			
+			an->CrateAnimation(L"플레이어_기본총_우공격_달리기_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+				, Vector2(0, 0)
+				, Vector2(200, 110)
+				, Vector2(-50.f, -75.f), 3, 0.05f);
+			an->CrateAnimation(L"플레이어_기본총_우공격_달리기", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+				, Vector2(600, 0)
+				, Vector2(145.5f, 110)
+				, Vector2(-50.f, -100.f), 7, 0.05f);
+			an->CrateAnimation(L"플레이어_기본총_우공격_가만_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+				, Vector2(1620, 0)
+				, Vector2(200, 110.f)
+				, Vector2(-50.f, -80.f), 3, 0.05f);
+			an->CrateAnimation(L"플레이어_기본총_우공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
+				, Vector2(2210, 0)
+				, Vector2(144.9f, 110.f)
+				, Vector2(-50.f, -80.f), 7, 0.05f);
 
 			an->CrateAnimation(L"플레이어_기본총_좌공격_달리기_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(0, 0), Vector2(205.f, 110.f),
 				Vector2(-50.f, -100.f), 10, 0.1f);
@@ -170,15 +178,17 @@ namespace ys {
 			an->CrateAnimation(L"플레이어_기본총_좌공격_가만", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격"), Vector2(2200, 0), Vector2(205.f, 110.f),
 				Vector2(-50.f, -100.f), 10, 0.1f);
 
-			/*an->GetCompleteEvent(L"플레이어_기본총_우공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_달리기_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어_기본총_우공격_달리기") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만") = std::bind(&PlayerScript::NextAnimation, plysc);
 
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격_달리기_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어_기본총_좌공격_달리기") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_가만") = std::bind(&PlayerScript::NextAnimation, plysc);*/
+			an->GetCompleteEvent(L"플레이어_기본총_우공격_가만_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_기본총_좌공격_가만") = std::bind(&PlayerScript::NextAnimation, plysc);
 
-			an->PlayAnimation(L"플레이어_기본총_우공격_달리기", true);
+			an->PlayAnimation(L"플레이어_기본총_우공격_가만", true);
 			
 		}
 		

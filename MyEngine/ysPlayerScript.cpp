@@ -79,13 +79,15 @@ namespace ys
 			if (direction == Vector2::Right)
 			{
 				an->PlayAnimation(L"플레이어_기본총_우공격_달리기", false);
+				
 			}
 			else
 			{
 				an->PlayAnimation(L"플레이어_기본총_좌공격_달리기", false);
 			}
+			return;
 		}
-		if (an->GetActive()->getName() == L"플레이어_기본총_우공격_달기기" || an->GetActive()->getName() == L"플레이어_기본총_좌공격_달기기")
+		if (an->GetActive()->getName() == L"플레이어_기본총_우공격_달리기" || an->GetActive()->getName() == L"플레이어_기본총_좌공격_달리기")
 		{
 			if (state==PlayerState::Move)
 			{
@@ -96,10 +98,12 @@ namespace ys
 				else {
 					an->PlayAnimation(L"플레이어좌이동상체");
 				}
+				return;
 			}
 			if (state==PlayerState::Idle)
 			{
 				an->PlayAnimation(L"플레이어가만기본");
+				return;
 			}
 			
 		}
