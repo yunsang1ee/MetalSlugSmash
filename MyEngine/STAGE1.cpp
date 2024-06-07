@@ -119,6 +119,46 @@ namespace ys {
 			an->CrateAnimation(L"플레이어앉음좌", Resources::Find<graphics::Texture>(L"플레이어앉음좌")
 				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f,true);
 
+			an->CrateAnimation(L"플레이어_앉음_공격", Resources::Find<graphics::Texture>(L"플레이어_앉음_공격")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(212.f, 125.0f)
+				, Vector2(-50, -60), 10, 0.05f);
+			an->CrateAnimation(L"플레이어_앉음_공격좌", Resources::Find<graphics::Texture>(L"플레이어_앉음_공격좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(211.f, 125.0f)
+				, Vector2(-150, -60), 10, 0.05f,true);
+			an->CrateAnimation(L"플레이어_앉음_수류탄", Resources::Find<graphics::Texture>(L"플레이어_앉음_수류탄")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(163.0f, 112.0f)
+				, Vector2(-100, -60), 6, 0.05f);
+			an->CrateAnimation(L"플레이어_앉음_수류탄좌", Resources::Find<graphics::Texture>(L"플레이어_앉음_수류탄좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(163.0f, 112.0f)
+				, Vector2(-100, -60), 6, 0.05f,true);
+
+			an->CrateAnimation(L"플레이어_앉음_이동", Resources::Find<graphics::Texture>(L"플레이어_앉음_이동")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(144.0f, 97.f)
+				, Vector2(-60, -40), 6, 0.05f);
+			an->CrateAnimation(L"플레이어_앉음_이동좌", Resources::Find<graphics::Texture>(L"플레이어_앉음_이동좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(144.0f, 97.f)
+				, Vector2(-80, -40), 6, 0.05f, true);
+			
+			an->CrateAnimation(L"플레이어_슬라이딩_기본총_공격", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(200.f, 119.f)
+				, Vector2(-150, -60), 5, 0.05f);
+			an->CrateAnimation(L"플레이어_슬라이딩_기본총_공격좌", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(200.f, 119.f)
+				, Vector2(-150, -60), 5, 0.05f, true);
+
+
+
+
+
+
 			an->GetCompleteEvent(L"플레이어앉기시작") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어앉기시작좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어앉기중간") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
@@ -127,7 +167,7 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어앉음좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
-			an->PlayAnimation(L"플레이어가만하체좌", true);
+			an->PlayAnimation(L"플레이어_슬라이딩_기본총_공격", true);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();

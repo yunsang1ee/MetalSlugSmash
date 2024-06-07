@@ -51,5 +51,22 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"뒷배경숲", L"..\\Resource\\뒷배경숲.bmp");
 		Resources::Load<graphics::Texture>(L"초가집1", L"..\\Resource\\초가집1.bmp");
 		
+		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격", L"..\\Resource\\플레이어_슬라이딩_기본총_공격.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격좌", L"..\\Resource\\플레이어_슬라이딩_기본총_공격.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_공격", L"..\\Resource\\플레이어_앉음_공격.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_공격좌", L"..\\Resource\\플레이어_앉음_공격.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_수류탄", L"..\\Resource\\플레이어_앉음_수류탄.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_수류탄좌", L"..\\Resource\\플레이어_앉음_수류탄.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_이동", L"..\\Resource\\플레이어_앉음_이동.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_앉음_이동좌", L"..\\Resource\\플레이어_앉음_이동.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_점프_상하체", L"..\\Resource\\플레이어_점프_상하체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_점프_상하체좌", L"..\\Resource\\플레이어_점프_상하체.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_위_하체", L"..\\Resource\\기본위우하체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_위_하체좌", L"..\\Resource\\기본위우하체.bmp");
 	}
 }
