@@ -1,12 +1,13 @@
 #pragma once
 #include "ysScript.h"
+#include"ysAnimator.h"
 using namespace ys;
 class PlayerLowerBodyScript : public Script
 {
 public:
 	enum class PlayerState
 	{
-		Idle, Move, Sit, Slide, Attack, Damaged, Lookup, Jump
+		Idle, Move, Sit, SitShoot, Slide, Attack, Damaged, Lookup, Jump, IdleJump, MoveJump
 	};
 
 public:
@@ -29,9 +30,12 @@ public:
 private:
 	void idle();
 	void move();
-	void down();
+	void sit();
 	void jump();
+	void idleJump();
+	void moveJump();
 	void lookUp();
+	void lookUpMove();
 	void slide();
 	void attack();
 	void damaged();
@@ -41,5 +45,6 @@ private:
 	GameObject* playerChest;
 	PlayerState state;
 	float speed;
+	Animator* an;
 };
 

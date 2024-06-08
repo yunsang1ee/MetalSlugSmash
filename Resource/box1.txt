@@ -1,2 +1,11 @@
 left: 5877.773926  top: 452  right: 5924.773926  bottom: 452 0-> left: 10779.168945  top: 609  right: 10779.168945  bottom: 609 
 0-> left: 9510.000000  top: 552  right: 9510.000000  bottom: 552 
+0-> left: 9658.000000  top: 639  right: 9659.000000  bottom: 639 
+0-> left: 9881.000000  top: 385  right: 9881.000000  bottom: 385 
+0-> left: 10031.000000  top: 816  right: 10031.000000  bottom: 816 
+0-> left: 10238.000000  top: 662  right: 10238.000000  bottom: 662 
+0-> left: 9865.000000  top: 595  right: 9865.000000  bottom: 595 
+0-> left: 10342.000000  top: 509  right: 10344.000000  bottom: 509 
+0-> left: 10105.000000  top: 704  right: 10105.000000  bottom: 704 
+0-> left: 10339.000000  top: 532  right: 10339.000000  bottom: 532 
+0-> left: 9882.774414  top: 733  right: 9882.774414  bottom: 733 

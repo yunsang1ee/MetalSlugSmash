@@ -77,7 +77,7 @@ namespace ys {
 			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
 
 
-
+			auto an = playerLowerBody->AddComponent<Animator>();
 			auto plysc = playerLowerBody->AddComponent<PlayerLowerBodyScript>();
 			
 			
@@ -87,7 +87,7 @@ namespace ys {
 			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(10000, app.getScreen().y / 2.f));
 
 
-			auto an = playerLowerBody->AddComponent<Animator>();
+			
 			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어위_우_하체")
 				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
 			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어위_좌_하체")
@@ -119,6 +119,7 @@ namespace ys {
 			an->CrateAnimation(L"플레이어앉음좌", Resources::Find<graphics::Texture>(L"플레이어앉음좌")
 				, Vector2(0.0f, 0.0f), Vector2(142.5f, 152), Vector2(-60.f, -109.f), 4, 0.5f,true);
 
+
 			an->CrateAnimation(L"플레이어_앉음_공격", Resources::Find<graphics::Texture>(L"플레이어_앉음_공격")
 				, Vector2(0.0f, 0.0f)
 				, Vector2(212.f, 125.0f)
@@ -145,15 +146,54 @@ namespace ys {
 				, Vector2(144.0f, 97.f)
 				, Vector2(-80, -40), 6, 0.05f, true);
 			
+
+
+			an->CrateAnimation(L"플레이어_슬라이딩", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(168.f, 134.f)
+				, Vector2(-50, -70), 5, 0.05f);
+			an->CrateAnimation(L"플레이어_슬라이딩좌", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩좌")
+				, Vector2(0.0f, 0.0f)
+				, Vector2(168.f, 134.f)
+				, Vector2(-120, -70), 5, 0.05f,true);
+
+			an->CrateAnimation(L"플레이어_슬라이딩_끝", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩_끝")
+				, Vector2(672.f, 0.0f)
+				, Vector2(168.f, 134.f)
+				, Vector2(-120, -70), 1, 0.05f);
+			an->CrateAnimation(L"플레이어_슬라이딩좌_끝", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩좌_끝")
+				, Vector2(672.f, 0.0f)
+				, Vector2(168.f, 134.f)
+				, Vector2(-120, -70), 1, 0.05f, true);
+
+
 			an->CrateAnimation(L"플레이어_슬라이딩_기본총_공격", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격")
 				, Vector2(0.0f, 0.0f)
 				, Vector2(200.f, 119.f)
-				, Vector2(-150, -60), 5, 0.05f);
+				, Vector2(-50, -50), 5, 0.05f);
 			an->CrateAnimation(L"플레이어_슬라이딩_기본총_공격좌", Resources::Find<graphics::Texture>(L"플레이어_슬라이딩_기본총_공격좌")
 				, Vector2(0.0f, 0.0f)
 				, Vector2(200.f, 119.f)
-				, Vector2(-150, -60), 5, 0.05f, true);
+				, Vector2(-150, -50), 5, 0.05f, true);
 
+
+			an->CrateAnimation(L"플레이어_점프_하체", Resources::Find<graphics::Texture>(L"플레이어_점프_하체")
+				, Vector2(0.0f, 124.5f)
+				, Vector2(123.f, 124.5f)
+				, Vector2(-70, -70), 6, 0.1f);
+			an->CrateAnimation(L"플레이어_점프_하체좌", Resources::Find<graphics::Texture>(L"플레이어_점프_하체좌")
+				, Vector2(0.0f, 124.5f)
+				, Vector2(123.f, 124.5f)
+				, Vector2(-60, -70), 6, 0.1f,true);
+
+			an->CrateAnimation(L"플레이어_이동_점프_하체", Resources::Find<graphics::Texture>(L"플레이어_이동_점프_하체")
+				, Vector2(750.0f, 147.5f)
+				, Vector2(130.f, 102.5f)
+				, Vector2(-60, -38), 6, 0.1f);
+			an->CrateAnimation(L"플레이어_이동_점프_하체좌", Resources::Find<graphics::Texture>(L"플레이어_이동_점프_하체좌")
+				, Vector2(750.0f, 147.5f)
+				, Vector2(130.f, 102.5f)
+				, Vector2(-70, -38), 6, 0.1f,true);
 
 
 
@@ -165,9 +205,13 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어앉기중간좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어앉음") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			an->GetCompleteEvent(L"플레이어앉음좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+
+
+			an->GetCompleteEvent(L"플레이어_앉음_공격") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
+			an->GetCompleteEvent(L"플레이어_앉음_공격좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
-			an->PlayAnimation(L"플레이어_슬라이딩_기본총_공격", true);
+			an->PlayAnimation(L"플레이어_슬라이딩좌", false);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
