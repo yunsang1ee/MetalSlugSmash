@@ -25,6 +25,7 @@
 #include"ysAnimator.h"
 #include "PlayerLowerBodyScript.h"
 #include <ysRigidBody.h>
+#include "SoundScript.h"
 
 extern ys::Application app;
 namespace ys {
@@ -89,9 +90,9 @@ namespace ys {
 
 			
 			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어위_우_하체")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+				, Vector2(0, 0), Vector2(125.f, 155), Vector2(-55.f, -85.f), 4, 0.1f);
 			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어위_좌_하체")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f,true);
+				, Vector2(550, 0), Vector2(125.f, 155), Vector2(-55.f, -85.f), 4, 0.1f,true);
 
 			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만")
 				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
@@ -211,7 +212,7 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어_앉음_공격좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
-			an->PlayAnimation(L"플레이어_슬라이딩좌", false);
+			an->PlayAnimation(L"플레이어위우하체", false);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
@@ -544,6 +545,12 @@ namespace ys {
 			auto drawBox = object::Instantiate<GameObject>(LayerType::Block, { 0, 0 });
 			auto bx = drawBox->AddComponent<BoxCollider2D>();
 			drawBox->AddComponent<drawBoxScript>();
+		}
+		{
+			auto sound = object::Instantiate<GameObject>(LayerType::BackGround, { 0,0 });
+			auto sd = sound->AddComponent<SoundScript>();
+			sd->soundLoad(L"..\\Resource\\sd.mp3");
+			sd->playSound(L"..\\Resource\\sd.mp3");
 		}
 		Scene::Init();
 	}

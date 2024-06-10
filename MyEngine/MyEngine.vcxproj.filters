@@ -47,6 +47,7 @@
     <ClInclude Include="PlayerLowerBodyScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="SoundScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />
@@ -83,5 +84,6 @@
     <ClCompile Include="PlayerLowerBodyScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="SoundScript.cpp" />
   </ItemGroup>
 </Project>
