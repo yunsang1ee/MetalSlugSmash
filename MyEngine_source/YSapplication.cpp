@@ -69,6 +69,7 @@ namespace ys
 
 	void Application::Release()
 	{
+		
 		SceneManager::Release();
 		Resources::Release();
 	}

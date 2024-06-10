@@ -10,6 +10,9 @@
 #include "ysEnums.h"
 #include "ysMath.h"
 
+#include "fmod.hpp"
+#include "fmod_errors.h"
+#pragma comment(lib, "fmod_vc.lib")
 #include <mmsystem.h>
 #include <dinput.h>
 #pragma comment(lib, "Msimg32.lib")

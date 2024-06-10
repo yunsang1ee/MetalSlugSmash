@@ -1,6 +1,7 @@
 #pragma once
 #include "..\\MyEngine_source\\ysResources.h"
 #include "..\\MyEngine_source\\ysTexture.h"
+#include "..\\MyEngine\\SoundManager.h"
 
 namespace ys
 {
@@ -75,5 +76,7 @@ namespace ys
 
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체좌", L"..\\Resource\\기본위우하체.bmp");
+		
+		SoundManager::GetInstance()->LoadSound(L"점프", L"..\\Resource\\sd.mp3");
 	}
 }

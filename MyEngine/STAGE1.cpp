@@ -25,8 +25,9 @@
 #include"ysAnimator.h"
 #include "PlayerLowerBodyScript.h"
 #include <ysRigidBody.h>
-#include "SoundScript.h"
-
+#include"SoundManager.h"
+#include "fmod.hpp"
+#include "fmod_errors.h"
 extern ys::Application app;
 namespace ys {
 	ys::STAGE1::STAGE1()
@@ -546,12 +547,7 @@ namespace ys {
 			auto bx = drawBox->AddComponent<BoxCollider2D>();
 			drawBox->AddComponent<drawBoxScript>();
 		}
-		{
-			auto sound = object::Instantiate<GameObject>(LayerType::BackGround, { 0,0 });
-			auto sd = sound->AddComponent<SoundScript>();
-			sd->soundLoad(L"..\\Resource\\sd.mp3");
-			sd->playSound(L"..\\Resource\\sd.mp3");
-		}
+		SoundManager::GetInstance()->playSound(L"มกวม", SoundManager::SoundType::BACKGROUND);
 		Scene::Init();
 	}
 

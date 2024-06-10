@@ -25,7 +25,7 @@
     <ClInclude Include="drawBoxScript.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="PlayerLowerBodyScript.h" />
-    <ClInclude Include="SoundScript.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="STAGE1.h" />
     <ClInclude Include="ysBackGroundScript.h" />
     <ClInclude Include="ysEnemyScript.h" />
@@ -41,7 +41,7 @@
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="drawBoxScript.cpp" />
     <ClCompile Include="PlayerLowerBodyScript.cpp" />
-    <ClCompile Include="SoundScript.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="STAGE1.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysEnemyScript.cpp" />
@@ -105,8 +105,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>..\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

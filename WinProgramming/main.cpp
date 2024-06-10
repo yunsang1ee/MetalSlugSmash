@@ -6,9 +6,12 @@
 #include "..\\MyEngine\\ysLoadResources.h"
 #include "..\\MyEngine\\LoadScene.h"
 #pragma comment(lib, "..\\x64\\Debug\\MyEngine.lib")
+#include "fmod.hpp"
+#include "fmod_errors.h"
 
 
 ys::Application app;
+
 
 HINSTANCE g_hInst;
 ULONG_PTR gpToken;
@@ -29,7 +32,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	HWND hWnd;
 	MSG msg;
 	g_hInst = hInstance;
-
+	
 	RECT windowRect{ 0, 0, 4 * 300, 3 * 300 };
 
 	WNDCLASSEX WndClass;
