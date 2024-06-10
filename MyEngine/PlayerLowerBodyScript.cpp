@@ -420,7 +420,7 @@ void PlayerLowerBodyScript::lookUp()
 		Direction = Vector2::Left;
 		state = PlayerState::Move;
 	}
-	if (InputManager::getKeyDown(VK_RIGHT))
+	else if (InputManager::getKeyDown(VK_RIGHT))
 	{
 		if (an->GetActive()->getName() != L"플레이어우이동하체")
 		{
@@ -428,6 +428,24 @@ void PlayerLowerBodyScript::lookUp()
 		}
 		Direction = Vector2::Right;
 		state = PlayerState::Move;
+	}
+	else if (InputManager::getKey(VK_UP))
+	{
+		if (Direction==Vector2::Right)
+		{
+			if (an->GetActive()->getName() != L"플레이어위우하체")
+			{
+				an->PlayAnimation(L"플레이어위우하체");
+			}
+		}
+		else
+		{
+			if (an->GetActive()->getName() != L"플레이어위좌하체")
+			{
+				an->PlayAnimation(L"플레이어위좌하체");
+			}
+		}
+		
 	}
 	if (InputManager::getKey(VK_DOWN))
 	{
