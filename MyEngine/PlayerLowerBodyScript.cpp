@@ -20,7 +20,7 @@
 #include<random>
 #include"ysAnimator.h"
 
-PlayerLowerBodyScript::PlayerLowerBodyScript() :playerChest(nullptr), speed(300), state(PlayerState::Idle)
+PlayerLowerBodyScript::PlayerLowerBodyScript() :playerChest(nullptr), speed(3000), state(PlayerState::Idle)
 {
 }
 PlayerLowerBodyScript::~PlayerLowerBodyScript()
@@ -204,13 +204,13 @@ void PlayerLowerBodyScript::jump()
 {
 	//이미지 점프하는 이미지 상체 무브일때는 무브 점프	
 	auto rb = GetOwner()->GetComponent<RigidBody>();
+	auto velocity = rb->GetVelocity();
 	if (rb->IsGround())
 	{
-			auto velocity = rb->GetVelocity();
-			velocity.y = -800.0f;
-			//rb->AddForce(Vector2::Up * 1000.0f);
-			rb->SetVelocity(velocity);
-			rb->SetGround(false);
+		velocity.y = -1200.0f;
+		//rb->AddForce(Vector2::Up * 1000.0f);
+		rb->SetVelocity(velocity);
+		rb->SetGround(false);
 	}
 }
 

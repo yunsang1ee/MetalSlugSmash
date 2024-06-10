@@ -14,6 +14,8 @@ namespace ys
 		virtual void LateUpdate() override;
 		virtual void Render(HDC hDC) override;
 
+		void SetGravity(const math::Vector2& gravity)
+		{ this->gravity = gravity * 6.80665f * 100.0f; }
 		void SetMass(const float& mass) { this->mass = mass; }
 		void SetFriction(const float& friction) { this->friction = friction; }
 		void SetGround(const bool& ground) { this->ground = ground; }

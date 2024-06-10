@@ -37,10 +37,10 @@ namespace ys {
 	}
 	void ys::STAGE1::Init()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::BackGround, true);
 	
 		{
 			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
@@ -73,7 +73,7 @@ namespace ys {
 		}
 		//Player하체
 		{
-			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
+			playerLowerBody = object::Instantiate<Player>(LayerType::playerLowerBody, { 0, 0 });
 
 
 
@@ -100,7 +100,7 @@ namespace ys {
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-55.f, -19.f), 12, 0.1f);
 			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동")
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-70.f, -19.f), 12, 0.1f, true);
-			
+
 
 			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작")
 				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
@@ -129,7 +129,7 @@ namespace ys {
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
-
+			rb->SetGravity(Vector2::Down * 3.0f);
 			ys::object::DontDestroyOnLoad(playerLowerBody);
 		}
 		//Player
@@ -139,26 +139,52 @@ namespace ys {
 			
 			plysc->SetLowerBody(playerLowerBody);
 			
-
-
-			auto texture = Resources::Find<graphics::Texture>(L"플레이어이동");
-			
 			auto an = player->AddComponent<Animator>();
-			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(10, 0), Vector2(127.72f, 148),
-				Vector2(-50.f, -100.f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어가만기본좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만"), Vector2(10, 0), Vector2(127.72f, 148),
-				Vector2(-83.f, -100.f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어우이동상체", texture, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f)
-				, Vector2(-50.f,-80.f), 12, 0.1f);
-			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동"), Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f)
-				, Vector2(-70.0f, -80.f), 12, 0.1f, true);//약간의 부자연스러움이 있음
-			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
-				, Vector2(-45.f, -120.0f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌"), Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f)
-				, Vector2(-65.f, -120.0f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(800, 0), Vector2(127.72f, 148),
-				Vector2(-50.f, -100.f), 1, 1.f);
+			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(10, 0), Vector2(127.72f, 148), Vector2(-50.f, -100.f), 4, 0.1f);
+			an->CrateAnimation(L"플레이어가만기본좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
+				, Vector2(10, 0), Vector2(127.72f, 148),Vector2(-83.f, -100.f), 4, 0.1f, true);
+
+			an->CrateAnimation(L"플레이어이동상체", Resources::Find<graphics::Texture>(L"플레이어이동")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f), Vector2(-50.f,-80.f), 12, 0.1f);
+			an->CrateAnimation(L"플레이어이동상체좌", Resources::Find<graphics::Texture>(L"플레이어좌이동")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f), Vector2(-70.0f, -80.f), 12, 0.1f, true);
+
+			//점프 애니메이션
+			an->CrateAnimation(L"플레이어가만점프", Resources::Find<graphics::Texture>(L"플레이어가만점프")
+				, Vector2(0.0f, 0.0f), Vector2(119.0f, 130.0f), Vector2(-55.f, -19.f), 12, 0.1f);
+			an->CrateAnimation(L"플레이어가만점프좌", Resources::Find<graphics::Texture>(L"플레이어가만점프좌")
+				, Vector2(0.0f, 140.f), Vector2(119.0f, 130.0f), Vector2(-70.f, -19.f), 12, 0.1f, true);
+
+			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-45.f, -120.0f), 4, 0.1f);
+			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-65.f, -120.0f), 4, 0.1f, true);
+
+			//아래보기
 			
+
+			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(800, 0), Vector2(127.72f, 148), Vector2(-50.f, -100.f), 1, 1.f);
+			
+			//가만어택
+			an->CrateAnimation(L"플레이어가만총쏘는중상체", Resources::Find<graphics::Texture>(L"플레이어가만총쏘는중")
+				, Vector2(0.0f, 0.0f), Vector2(213.0f, 130.0f), Vector2(-51.0f, -92.0f), 3, 0.1f);
+			an->CrateAnimation(L"플레이어가만총쏘는중상체좌", Resources::Find<graphics::Texture>(L"플레이어가만총쏘는중좌")
+				, Vector2(0.0f, 0.0f), Vector2(213.0f, 130.0f), Vector2(-153.0f, -92.0f), 3, 0.1f, true);
+			an->CrateAnimation(L"플레이어가만총쏘기상체", Resources::Find<graphics::Texture>(L"플레이어가만총쏘기")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-45.f, -120.0f), 7, 0.1f);
+			an->CrateAnimation(L"플레이어가만총쏘기상체좌", Resources::Find<graphics::Texture>(L"플레이어가만총쏘기좌")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-65.f, -120.0f), 7, 0.1f, true);
+
+			an->GetStartEvent(L"플레이어가만총쏘는중상체") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetStartEvent(L"플레이어가만총쏘는중상체좌") = std::bind(&PlayerScript::ShootBullet, plysc);
+
+			//점프어택
+			//위어택
+			//아래어택
+
+			//수류탄
 
 			an->PlayAnimation(L"플레이어가만기본", true);
 			//an->PlayAnimation(L"플레이어가만기본총위상체", true);

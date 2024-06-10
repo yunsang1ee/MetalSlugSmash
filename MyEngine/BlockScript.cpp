@@ -35,7 +35,7 @@ void BlockScript::Render(HDC hDC)
 
 void BlockScript::OnCollisionEnter(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
@@ -68,7 +68,7 @@ void BlockScript::OnCollisionEnter(Collider* other)
 
 void BlockScript::OnCollisionStay(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
@@ -97,7 +97,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 
 void BlockScript::OnCollisionExit(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto rb = other->GetOwner()->GetComponent<RigidBody>();
 		auto tr = other->GetOwner()->GetComponent<Transform>();
