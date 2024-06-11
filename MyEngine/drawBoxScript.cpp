@@ -53,21 +53,25 @@ void drawBoxScript::Update()
 			bx->SetSize(size);
 			block->AddComponent<BlockScript>();
 
-			platform.push_back(block);
 		}
 		lt = Vector2::Zero;
 		rb = Vector2::Zero;
 	}
 
-	if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKeyDown(VK_CONTROL))
+	if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 	{
-		std::ofstream file;
-		file.open("..\\Resource\\box1.txt");
-		std::string buff;
+		std::ofstream file{ "..\\Resource\\box1.txt", std::ios::trunc };
 		if (file.is_open())
 		{
-
-			file << buff;
+			Vector2 pos;
+			Vector2 size;
+			auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Block)->GetGameObjects();
+			for (auto block : blocks)
+			{
+				pos = block->GetComponent<Transform>()->GetPosition();
+				size = block->GetComponent<BoxCollider2D>()->GetSize();
+				file << pos.x << ' ' << pos.y << ' ' << size.x << ' ' << size.y << '\n';
+			}
 		}
 	}
 }

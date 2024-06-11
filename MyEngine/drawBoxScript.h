@@ -14,10 +14,7 @@ public:
 	virtual void Render(HDC hDC) override;
 	void Release();
 
-	std::vector<GameObject*> GetPlatform() { return platform; }
-
 private:
-	std::vector<GameObject*> platform;
 	Vector2 lt;
 	Vector2 rb;
 };

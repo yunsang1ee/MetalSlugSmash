@@ -1,5 +1,6 @@
 #include "STAGE1.h"
 #include <random>
+#include <fstream>
 #include <ysTransform.h>
 #include <ysSpriteRenderer.h>
 #include "ysTitleScene.h"
@@ -214,43 +215,43 @@ namespace ys {
 			cd->SetOffset(Vector2(20, 30));
 		}*/
 		
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10, 10 });
-			auto block = Blocks[Blocks.size() - 1];
-			
-			block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(0.1f, 30.f));
-			block->AddComponent<BlockScript>();
-		
-		}
-		
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, { 0, 681});
-			auto block = Blocks[Blocks.size() - 1];
-			
-			block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
-			block->AddComponent<BlockScript>();
+		//{
+		//	Blocks.resize(Blocks.size() + 1);
+		//	Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10, 10 });
+		//	auto block = Blocks[Blocks.size() - 1];
+		//	
+		//	block->AddComponent<BoxCollider2D>();
+		//	block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+		//	block->GetComponent<BoxCollider2D>()->SetSize(Vector2(0.1f, 30.f));
+		//	block->AddComponent<BlockScript>();
+		//
+		//}
+		//
+		//{
+		//	Blocks.resize(Blocks.size() + 1);
+		//	Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, { 0, 681});
+		//	auto block = Blocks[Blocks.size() - 1];
+		//	
+		//	block->AddComponent<BoxCollider2D>();
+		//	block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
+		//	block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
+		//	block->AddComponent<BlockScript>();
 
-		}
-		//block2
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 0, app.getScreen().y-100.f});
-			auto block = Blocks[Blocks.size() - 1];
-			
-			auto bx=block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			//tr->SetScale(Vector2(500, 0.1f));
-			bx->SetSize(Vector2(500, 1.f));
-			block->AddComponent<BlockScript>();
-			
-		}
-		{
+		//}
+		////block2
+		//{
+		//	Blocks.resize(Blocks.size() + 1);
+		//	Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 0, app.getScreen().y-100.f});
+		//	auto block = Blocks[Blocks.size() - 1];
+		//	
+		//	auto bx=block->AddComponent<BoxCollider2D>();
+		//	bx->setName(L"BackGround");
+		//	//tr->SetScale(Vector2(500, 0.1f));
+		//	bx->SetSize(Vector2(500, 1.f));
+		//	block->AddComponent<BlockScript>();
+		//	
+		//}
+	/*	{
 			Blocks.resize(Blocks.size() + 1);
 			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 3846, 637 });
 			auto block = Blocks[Blocks.size() - 1];
@@ -406,8 +407,30 @@ namespace ys {
 			bx->setName(L"BackGrounds");
 			bx->SetSize(Vector2(2.08f, 0.23f));
 			block->AddComponent<BlockScript>();
+		}*/
+		{
+			std::ifstream file{ "..\\Resource\\box1.txt" };
+			std::string buff;
+			Vector2 pos;
+			Vector2 size;
+			while (file >> buff)
+			{
+				pos.x = stof(buff);
+				file >> buff;
+				pos.y = stof(buff);
+				file >> buff;
+				size.x = stof(buff);
+				file >> buff;
+				size.y = stof(buff);
+				auto block = object::Instantiate<GameObject>(LayerType::Block, pos);
+				auto bx = block->AddComponent<BoxCollider2D>();
+
+				bx->setName(L"BackGrounds");
+				bx->SetSize(size);
+				block->AddComponent<BlockScript>();
+				Blocks.push_back(block);
+			}
 		}
-		
 
 
 	
@@ -460,6 +483,7 @@ namespace ys {
 
 	void STAGE1::Destroy()
 	{
+		Scene::Destroy();
 	}
 
 	void STAGE1::OnEnter()

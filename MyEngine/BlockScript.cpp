@@ -101,7 +101,16 @@ void BlockScript::OnCollisionStay(Collider* other)
 	{
 		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
 		{
-			auto list = other->GetOwner()->GetComponent<drawBoxScript>()->GetPlatform();
+			/*auto owner = GetOwner();
+			auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Block)->GetGameObjects();
+			for (auto iter = blocks.begin(); iter != blocks.end(); ++iter)
+			{
+				if (owner == *iter)
+				{
+					blocks.erase(iter);
+					break;
+				}
+			}*/
 			ys::object::Destroy(GetOwner());
 		}
 	}

@@ -57,6 +57,8 @@ namespace ys
 
 	void Layer::Destroy()
 	{
+		if (type == ys::enums::LayerType::Block)
+			int a = 0;
 		for (auto iter = objects.begin(); iter != objects.end();)
 		{
 			if (*iter == nullptr) continue;

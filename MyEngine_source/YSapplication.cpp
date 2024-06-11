@@ -36,6 +36,8 @@ namespace ys
 		Update();
 		LateUpdate();
 		Render();
+
+		Destroy();
 		InputManager::AfterUpdate();
 	}
 
