@@ -21,6 +21,7 @@ namespace ys
 			this->maxPosition = maxPosition;
 		}
 		Vector2 CalculatPosition(const Vector2& position) { return position - distance; }
+		Vector2 GetLookPosition() const { return lookPosition; }
 		void SetTarget(GameObject* target) { this->target = target; }
 		bool isXmin() const { return xMin; }
 		bool isXmax() const { return xMax; }

@@ -12,7 +12,11 @@
 #include"STAGE1.h"
 #include "ysSceneManager.h"
 #include"ysCamera.h"
+#include"ysObject.h"
 #include"ysTransform.h"
+#include <ysRenderer.h>
+#include "ysPlayScene.h"
+#include "BlockScript.h"
 extern Application app;
 drawBoxScript::drawBoxScript()
 {
@@ -28,40 +32,43 @@ void drawBoxScript::Init()
 
 void drawBoxScript::Update()
 {
-	if (InputManager::getKeyDown(VK_LBUTTON))
-	{
-		Vector2 pt;
-		pt=app.getmousePosition();
-		rect.left = pt.x;
-		rect.top = pt.y;
-	}
-	else if (InputManager::getKeyUp(VK_LBUTTON))
-	{
-		Vector2 pt;
-		static int count = 0;
-		pt = app.getmousePosition();
-		rect.right = pt.x;
-		rect.bottom = pt.y;
-		auto scene = dynamic_cast<STAGE1*>(SceneManager::GetActiveScene());
-		auto tr = scene->GetPlayer()->GetComponent<Transform>()->GetPosition() - Vector2(app.getScreen().x/2,app.getScreen().y/2);
-		//카메라는 맵의 좌표를 알려줄수 없음
-		// //auto tr = scene->GetLayer(LayerType::Camera)->GetGameObjects()[0]->GetComponent<Transform>()->GetPosition();
-		std::string str;
-		str = std::to_string(count++) + "-> ";
-		str += "left: " + std::to_string(tr.x+rect.left) + " ";
-		str += " top: " + std::to_string(rect.top) + " ";
-		str += " right: " + std::to_string(tr.x+rect.right) + " ";
-		str += " bottom: " + std::to_string(rect.bottom) + " ";
-		str += "\n";
+	auto position = app.getmousePosition() + ys::renderer::mainCamera->GetLookPosition() - (app.getScreenf() / 2);
+	GetOwner()->GetComponent<Transform>()->SetPosition(position);
 
+	if (InputManager::getKeyDown(VK_LBUTTON))
+		lt = position;
+
+	if (InputManager::getKey(VK_LBUTTON))
+		rb = position;
+
+	if (InputManager::getKeyUp(VK_LBUTTON))
+	{
+		if(lt.x < rb.x && lt.y < rb.y)
+		{
+			auto block = object::Instantiate<GameObject>(LayerType::Block, lt);
+
+			auto size = (rb - lt) / 100.0f;
+			auto bx = block->AddComponent<BoxCollider2D>();
+			bx->setName(L"BackGround");
+			bx->SetSize(size);
+			block->AddComponent<BlockScript>();
+
+			platform.push_back(block);
+		}
+		lt = Vector2::Zero;
+		rb = Vector2::Zero;
+	}
+
+	if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKeyDown(VK_CONTROL))
+	{
 		std::ofstream file;
-		file.open("..\\Resource\\box1.txt", std::ios::app);
+		file.open("..\\Resource\\box1.txt");
+		std::string buff;
 		if (file.is_open())
 		{
-			file << str;
+
+			file << buff;
 		}
-		file.close();
-		
 	}
 }
 
@@ -71,6 +78,29 @@ void drawBoxScript::LateUpdate()
 
 void drawBoxScript::Render(HDC hDC)
 {
+	if (ys::Collider::isRender())
+	{
+		Vector2 ltTmp;
+		Vector2 rbTmp;
+		if (ys::renderer::mainCamera)
+		{
+			ltTmp = ys::renderer::mainCamera->CalculatPosition(lt);
+			rbTmp = ys::renderer::mainCamera->CalculatPosition(rb);
+		}
+
+		auto brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		auto oldBrush = SelectObject(hDC, brush);
+		auto pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
+		auto oldPen = SelectObject(hDC, pen);
+		Rectangle(hDC
+			, ltTmp.x
+			, ltTmp.y
+			, rbTmp.x
+			, rbTmp.y);
+		SelectObject(hDC, oldPen);
+		DeleteObject(pen);
+		SelectObject(hDC, oldBrush);
+	}
 }
 
 void drawBoxScript::Release()

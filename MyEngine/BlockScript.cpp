@@ -3,9 +3,12 @@
 #include<ysBoxCollider2D.h>
 #include<ysSceneManager.h>
 #include<ysScene.h>
+#include<ysObject.h>
 #include <ysRigidBody.h>
 #include <ysTransform.h>
 #include <ysCircleCollider2D.h>
+#include <ysInputManager.h>
+#include "drawBoxScript.h"
 #include<ysCollisionManager.h>
 using namespace ys;
 BlockScript::BlockScript()
@@ -92,6 +95,15 @@ void BlockScript::OnCollisionStay(Collider* other)
 			playerRb->SetGround(true);
 		else
 			playerRb->SetGround(false);
+	}
+
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::Tool)
+	{
+		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
+		{
+			auto list = other->GetOwner()->GetComponent<drawBoxScript>()->GetPlatform();
+			ys::object::Destroy(GetOwner());
+		}
 	}
 }
 

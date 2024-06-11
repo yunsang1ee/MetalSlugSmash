@@ -38,9 +38,18 @@ namespace ys {
 	void ys::STAGE1::Init()
 	{
 		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Enemy, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
+		//backGrounds
+		//{
+		//	backBackground = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -92));
+
+		//	auto sr = backBackground->AddComponent<SpriteRenderer>();
+		//	sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1초반배경"));
+		//	//sr->SetSizeByScreen(Vector2(sr->GetTexture()->GetWidth() , sr->GetTexture()->GetHeight() ));
+
 	
 		{
 			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
@@ -422,9 +431,11 @@ namespace ys {
 				15600, 363));
 			camera->AddComponent<CameraScript>();
 		}
+		//mapTool
 		{
-			auto drawBox = object::Instantiate<GameObject>(LayerType::Block, { 0, 0 });
-			auto bx = drawBox->AddComponent<BoxCollider2D>();
+			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
+			auto bx = drawBox->AddComponent<CircleCollider2D>();
+			bx->SetSize(Vector2::One * 0.1);
 			drawBox->AddComponent<drawBoxScript>();
 		}
 		Scene::Init();

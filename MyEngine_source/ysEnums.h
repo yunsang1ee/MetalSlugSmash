@@ -15,6 +15,7 @@ namespace ys::enums
 		PlayerTop,
 		Particle,
 		FrontGround,
+		Tool,
 		Camera,
 		Max = 16
 	};

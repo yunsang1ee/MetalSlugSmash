@@ -13,7 +13,12 @@ public:
 	virtual void LateUpdate() override;
 	virtual void Render(HDC hDC) override;
 	void Release();
+
+	std::vector<GameObject*> GetPlatform() { return platform; }
+
 private:
-	RECT rect;
+	std::vector<GameObject*> platform;
+	Vector2 lt;
+	Vector2 rb;
 };
 
