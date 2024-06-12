@@ -34,8 +34,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어_기본총_위공격_우", L"..\\Resource\\플레이어_기본총_위공격.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_기본총_위공격_좌", L"..\\Resource\\플레이어_기본총_위공격.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어기본_총아래", L"..\\Resource\\플레이어기본총아래.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어위_우_하체", L"..\\Resource\\기본위우하체.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어위_좌_하체", L"..\\Resource\\기본위좌하체.bmp");
+
+		
 
 
 		Resources::Load<graphics::Texture>(L"플레이어앉기시작", L"..\\Resource\\플레이어앉기시작.bmp");
@@ -77,7 +77,23 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체좌", L"..\\Resource\\기본위우하체.bmp");
 		
+		Resources::Load<graphics::Texture>(L"게_idle", L"..\\Resource\\monster\\게idle.bmp");
+		Resources::Load<graphics::Texture>(L"게_idle_좌", L"..\\Resource\\monster\\게idle.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_walk", L"..\\Resource\\monster\\게walk.bmp");
+		Resources::Load<graphics::Texture>(L"게_walk_좌", L"..\\Resource\\monster\\게walk.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_jump", L"..\\Resource\\monster\\게jump.bmp");
+		Resources::Load<graphics::Texture>(L"게_jump_좌", L"..\\Resource\\monster\\게jump.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_attack", L"..\\Resource\\monster\\게attack.bmp");
+		Resources::Load<graphics::Texture>(L"게_attack_좌", L"..\\Resource\\monster\\게attack.bmp");
+
+		//사운드
 		SoundManager::GetInstance()->LoadSound(L"stage1메인브금", "..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
 		SoundManager::GetInstance()->LoadSound(L"발사사운드", "..\\Resource\\gun_sound.wav");
+		SoundManager::GetInstance()->GetplayerSound()->setVolume(0.3f);
+
+
 	}
 }

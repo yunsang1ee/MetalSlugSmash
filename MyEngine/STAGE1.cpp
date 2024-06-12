@@ -41,6 +41,7 @@ namespace ys {
 	{
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
 	
@@ -86,19 +87,27 @@ namespace ys {
 
 			auto cd = playerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
-			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(10000, app.getScreen().y / 2.f));
+			playerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000, app.getScreen().y / 2.f));
 
 
 			
-			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어위_우_하체")
-				, Vector2(0, 0), Vector2(125.f, 155), Vector2(-55.f, -85.f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어위_좌_하체")
-				, Vector2(550, 0), Vector2(125.f, 155), Vector2(-55.f, -85.f), 4, 0.1f,true);
+			an->CrateAnimation(L"플레이어위우하체", Resources::Find<graphics::Texture>(L"플레이어_위_하체")
+				, Vector2(16, 0)
+				, Vector2(81.f, 107)
+				, Vector2(-40.f, -40.f), 4, 0.1f);
+			an->CrateAnimation(L"플레이어위좌하체", Resources::Find<graphics::Texture>(L"플레이어_위_하체좌")
+				, Vector2(16, 0)
+				, Vector2(81.f, 107)
+				, Vector2(-45.f, -40.f), 4, 0.1f, true);
 
 			an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f);
+				, Vector2(550, 0)
+				, Vector2(127.72f, 148)
+				, Vector2(-55.f, -85.f), 1, 0.1f);
 			an->CrateAnimation(L"플레이어가만하체좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
-				, Vector2(550, 0), Vector2(127.72f, 148), Vector2(-55.f, -85.f), 1, 0.1f,true);
+				, Vector2(550, 0)
+				, Vector2(127.72f, 148)
+				, Vector2(-70.f, -85.f), 1, 0.1f,true);
 
 			an->CrateAnimation(L"플레이어우이동하체", Resources::Find<graphics::Texture>(L"플레이어이동")
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-55.f, -19.f), 12, 0.1f);
@@ -213,7 +222,7 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어_앉음_공격좌") = std::bind(&PlayerLowerBodyScript::NextSitAnimation, plysc);
 			
 
-			an->PlayAnimation(L"플레이어위우하체", false);
+			an->PlayAnimation(L"플레이어위좌하체", true);
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
@@ -226,10 +235,6 @@ namespace ys {
 			auto plysc = player->AddComponent<PlayerScript>();
 			
 			plysc->SetLowerBody(playerLowerBody);
-			
-
-
-			
 			
 			auto an = player->AddComponent<Animator>();
 			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만")
@@ -314,16 +319,60 @@ namespace ys {
 		}
 		
 		//Enemy
-		/*{
-			auto enemy = object::Instantiate<Player>(LayerType::Enemy, { app.getScreenf().x, app.getScreen().y * 4 / 10.0f });
+		{
+			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
+			enemy->GetComponent<Transform>()->SetPosition(Vector2(5750, 300));
+			auto es = enemy->AddComponent<EnemyScript>();
+			auto an = enemy->AddComponent<Animator>();
+			auto rb = enemy->AddComponent<RigidBody>();
+			auto cd = enemy->AddComponent<BoxCollider2D>();
 
-			auto sr = enemy->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
+			
+			cd->SetOffset(Vector2(-30, -25));
+			cd->SetSize(Vector2(1.5f, 1.25f));
+			//이걸 죄다 스크립트에 넣으면 좋을듯
+			an->CrateAnimation(L"게_idle", Resources::Find<graphics::Texture>(L"게_idle")
+				, Vector2(0, 0)
+				, Vector2(200, 150)
+				, Vector2(-60, -50), 7, 0.1f);
+			an->CrateAnimation(L"게_idle_좌", Resources::Find<graphics::Texture>(L"게_idle_좌")
+				, Vector2(0, 0)
+				, Vector2(200, 150)
+				, Vector2(-60, -50), 7, 0.1f, true);
 
-			enemy->AddComponent<EnemyScript>();
-			auto cd = enemy->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(20, 30));
-		}*/
+			an->CrateAnimation(L"게_walk", Resources::Find<graphics::Texture>(L"게_walk")
+				, Vector2(0, 0)
+				, Vector2(200, 146)
+				, Vector2(-60, -50), 7, 0.1f);
+			an->CrateAnimation(L"게_walk_좌", Resources::Find<graphics::Texture>(L"게_walk_좌")
+				, Vector2(0, 0)
+				, Vector2(200, 146)
+				, Vector2(-60, -50), 7, 0.1f, true);
+
+			an->CrateAnimation(L"게_attack_기본1", Resources::Find<graphics::Texture>(L"게_attack")
+				, Vector2(50, 0)
+				, Vector2(177, 170)
+				, Vector2(-60, -50), 5, 0.1f);
+			an->CrateAnimation(L"게_attack_기본2", Resources::Find<graphics::Texture>(L"게_attack")
+				, Vector2(938, 0)
+				, Vector2(243, 170)
+				, Vector2(-60, -50), 4, 0.1f);
+			an->CrateAnimation(L"게_attack_좌_기본1", Resources::Find<graphics::Texture>(L"게_attack_좌")
+				, Vector2(50, 0)
+				, Vector2(177, 170)
+				, Vector2(-60, -50), 5, 0.1f);
+			an->CrateAnimation(L"게_attack_좌_기본2", Resources::Find<graphics::Texture>(L"게_attack_좌")
+				, Vector2(938, 0)
+				, Vector2(243, 170)
+				, Vector2(-60, -50), 4, 0.1f);
+
+			an->GetCompleteEvent(L"게_attack_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
+			an->GetCompleteEvent(L"게_attack_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
+			an->GetCompleteEvent(L"게_attack_좌_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
+			an->GetCompleteEvent(L"게_attack_좌_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
+
+			an->PlayAnimation(L"게_walk", true);
+		}
 		
 		{
 			Blocks.resize(Blocks.size() + 1);
@@ -547,8 +596,8 @@ namespace ys {
 			auto bx = drawBox->AddComponent<BoxCollider2D>();
 			drawBox->AddComponent<drawBoxScript>();
 		}
-		SoundManager::GetInstance()->playSound(L"stage1메인브금", SoundManager::SoundType::BACKGROUND);
-		SoundManager::GetInstance()->GetBackGroundChannel()->setVolume(0.5f);
+		//SoundManager::GetInstance()->playSound(L"stage1메인브금", SoundManager::SoundType::BACKGROUND);
+		//SoundManager::GetInstance()->GetBackGroundChannel()->setVolume(0.5f);
 		
 		Scene::Init();
 	}

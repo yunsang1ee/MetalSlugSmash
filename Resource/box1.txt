@@ -19,3 +19,6 @@ left: 5877.773926  top: 452  right: 5924.773926  bottom: 452 0-> left: 10779.168
 7-> left: 9976.000000  top: 622  right: 9976.000000  bottom: 622 
 8-> left: 9976.000000  top: 622  right: 9976.000000  bottom: 622 
 0-> left: 10309.000000  top: 466  right: 10309.000000  bottom: 466 
+0-> left: 5409.000000  top: 447  right: 5410.000000  bottom: 447 
+1-> left: 5710.000000  top: 501  right: 5720.000000  bottom: 503 
+0-> left: 6018.000000  top: 671  right: 6018.000000  bottom: 671 

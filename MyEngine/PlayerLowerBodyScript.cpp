@@ -119,7 +119,7 @@ void PlayerLowerBodyScript::idle()
 		}
 		state = PlayerState::IdleJump;
 	}
-	if (InputManager::getKeyDown(VK_UP))
+	if (InputManager::getKey(VK_UP))
 	{
 		state = PlayerState::Lookup;
 	}
@@ -323,6 +323,7 @@ void PlayerLowerBodyScript::jump()
 }
 void PlayerLowerBodyScript::idleJump()
 {
+	jump();
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	auto animationName = an->GetActive()->getName();
 	if (rb->IsGround())

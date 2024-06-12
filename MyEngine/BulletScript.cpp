@@ -6,7 +6,7 @@
 #include <ysRenderer.h>
 #include "ysPlayScene.h"
 
-ys::BulletScript::BulletScript() : deathTime(6.0f), time(0.0f)
+ys::BulletScript::BulletScript() : deathTime(6.0f), time(0.0f), Damage(10)
 {
 }
 

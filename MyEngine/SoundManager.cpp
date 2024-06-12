@@ -20,7 +20,7 @@ void SoundManager::LoadSound(const std::wstring& name,const std::string& soundPa
 		MessageBox(NULL, L"Sound not found", L"ERROR", MB_OK);
 		return;
 	}
-	sounds.insert(std::make_pair(soundPath, sound));
+	
 	
 
 	auto iter = sounds.find(name);
