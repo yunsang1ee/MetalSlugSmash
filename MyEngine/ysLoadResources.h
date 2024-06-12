@@ -77,6 +77,7 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체좌", L"..\\Resource\\기본위우하체.bmp");
 		
-		SoundManager::GetInstance()->LoadSound(L"점프", L"..\\Resource\\sd.mp3");
+		SoundManager::GetInstance()->LoadSound(L"stage1메인브금", "..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
+		SoundManager::GetInstance()->LoadSound(L"발사사운드", "..\\Resource\\gun_sound.wav");
 	}
 }

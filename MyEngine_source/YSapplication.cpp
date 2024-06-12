@@ -4,7 +4,7 @@
 #include "ysTimer.h"
 #include <ysResources.h>
 #include <ysCollisionManager.h>
-
+#include"..\\MyEngine\\SoundManager.h"
 
 namespace ys
 {
@@ -69,7 +69,7 @@ namespace ys
 
 	void Application::Release()
 	{
-		
+		SoundManager::Release();
 		SceneManager::Release();
 		Resources::Release();
 	}
