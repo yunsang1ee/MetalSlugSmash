@@ -2,7 +2,7 @@
 using namespace ys;
 SoundManager* SoundManager::instance = nullptr;
 
-void SoundManager::LoadSound(const std::wstring& name,const std::wstring& soundPath)
+void SoundManager::LoadSound(const std::wstring& name,const std::string& soundPath)
 {
 	result = FMOD::System_Create(&system);
 	if (result != FMOD_OK)
@@ -11,22 +11,20 @@ void SoundManager::LoadSound(const std::wstring& name,const std::wstring& soundP
 		return;
 	}
 	system->init(32, FMOD_INIT_NORMAL, 0);
-	std::string _path;
-	_path.assign(soundPath.begin(), soundPath.end());
+	
 	FMOD::Sound* sound = nullptr;
 
-	system->createSound(_path.c_str(), FMOD_LOOP_NORMAL, 0, &sound);
+	system->createSound(soundPath.c_str(), FMOD_LOOP_NORMAL, 0, &sound);
 	if (sound == nullptr)
 	{
 		MessageBox(NULL, L"Sound not found", L"ERROR", MB_OK);
 		return;
 	}
-	sounds.insert(std::make_pair(soundPath, sound));
+	
 
-	auto iter = names.find(soundPath);
-	if (iter == names.end())
-	{
-		names.insert(std::make_pair(name, soundPath));
+	auto iter = sounds.find(name);
+	if(iter==sounds.end()) {
+		sounds.insert(std::make_pair(name, sound));
 	}
 	else {
 		MessageBox(NULL, L"Sound name already exists", L"ERROR", MB_OK);
@@ -37,15 +35,11 @@ void SoundManager::LoadSound(const std::wstring& name,const std::wstring& soundP
 
 
 
-void SoundManager::playSound(const std::wstring& soundName,SoundManager::SoundType type )
+void SoundManager::playSound(const std::wstring& soundName,SoundManager::SoundType type,const bool paused )
 {
-	auto _path = names.find(soundName);
-	if (_path == names.end())
-	{
-		return;
-	}
 	
-	auto iter = sounds.find(_path->second);
+	
+	auto iter = sounds.find(soundName);
 	if (iter == sounds.end())
 	{
 		MessageBox(NULL, L"Sound not found", L"ERROR", MB_OK);
@@ -54,10 +48,10 @@ void SoundManager::playSound(const std::wstring& soundName,SoundManager::SoundTy
 	switch (type)
 	{
 	case SoundManager::SoundType::BACKGROUND:
-		system->playSound(iter->second, 0, false, &BackGroundchannel);
+		system->playSound(iter->second, 0, paused, &BackGroundchannel);
 		break;
-	case SoundManager::SoundType::EFFECT:
-		system->playSound(iter->second, 0, false, &Effectchannel);
+	case SoundManager::SoundType::PlayerSound:
+		system->playSound(iter->second, 0, paused, &playerSound);
 		break;
 	default:
 		break;

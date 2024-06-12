@@ -20,7 +20,7 @@
 #include<ysAnimator.h>
 #include<ysAnimation.h>
 #include"PlayerLowerBodyScript.h"
-
+#include"SoundManager.h"
 extern ys::Application app;
 
 namespace ys
@@ -41,6 +41,7 @@ namespace ys
 		if (coolTime >= 0)
 			coolTime -= Timer::getDeltaTime();
 		else
+			SoundManager::GetInstance()->GetplayerSound()->setPaused(true);
 			coolTime = 0.0f;
 
 		auto tr = GetOwner()->GetComponent<Transform>();
@@ -238,6 +239,7 @@ namespace ys
 		{
 			state = PlayerState::MoveJump;
 		}
+		
 	}
 	void PlayerScript::sit()
 	{
@@ -372,7 +374,11 @@ namespace ys
 	}
 	void PlayerScript::ShootBullet()
 	{
-		
+		if (SoundManager::GetInstance()->GetplayerSound()->getPaused()==)
+		{
+
+		}
+		SoundManager::GetInstance()->playSound(L"발사사운드", SoundManager::SoundType::PlayerSound);
 		auto tr = GetOwner()->GetComponent<Transform>();
 		//Vector2 position = tr->GetPosition();
 		Vector2 mousePosition =

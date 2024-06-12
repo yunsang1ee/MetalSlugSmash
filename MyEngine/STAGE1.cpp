@@ -547,12 +547,15 @@ namespace ys {
 			auto bx = drawBox->AddComponent<BoxCollider2D>();
 			drawBox->AddComponent<drawBoxScript>();
 		}
-		SoundManager::GetInstance()->playSound(L"점프", SoundManager::SoundType::BACKGROUND);
+		SoundManager::GetInstance()->playSound(L"stage1메인브금", SoundManager::SoundType::BACKGROUND);
+		SoundManager::GetInstance()->GetBackGroundChannel()->setVolume(0.5f);
+		
 		Scene::Init();
 	}
 
 	void ys::STAGE1::Update()
 	{
+		
 		Scene::Update();
 	}
 
@@ -569,6 +572,7 @@ namespace ys {
 
 	void STAGE1::Destroy()
 	{
+		Scene::Destroy();
 	}
 
 	void STAGE1::OnEnter()
