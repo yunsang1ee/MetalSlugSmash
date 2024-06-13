@@ -13,7 +13,7 @@
 #include <ysBoxCollider2D.h>
 #include <ysRenderer.h>
 #include <ysRigidBody.h>
-#include<ysCircleCollider2D.h>
+#include <ysCircleCollider2D.h>
 #include <ysCollisionManager.h>
 #include "STAGE1.h"
 #include<random>
@@ -43,11 +43,13 @@ namespace ys
 	{
 		if (!ownerAnimator)
 			ownerAnimator = GetOwner()->GetComponent<Animator>();
+		if (!ownerTransform)
+			ownerTransform = GetOwner()->GetComponent<Transform>();
 
 		if (count != 0 && ownerAnimator->GetActive()->IsComplete())
 			ShootBullet();
 
-		auto tr = GetOwner()->GetComponent<Transform>();
+		ownerTransform->SetPosition({ playerLowerBody->GetComponent<Transform>()->GetPosition().x, playerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
 		switch (state)
 		{
 		case PlayerScript::PlayerState::Idle:
@@ -90,97 +92,115 @@ namespace ys
 			break;
 		}
 
-		tr->SetPosition({ playerLowerBody->GetComponent<Transform>()->GetPosition().x, playerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
 	}
 
 	void PlayerScript::idle()
 	{
 		if (InputManager::getKey(VK_OEM_COMMA))
 		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어가만점프좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어가만점프", false);
 			state = PlayerState::IdleJump;
+			return;
 		}
 		if (InputManager::getKey(VK_LEFT))
 		{
-			direction = kPi;
+			attackDirection = kPi;
 			GetOwner()->GetComponent<Transform>()->SetRotation(kPi);
 			ownerAnimator->PlayAnimation(L"플레이어이동상체좌");
 			state = PlayerState::Move;
+			return;
 		}
 		if (InputManager::getKey(VK_RIGHT))
 		{
-			direction = 0.0f;
+			attackDirection = 0.0f;
 			GetOwner()->GetComponent<Transform>()->SetRotation(0);
 			ownerAnimator->PlayAnimation(L"플레이어이동상체");
 			state = PlayerState::Move;
+			return;
 		}
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
-			if (direction == kPi)
+			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 			else
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
 			state = PlayerState::IdleAttack;
+			return;
 		}
 		if (InputManager::getKey(VK_UP))
 		{
-
+			attackDirection = 3.0f * kPi / 2.0f;
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체좌");
+			else
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체");
 			state = PlayerState::LookUp;
+			return;
 		}
 		if (InputManager::getKey(VK_DIVIDE))
 		{
 
 			state = PlayerState::Grenade;
+			return;
 		}
 		if (InputManager::getKey(VK_DOWN))
 		{
-
+			ownerAnimator->PlayAnimation(L"플레이어가만안보임");
 			state = PlayerState::Sit;
+			return;
 		}
-		/*auto an = GetOwner()->GetComponent<Animator>();
-		auto tr = GetOwner()->GetComponent<Transform>();
-		if (direction == Vector2::Left)
-		{
-			an->PlayAnimation(L"플레이어가만기본좌");
-		}
-		else {
-			an->PlayAnimation(L"플레이어가만기본");
-		}
-		if (InputManager::getKey(VK_LEFT))
-		{
-			state = PlayerState::Move;
-			an->PlayAnimation(L"플레이어좌이동상체");
-			direction = Vector2::Left;
-		}
-		if (InputManager::getKey(VK_RIGHT))
-		{
-			state = PlayerState::Move;
-			an->PlayAnimation(L"플레이어우이동상체");
-			direction = Vector2::Right;
-		}
-		if (InputManager::getKeyDown(VK_SPACE))
-		{
-			ShootBullet();
-		}
-		if (InputManager::getKeyDown(VK_UP))
-		{
-			state = PlayerState::Lookup;
-		}
-		if (InputManager::getKeyDown(VK_DOWN))
-		{
-			state = PlayerState::Sit;
-		}*/
 	}
 
 	void PlayerScript::idle_Jump()
 	{
+		if (InputManager::getKey(VK_OEM_PERIOD) && playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
+			state = PlayerState::JumpAttack;
+			return;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어기본총아래상체좌");
+			else
+				ownerAnimator->PlayAnimation(L"플레이어기본총아래상체");
+			state = PlayerState::LookDown;
+			return;
+		}
 		if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
-			auto rotation = GetOwner()->GetComponent<Transform>()->GetRotation();
-			if(rotation == kPi)
-				ownerAnimator->PlayAnimation(L"플레이어가만기본좌");
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
 			else
-				ownerAnimator->PlayAnimation(L"플레이어가만기본");
-			state = PlayerState::Idle;
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
 		}
 	}
 
@@ -188,89 +208,58 @@ namespace ys
 	{
 		if (InputManager::getKey(VK_OEM_COMMA))
 		{
-			//state = PlayerState::MoveJump;
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어이동점프", false);
+			state = PlayerState::MoveJump;
+			return;
 		}
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
-			if (direction == kPi)
+			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 			else
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
 			state = PlayerState::IdleAttack;
+			return;
 		}
 		if (InputManager::getKey(VK_UP))
 		{
-
+			attackDirection = 3.0f * kPi / 2.0f;
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체좌");
+			else
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체");
 			state = PlayerState::LookUp;
+			return;
 		}
 		if (InputManager::getKey(VK_DIVIDE))
 		{
 
 			state = PlayerState::Grenade;
+			return;
 		}
 		if (InputManager::getKey(VK_DOWN))
 		{
-
+			ownerAnimator->PlayAnimation(L"플레이어가만안보임");
 			state = PlayerState::Sit;
+			return;
 		}
+
 
 		if (InputManager::getKeyUp(VK_LEFT))
 		{
 			ownerAnimator->PlayAnimation(L"플레이어가만기본좌", true);
 			state = PlayerState::Idle;
+			return;
 		}
 		if (InputManager::getKeyUp(VK_RIGHT))
 		{
 			ownerAnimator->PlayAnimation(L"플레이어가만기본", true);
 			state = PlayerState::Idle;
+			return;
 		}
-		/*auto an = GetOwner()->GetComponent<Animator>();
-		auto tr = GetOwner()->GetComponent<Transform>();
-		if (InputManager::getKey(VK_LEFT))
-		{
-			state = PlayerState::Move;
-			if (an->GetActive()->getName()!=L"플레이어좌이동상체")
-			{
-				an->PlayAnimation(L"플레이어좌이동상체");
-			}
-			bulletStartPos = { GetOwner()->GetComponent<Transform>()->GetPosition().x - 40, GetOwner()->GetComponent<Transform>()->GetPosition().y};
-			tr->SetRotation(kPi);
-			direction = Vector2::Left;
-		}
-		if (InputManager::getKey(VK_RIGHT))
-		{
-			state = PlayerState::Move;
-			if (an->GetActive()->getName() != L"플레이어우이동상체")
-			{
-				an->PlayAnimation(L"플레이어우이동상체");
-			}
-			bulletStartPos = { GetOwner()->GetComponent<Transform>()->GetPosition().x + 40, GetOwner()->GetComponent<Transform>()->GetPosition().y };
-			tr->SetRotation(kPi);
-			direction = Vector2::Right;
-		}
-		if (InputManager::getKeyDown(VK_SPACE))
-		{
-			ShootBullet();
-		}
-		if (InputManager::getKeyDown(VK_UP))
-		{
-			state = PlayerState::Lookup;
-		}
-		if (InputManager::getKeyDown(VK_DOWN))
-		{
-			state = PlayerState::Sit;
-		}
-		
-		if (InputManager::getKeyUp(VK_RIGHT))
-		{
-			an->PlayAnimation(L"플레이어가만기본");
-			state = PlayerState::Idle;
-		}
-		if(InputManager::getKeyUp(VK_LEFT))
-		{
-			an->PlayAnimation(L"플레이어가만기본좌");
-			state = PlayerState::Idle;
-		}*/
 	}
 
 	void PlayerScript::grenade()
@@ -279,139 +268,431 @@ namespace ys
 
 	void PlayerScript::sit()
 	{
-		////총쏘는 위치 변경
-		//auto tr = GetOwner()->GetComponent<Transform>();
-		//bulletStartPos = { bulletStartPos.x , GetOwner()->GetComponent<Transform>()->GetPosition().y + 20 };
-		//auto an = GetOwner()->GetComponent<Animator>();
-		//if (an->GetActive()->getName()!= L"플레이어가만안보임")
-		//{
-		//	an->PlayAnimation(L"플레이어가만안보임");
-		//}
-		//if (InputManager::getKey(VK_DOWN))
-		//{
-		//	state = PlayerState::Sit;
-		//}
-		//if (InputManager::getKeyUp(VK_DOWN))
-		//{
-		//	an->PlayAnimation(L"플레이어가만기본");
-		//	state = PlayerState::Idle;
-		//}
-		//if (InputManager::getKey(VK_LEFT))
-		//{
-		//	direction = Vector2::Left;
-		//}
-		//if (InputManager::getKey(VK_RIGHT))
-		//{
-		//	direction = Vector2::Right;
-		//}
-		//if (InputManager::getKeyDown(VK_OEM_COMMA))
-		//{
-		//	state = PlayerState::Slide;
-		//}
-		//if (InputManager::getKeyDown(VK_SPACE))
-		//{
-		//	ShootBullet();
-		//}
-		
+		if (InputManager::getKeyUp(VK_DOWN))
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
+		}
 	}
 
 	void PlayerScript::lookDown()
 	{
+		if (InputManager::getKey(VK_OEM_PERIOD))
+		{
+			attackDirection = kPi / 2.0f;
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어아래총쏘는중상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어아래총쏘는중상체", false);
+			state = PlayerState::LookDownAttack;
+			return;
+		}
+
+		if (InputManager::getKeyUp(VK_DOWN) || playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+			
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
+		}
 	}
 
 	void PlayerScript::lookDown_Attack()
 	{
+		if (!ownerAnimator->IsComplete())
+			return;
+		if (InputManager::getKey(VK_OEM_PERIOD))
+		{
+			if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
+			{
+				if (ownerTransform->GetRotation() == kPi)
+				{
+					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
+					attackDirection = kPi;
+				}
+				else
+				{
+					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
+					attackDirection = 0.0f;
+				}
+				state = PlayerState::IdleAttack;
+			}
+			else
+			{
+				if (ownerTransform->GetRotation() == kPi)
+					ownerAnimator->PlayAnimation(L"플레이어아래총쏘는중상체좌", false);
+				else
+					ownerAnimator->PlayAnimation(L"플레이어아래총쏘는중상체", false);
+			}
+		}
+		else if (!playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어이동점프", false);
+			state = PlayerState::MoveJump;
+		}
+		else
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
+		}
 	}
 
 	void PlayerScript::jump_Attack()
 	{
+		if (!ownerAnimator->IsComplete())
+			return;
+		if (InputManager::getKey(VK_OEM_PERIOD))
+		{
+			if (InputManager::getKey(VK_UP))
+			{
+				attackDirection = kPi / 2.0f;
+				state = PlayerState::LookUpAttack;
+			}
+			else if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
+			{
+				if (ownerTransform->GetRotation() == kPi)
+				{
+					ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
+					attackDirection = kPi;
+				}
+				else
+				{
+					ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
+					attackDirection = 0.0f;
+				}
+				state = PlayerState::IdleAttack;
+			}
+			else
+			{
+				if (ownerTransform->GetRotation() == kPi)
+					ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
+				else
+					ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
+			}
+		}
+		else if(!playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어이동점프", false);
+			state = PlayerState::MoveJump;
+		}
+		else
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
+		}
 	}
 
 	void PlayerScript::move_Jump()
 	{
+		if (InputManager::getKey(VK_OEM_PERIOD))
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
+			state = PlayerState::JumpAttack;
+			return;
+		}
+		if (InputManager::getKey(VK_DOWN))
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어기본총아래상체좌");
+			else
+				ownerAnimator->PlayAnimation(L"플레이어기본총아래상체");
+			state = PlayerState::LookDown;
+			return;
+		}
+		if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
+		}
 	}
-	//void PlayerScript::slide()
-	//{
-	//	//애니메이션 끄기
-	//	/*auto tr = GetOwner()->GetComponent<Transform>();
-	//	auto an = GetOwner()->GetComponent<Animator>();
-	//	if (an->GetActive()->getName() != L"플레이어안보임") {
-	//		an->PlayAnimation(L"플레이어안보임");
-	//	}*/
-	//
-	//	
-	//}
 	void PlayerScript::idle_Attack()
 	{
 		//보고있는 방향으로 총쏘기
-		if(ownerAnimator->IsComplete())
+		if (!ownerAnimator->IsComplete())
+			return;
+		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
-			if (InputManager::getKey(VK_LEFT))
+			if (InputManager::getKey(VK_UP))
 			{
-				direction = kPi;
-				GetOwner()->GetComponent<Transform>()->SetRotation(kPi);
+				attackDirection = kPi / 2.0f;
+				state = PlayerState::LookUpAttack;
 			}
-			if (InputManager::getKey(VK_RIGHT))
+			else if (InputManager::getKey(VK_LEFT))
 			{
-				direction = 0.0f;
-				GetOwner()->GetComponent<Transform>()->SetRotation(0.0f);
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 			}
-			if (InputManager::getKey(VK_OEM_PERIOD))
+			else if (InputManager::getKey(VK_RIGHT))
 			{
-				if (direction == kPi)
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
+			}
+			else
+			{
+				if (ownerTransform->GetRotation() == kPi)
 					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 				else
 					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
 			}
+		}
+		else
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
 			else
 			{
-				ownerAnimator->PlayAnimation(L"플레이어가만기본");
+				animationName = L"플레이어가만기본";
 				state = PlayerState::Idle;
 			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
 		}
 	}
 
 	void PlayerScript::lookUp()
 	{
-  		/*auto an = GetOwner()->GetComponent<Animator>();
-		bulletStartPos = { bulletStartPos.x, GetOwner()->GetComponent<Transform>()->GetPosition().y - 40 };
-		if (an->GetActive()->getName() != L"플레이어기본총위상체" && direction == Vector2::Right)
+		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
-			an->PlayAnimation(L"플레이어기본총위상체");
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체", false);
+			state = PlayerState::LookUpAttack;
+			return;
 		}
-		else if (an->GetActive()->getName() != L"플레이어기본총위상체좌" && direction == Vector2::Left)
-		{
-			an->PlayAnimation(L"플레이어기본총위상체좌");
-		}
-		if (InputManager::getKey(VK_UP))
-		{
-			state = PlayerState::Lookup;
-		}
+
 		if (InputManager::getKeyUp(VK_UP))
 		{
-			state = PlayerState::Idle;
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+			return;
 		}
-		if (InputManager::getKey(VK_RIGHT))
-		{
-			direction = Vector2::Right;
-		}
-		if (InputManager::getKey(VK_LEFT))
-		{
-			direction = Vector2::Left;
-		}
-		if (InputManager::getKeyDown(VK_SPACE))
-		{
-			direction = Vector2::Up;
-			ShootBullet();
-		}
-		if (InputManager::getKeyDown(VK_DOWN))
-		{
-			state = PlayerState::Sit;
-		}*/
 	}
 
 	void PlayerScript::lookUp_Attack()
 	{
+		if (!ownerAnimator->IsComplete())
+			return;
+		if (InputManager::getKey(VK_OEM_PERIOD))
+		{
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체좌", false);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체", false);
+			}
+			else
+			{
+				if (ownerTransform->GetRotation() == kPi)
+					ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체좌", false);
+				else
+					ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체", false);
+			}
+		}
+		else if (InputManager::getKey(VK_UP))
+		{
+			attackDirection = 3.0f * kPi / 2.0f;
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체좌");
+			else
+				ownerAnimator->PlayAnimation(L"플레이어기본총위상체");
+			state = PlayerState::LookUp;
+		}
+		else
+		{
+			std::wstring animationName;
+
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+		}
 	}
 
 	void PlayerScript::LateUpdate()
@@ -424,9 +705,8 @@ namespace ys
 
 	void PlayerScript::ShootBullet()
 	{
-		bulletOffset = Vector2::Rotate(Vector2::Right, direction) * 80 - Vector2(0, 30); //총까지 길이가 80정도
-		auto tr = GetOwner()->GetComponent<Transform>();
-		Vector2 bulletPosition = tr->GetPosition() + bulletOffset;
+		bulletOffset = Vector2::Rotate(Vector2::Right, attackDirection) * 80 - Vector2(0, 30); //총까지 길이가 80정도
+		Vector2 bulletPosition = ownerTransform->GetPosition() + bulletOffset;
 		//Vector2 mousePosition =
 		//	app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
 
@@ -441,7 +721,7 @@ namespace ys
 		if (Vector2::Cross(Vector2::Right, direction) < 0)
 			degree = 2 * math::kPi - degree;*/
 		auto bulletTr = bullet->GetComponent<Transform>();
-		bulletTr->SetRotation(direction);
+		bulletTr->SetRotation(attackDirection);
 
 		auto sr = bullet->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
@@ -466,7 +746,7 @@ namespace ys
 			auto bulletTwo = object::Instantiate<GameObject>(LayerType::Projectile
 				, bulletPosition + Vector2::One * 10.0f * urd(engine));
 			auto bulletTwoTr = bulletTwo->GetComponent<Transform>();
-			bulletTwoTr->SetRotation(direction);
+			bulletTwoTr->SetRotation(attackDirection);
 
 			auto bulletTwoSr = bulletTwo->AddComponent<SpriteRenderer>();
 			bulletTwoSr->SetTexture(Resources::Find<graphics::Texture>(L"총알png"));
@@ -476,6 +756,43 @@ namespace ys
 			bulletTwoCd->SetSize(Vector2::One * 0.2f);
 			count++;
 			if (count == 5) count = 0;
+		}
+	}
+
+	void PlayerScript::ShootEnd()
+	{
+		if (InputManager::getKey(VK_OEM_PERIOD))
+			return;
+
+		const auto& aniName = ownerAnimator->GetActive()->getName();
+		auto type = aniName.substr(4, 2);
+		if (type == L"가만")
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어가만총쏘기상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어가만총쏘기상체", false);
+		}
+		else if (type == L"점프")
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘기상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어점프총쏘기상체", false);
+		}
+		else if (type == L"위총")
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘기상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어위총쏘기상체", false);
+		}
+		else if (type == L"아래")
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어아래총쏘기상체좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어아래총쏘기상체", false);
 		}
 	}
 

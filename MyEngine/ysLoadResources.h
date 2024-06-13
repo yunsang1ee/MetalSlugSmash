@@ -31,12 +31,16 @@ namespace ys
 		//점프
 		Resources::Load<graphics::Texture>(L"플레이어가만점프", L"..\\Resource\\플레이어_점프_상하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어가만점프좌", L"..\\Resource\\플레이어_점프_상하체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동점프", L"..\\Resource\\플레이어_점프_상하체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동점프좌", L"..\\Resource\\플레이어_점프_상하체.bmp");
 
 
 		Resources::Load<graphics::Texture>(L"플레이어기본총위", L"..\\Resource\\플레이어기본총위.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어기본총위좌", L"..\\Resource\\플레이어기본총위.bmp");
 
 		//아래보기
+		Resources::Load<graphics::Texture>(L"플레이어기본총아래", L"..\\Resource\\플레이어기본총아래.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어기본총아래좌", L"..\\Resource\\플레이어기본총아래.bmp");
 
 		//가만어택
 		Resources::Load<graphics::Texture>(L"플레이어가만총쏘는중", L"..\\Resource\\가만총쏘는중.bmp");
@@ -44,14 +48,25 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어가만총쏘기", L"..\\Resource\\가만총쏘기.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어가만총쏘기좌", L"..\\Resource\\가만총쏘기.bmp");
 		//점프어택
+		Resources::Load<graphics::Texture>(L"플레이어점프총쏘는중", L"..\\Resource\\점프총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어점프총쏘는중좌", L"..\\Resource\\점프총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어점프총쏘기", L"..\\Resource\\점프총쏘기.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어점프총쏘기좌", L"..\\Resource\\점프총쏘기.bmp");
+
 		//위어택
+		Resources::Load<graphics::Texture>(L"플레이어위총쏘는중", L"..\\Resource\\위총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어위총쏘는중좌", L"..\\Resource\\위총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어위총쏘기", L"..\\Resource\\위총쏘기.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어위총쏘기좌", L"..\\Resource\\위총쏘기.bmp");
+
 		//아래어택
+		Resources::Load<graphics::Texture>(L"플레이어아래총쏘는중", L"..\\Resource\\아래총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어아래총쏘는중좌", L"..\\Resource\\아래총쏘는중.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어아래총쏘기", L"..\\Resource\\아래총쏘기.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어아래총쏘기좌", L"..\\Resource\\아래총쏘기.bmp");
 
 		//수류탄
 
-		Resources::Load<graphics::Texture>(L"플레이어_기본총_위공격_우", L"..\\Resource\\플레이어_기본총_위공격.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어_기본총_위공격_좌", L"..\\Resource\\플레이어_기본총_위공격좌.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어기본_총아래", L"..\\Resource\\플레이어기본총아래.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어위_우_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어위_좌_하체", L"..\\Resource\\기본위좌하체.bmp");
 
@@ -63,7 +78,6 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어앉음", L"..\\Resource\\플레이어앉음.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어앉음좌", L"..\\Resource\\플레이어앉음좌.bmp");
 
-		Resources::Load<graphics::Texture>(L"플레이어기본총좌우공격상체", L"..\\Resource\\플레이어_기본총_앞공격_상체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩", L"..\\Resource\\플레이어_슬라이딩.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_슬라이딩좌", L"..\\Resource\\플레이어_슬라이딩좌.bmp");
 

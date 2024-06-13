@@ -22,6 +22,7 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void ShootBullet();
+		void ShootEnd();
 
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
@@ -47,10 +48,11 @@ namespace ys
 		void lookUp_Attack();
 
 	private:
-		float direction;
+		float attackDirection;
 		math::Vector2 bulletOffset;
 		int count;
 
+		class Transform* ownerTransform;
 		class Animator* ownerAnimator;
 
 		GameObject* playerLowerBody;
