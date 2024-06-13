@@ -74,7 +74,54 @@ namespace ys {
 			auto bs = background->AddComponent<BackGroundScript>();
 			bs->SetParallax(0);
 		}
-		
+		//boss
+		{
+			auto boss = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
+			auto an = boss->AddComponent<Animator>();
+			auto es = boss->AddComponent<EnemyScript>();
+			auto cd = boss->AddComponent<BoxCollider2D>();
+			boss->GetComponent<Transform>()->SetPosition(Vector2(5500, 0));
+
+			an->CrateAnimation(L"보스_기본_Move", Resources::Find<graphics::Texture>(L"보스_기본_Move")
+				, Vector2(0, 49)
+				, Vector2(842, 707)
+				, Vector2(0, 0), 12, 0.1f);
+			an->CrateAnimation(L"보스_기본_Shoot", Resources::Find<graphics::Texture>(L"보스_기본_Shoot")
+				, Vector2(0, 49)
+				, Vector2(855, 707)
+				, Vector2(0, 0), 12, 0.1f);
+			an->CrateAnimation(L"보스_Cannon_Depoly", Resources::Find<graphics::Texture>(L"보스_Cannon_Depoly")
+				, Vector2(0, 50)
+				, Vector2(855, 727)
+				, Vector2(0, 0), 12, 0.1f);
+			an->CrateAnimation(L"보스_Cannon_Move", Resources::Find<graphics::Texture>(L"보스_Cannon_Move")
+				, Vector2(0, 50)
+				, Vector2(855, 727)
+				, Vector2(0, 0), 12, 0.1f);
+			
+			an->CrateAnimation(L"보스_Cannon_Shoot", Resources::Find<graphics::Texture>(L"보스_Cannon_Shoot")
+				, Vector2(0, 50)
+				, Vector2(855, 727)
+				, Vector2(0, 0), 12, 0.1f);
+			an->CrateAnimation(L"보스_죽음",Resources::Find<graphics::Texture>(L"보스_죽음")
+				, Vector2(0, 50)
+				, Vector2(855, 647)
+				, Vector2(0, 0), 12, 0.1f);
+
+			an->PlayAnimation(L"보스_기본_Shoot", true);
+		}
+		//보스 sfx
+		{
+			auto bossSfx = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
+			//보스 위치에 맞춰서 맞춰져야함
+			bossSfx->GetComponent<Transform>()->SetPosition(Vector2(5500, 0));
+			auto an = bossSfx->AddComponent<Animator>();
+			an->CrateAnimation(L"보스_sfx", Resources::Find<graphics::Texture>(L"보스_SFX")
+				, Vector2(0, 50)
+				, Vector2(825, 374)
+				, Vector2(0, 0), 10, 0.1f);
+			an->PlayAnimation(L"보스_sfx");
+		}
 		//Player하체
 		{
 			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
@@ -229,7 +276,9 @@ namespace ys {
 
 			ys::object::DontDestroyOnLoad(playerLowerBody);
 		}
+
 		//Player
+
 		{
 			player = object::Instantiate<Player>(LayerType::PlayerTop, { 0, 0 });
 			auto plysc = player->AddComponent<PlayerScript>();

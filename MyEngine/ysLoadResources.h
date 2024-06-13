@@ -89,6 +89,27 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"게_attack", L"..\\Resource\\monster\\게attack.bmp");
 		Resources::Load<graphics::Texture>(L"게_attack_좌", L"..\\Resource\\monster\\게attack.bmp");
 
+		//보스
+		Resources::Load<graphics::Texture>(L"보스_기본_Move", L"..\\Resource\\boss\\보스게_move.bmp");
+		Resources::Load<graphics::Texture>(L"보스_기본_Shoot", L"..\\Resource\\boss\\보스게_shoot.bmp");
+		Resources::Load<graphics::Texture>(L"보스_Cannon_Move", L"..\\Resource\\boss\\보스게_cannon_move.bmp");
+		Resources::Load<graphics::Texture>(L"보스_Cannon_Shoot", L"..\\Resource\\boss\\보스게_cannon_shoot.bmp");
+		Resources::Load<graphics::Texture>(L"보스_Cannon_Depoly", L"..\\Resource\\boss\\보스게_depolyingCannon.bmp");
+		Resources::Load<graphics::Texture>(L"보스_죽음", L"..\\Resource\\boss\\보스게_defeat.bmp");
+
+		//보스 총알
+		Resources::Load<graphics::Texture>(L"보스_총알", L"..\\Resource\\boss\\보스게_projectile.bmp");
+		Resources::Load<graphics::Texture>(L"보스_대포알", L"..\\Resource\\boss\\보스게_cannonBall.bmp");
+
+		//보스sfx
+		Resources::Load<graphics::Texture>(L"보스_SFX", L"..\\Resource\\boss\\보스게_SFX 복사.bmp");
+		Resources::Load<graphics::Texture>(L"보스_cannon_SFX", L"..\\Resource\\boss\\보스게_cannon_SFX.bmp");
+		Resources::Load<graphics::Texture>(L"보스_etcSFX", L"..\\Resource\\boss\\보스게_etcSFX.bmp");
+		Resources::Load<graphics::Texture>(L"보스_splashSFX", L"..\\Resource\\boss\\보스게_splashSFX.bmp");
+		Resources::Load<graphics::Texture>(L"보스_waves", L"..\\Resource\\boss\\보스게_waves.bmp");
+		
+		//보스게
+
 		//사운드
 		SoundManager::GetInstance()->LoadSound(L"stage1메인브금", "..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
 		SoundManager::GetInstance()->LoadSound(L"발사사운드", "..\\Resource\\gun_sound.wav");
