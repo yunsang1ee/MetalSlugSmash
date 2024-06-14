@@ -7,7 +7,7 @@ namespace ys
 	{
 		enum class PlayerState
 		{
-			Idle, IdleJump, Move, Grenade, Sit
+			Idle, IdleJump, Move, Grenade, JumpGrenade, Sit
 			, LookDown, LookDownAttack, JumpAttack, MoveJump, IdleAttack
 			, LookUp, LookUpAttack
 		};
@@ -22,6 +22,7 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void ShootBullet();
+		void ThrowGrenade();
 		void ShootEnd();
 
 		virtual void OnCollisionEnter(Collider* other) override;
@@ -35,6 +36,7 @@ namespace ys
 		void idle_Jump();
 		void move();
 		void grenade();
+		void jump_Grenade();
 		void sit();
 
 		void lookDown();

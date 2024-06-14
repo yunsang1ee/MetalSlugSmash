@@ -65,7 +65,6 @@ namespace ys {
 			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
-			
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
 			
 			auto bs = background->AddComponent<BackGroundScript>();
@@ -75,7 +74,6 @@ namespace ys {
 			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9100, -250));
 
 			auto sr = backBackground->AddComponent<SpriteRenderer>();
-
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
 			
 			auto bs = backBackground->AddComponent<BackGroundScript>();
@@ -251,6 +249,20 @@ namespace ys {
 			an->GetCompleteEvent(L"플레이어아래총쏘는중상체좌") = std::bind(&PlayerScript::ShootEnd, plysc);
 
 			//수류탄
+			an->CrateAnimation(L"플레이어가만수류탄", Resources::Find<graphics::Texture>(L"플레이어가만수류탄")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어가만수류탄좌", Resources::Find<graphics::Texture>(L"플레이어가만수류탄좌")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f, true);
+			an->CrateAnimation(L"플레이어점프수류탄", Resources::Find<graphics::Texture>(L"플레이어점프수류탄")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-61.0f, -90.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어점프수류탄좌", Resources::Find<graphics::Texture>(L"플레이어점프수류탄좌")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-61.0f, -90.0f), 6, 0.1f, true);
+
+			an->GetCompleteEvent(L"플레이어가만수류탄") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어가만수류탄좌") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어점프수류탄") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어점프수류탄좌") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+
 
 			an->PlayAnimation(L"플레이어가만기본", true);
 			//an->PlayAnimation(L"플레이어가만기본총위상체", true);
@@ -258,18 +270,6 @@ namespace ys {
 				Vector2(-55.f, -65.f), 1, 0.5f);
 			an->PlayAnimation(L"플레이어가만하체", true);*/
 		}
-		
-		//Enemy
-		/*{
-			auto enemy = object::Instantiate<Player>(LayerType::Enemy, { app.getScreenf().x, app.getScreen().y * 4 / 10.0f });
-
-			auto sr = enemy->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"플레이어가만"));
-
-			enemy->AddComponent<EnemyScript>();
-			auto cd = enemy->AddComponent<CircleCollider2D>();
-			cd->SetOffset(Vector2(20, 30));
-		}*/
 		
 		{
 			std::ifstream file{ "..\\Resource\\box1.txt" };

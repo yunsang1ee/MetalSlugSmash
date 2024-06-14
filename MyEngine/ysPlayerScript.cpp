@@ -64,6 +64,9 @@ namespace ys
 		case PlayerScript::PlayerState::Grenade:
 			grenade();
 			break;
+		case PlayerScript::PlayerState::JumpGrenade:
+			jump_Grenade();
+			break;
 		case PlayerScript::PlayerState::Sit:
 			sit();
 			break;
@@ -140,9 +143,12 @@ namespace ys
 			state = PlayerState::LookUp;
 			return;
 		}
-		if (InputManager::getKey(VK_DIVIDE))
+		if (InputManager::getKey(VK_OEM_2))
 		{
-
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄", false);
 			state = PlayerState::Grenade;
 			return;
 		}
@@ -163,6 +169,15 @@ namespace ys
 			else
 				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
 			state = PlayerState::JumpAttack;
+			return;
+		}
+		if (InputManager::getKey(VK_OEM_2))
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어점프수류탄좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어점프수류탄", false);
+			state = PlayerState::JumpGrenade;
 			return;
 		}
 		if (InputManager::getKey(VK_DOWN))
@@ -234,9 +249,12 @@ namespace ys
 			state = PlayerState::LookUp;
 			return;
 		}
-		if (InputManager::getKey(VK_DIVIDE))
+		if (InputManager::getKey(VK_OEM_2))
 		{
-
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄", false);
 			state = PlayerState::Grenade;
 			return;
 		}
@@ -264,6 +282,90 @@ namespace ys
 
 	void PlayerScript::grenade()
 	{
+		if (ownerAnimator->IsComplete() && playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		{
+			std::wstring animationName;
+			animationName = L"플레이어이동상체";
+			state = PlayerState::Move;
+			if (InputManager::getKey(VK_LEFT))
+			{
+				attackDirection = kPi;
+				ownerTransform->SetRotation(kPi);
+			}
+			else if (InputManager::getKey(VK_RIGHT))
+			{
+				attackDirection = 0.0f;
+				ownerTransform->SetRotation(0);
+			}
+			else
+			{
+				animationName = L"플레이어가만기본";
+				state = PlayerState::Idle;
+			}
+
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(animationName + L"좌");
+			else
+				ownerAnimator->PlayAnimation(animationName);
+		}
+	}
+
+	void PlayerScript::jump_Grenade()
+	{
+		if (ownerAnimator->IsComplete())
+		{
+			std::wstring animationName;
+			if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
+			{
+				animationName = L"플레이어이동상체";
+				state = PlayerState::Move;
+				if (InputManager::getKey(VK_LEFT))
+				{
+					attackDirection = kPi;
+					ownerTransform->SetRotation(kPi);
+				}
+				else if (InputManager::getKey(VK_RIGHT))
+				{
+					attackDirection = 0.0f;
+					ownerTransform->SetRotation(0);
+				}
+				else
+				{
+					animationName = L"플레이어가만기본";
+					state = PlayerState::Idle;
+				}
+
+				if (ownerTransform->GetRotation() == kPi)
+					ownerAnimator->PlayAnimation(animationName + L"좌");
+				else
+					ownerAnimator->PlayAnimation(animationName);
+			}
+			else
+			{
+				animationName = L"플레이어이동점프";
+				state = PlayerState::MoveJump;
+				if (InputManager::getKey(VK_LEFT))
+				{
+					attackDirection = kPi;
+					ownerTransform->SetRotation(kPi);
+				}
+				else if (InputManager::getKey(VK_RIGHT))
+				{
+					attackDirection = 0.0f;
+					ownerTransform->SetRotation(0);
+				}
+				else
+				{
+					animationName = L"플레이어가만점프";
+					state = PlayerState::IdleJump;
+				}
+
+				if (ownerTransform->GetRotation() == kPi)
+					ownerAnimator->PlayAnimation(animationName + L"좌", false);
+				else
+					ownerAnimator->PlayAnimation(animationName, false);
+			}
+		}
 	}
 
 	void PlayerScript::sit()
@@ -487,6 +589,15 @@ namespace ys
 			else
 				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체", false);
 			state = PlayerState::JumpAttack;
+			return;
+		}
+		if (InputManager::getKey(VK_OEM_2))
+		{
+			if (ownerTransform->GetRotation() == kPi)
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄좌", false);
+			else
+				ownerAnimator->PlayAnimation(L"플레이어가만수류탄", false);
+			state = PlayerState::JumpGrenade;
 			return;
 		}
 		if (InputManager::getKey(VK_DOWN))
@@ -757,6 +868,11 @@ namespace ys
 			count++;
 			if (count == 5) count = 0;
 		}
+	}
+
+	void PlayerScript::ThrowGrenade()
+	{
+
 	}
 
 	void PlayerScript::ShootEnd()

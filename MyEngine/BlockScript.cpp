@@ -41,7 +41,6 @@ void BlockScript::OnCollisionEnter(Collider* other)
 	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
 		
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
@@ -74,7 +73,6 @@ void BlockScript::OnCollisionStay(Collider* other)
 	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
 
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
@@ -100,19 +98,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 	if (other->GetOwner()->GetLayerType() == enums::LayerType::Tool)
 	{
 		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
-		{
-			/*auto owner = GetOwner();
-			auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Block)->GetGameObjects();
-			for (auto iter = blocks.begin(); iter != blocks.end(); ++iter)
-			{
-				if (owner == *iter)
-				{
-					blocks.erase(iter);
-					break;
-				}
-			}*/
 			ys::object::Destroy(GetOwner());
-		}
 	}
 }
 
