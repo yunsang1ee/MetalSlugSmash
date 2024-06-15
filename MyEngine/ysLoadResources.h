@@ -12,9 +12,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"돌", L"..\\Resource\\돌.bmp");
 		Resources::Load<graphics::Texture>(L"잠수함구조물1", L"..\\Resource\\스테이지1잠수함 구조물1.bmp");
 		Resources::Load<graphics::Texture>(L"잠수함구조물2", L"..\\Resource\\스테이지1잠수함.bmp");
-		//Resources::Load<graphics::Texture>(L"플레이어가만", L"..\\Resource\\플레이어가만.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_가만", L"..\\Resource\\플레이어_가만.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어_좌가만", L"..\\Resource\\플레이어_좌가만.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어_좌가만", L"..\\Resource\\플레이어_가만.bmp");
 		
 		Resources::Load<graphics::Texture>(L"총알png", L"..\\Resource\\heavyBullet.png");
 		Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\스테이지1.bmp");
@@ -27,10 +26,10 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어좌이동", L"..\\Resource\\플레이어_우이동.bmp");
 		
 		//점프
-		Resources::Load<graphics::Texture>(L"플레이어가만점프", L"..\\Resource\\플레이어_점프_상하체.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어가만점프좌", L"..\\Resource\\플레이어_점프_상하체.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어이동점프", L"..\\Resource\\플레이어_점프_상하체.bmp");
-		Resources::Load<graphics::Texture>(L"플레이어이동점프좌", L"..\\Resource\\플레이어_점프_상하체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어가만점프", L"..\\Resource\\플레이어_점프_상체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어가만점프좌", L"..\\Resource\\플레이어_점프_상체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동점프", L"..\\Resource\\플레이어_점프_상체.bmp");
+		Resources::Load<graphics::Texture>(L"플레이어이동점프좌", L"..\\Resource\\플레이어_점프_상체.bmp");
 
 		//위에보기
 		Resources::Load<graphics::Texture>(L"플레이어기본총위", L"..\\Resource\\플레이어기본총위.bmp");

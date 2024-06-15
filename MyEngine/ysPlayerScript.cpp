@@ -99,7 +99,7 @@ namespace ys
 
 	void PlayerScript::idle()
 	{
-		if (InputManager::getKey(VK_OEM_COMMA))
+		if (InputManager::getKey(VK_OEM_COMMA) && playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어가만점프좌", false);
@@ -221,7 +221,7 @@ namespace ys
 
 	void PlayerScript::move()
 	{
-		if (InputManager::getKey(VK_OEM_COMMA))
+		if (InputManager::getKey(VK_OEM_COMMA) && playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);

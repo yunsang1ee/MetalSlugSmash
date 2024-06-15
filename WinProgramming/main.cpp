@@ -58,9 +58,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Gdiplus::GdiplusStartup(&gpToken, &gpsi, NULL);
 
-	ys::LoadResources();
 
 	app.Init(hWnd, windowRect);
+	ys::LoadResources();
 	ys::LoadScenes();
 
 	while (true) {

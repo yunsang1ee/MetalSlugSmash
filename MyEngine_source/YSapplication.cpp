@@ -72,9 +72,9 @@ namespace ys
 
 	void Application::Release()
 	{
-		SoundManager::Release();
 		SceneManager::Release();
 		Resources::Release();
+		SoundManager::Release();
 	}
 
 	void Application::setScreen(RECT screenSize)

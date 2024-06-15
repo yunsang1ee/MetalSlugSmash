@@ -107,16 +107,13 @@ void PlayerLowerBodyScript::idle()
 		state = PlayerState::Move;
 		an->PlayAnimation(L"플레이어우이동하체");
 	}
-	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	if (InputManager::getKey(VK_OEM_COMMA) && GetOwner()->GetComponent<RigidBody>()->IsGround())
 	{
 		jump();
 		if (Direction == Vector2::Right)
-		{
 			an->PlayAnimation(L"플레이어_점프_하체", true);
-		}
-		else {
+		else
 			an->PlayAnimation(L"플레이어_점프_하체좌", true);
-		}
 		state = PlayerState::IdleJump;
 	}
 	if (InputManager::getKey(VK_UP))
@@ -176,16 +173,12 @@ void PlayerLowerBodyScript::move()
 		}
 		state = PlayerState::Sit;
 	}
-	if (InputManager::getKeyDown(VK_OEM_COMMA))
+	if (InputManager::getKey(VK_OEM_COMMA) && GetOwner()->GetComponent<RigidBody>()->IsGround())
 	{
 		if (Direction ==Vector2::Right)
-		{
 			an->PlayAnimation(L"플레이어_이동_점프_하체", true);
-		}
 		else
-		{
 			an->PlayAnimation(L"플레이어_이동_점프_하체좌", true);
-		}
 		jump();
 		state = PlayerState::MoveJump;
 	}
@@ -252,7 +245,7 @@ void PlayerLowerBodyScript::sit()
 			an->PlayAnimation(L"플레이어_앉음_이동좌", true);
 		}
 		state = PlayerState::Sit;
-		rb->AddForce(Vector2::Left * speed/2);
+		rb->SetVelocity(Vector2::Left * speed/2);
 		Direction = Vector2::Left;
 	}
 	else if (InputManager::getKey(VK_RIGHT))
@@ -262,7 +255,7 @@ void PlayerLowerBodyScript::sit()
 			an->PlayAnimation(L"플레이어_앉음_이동", true);
 		}
 		state = PlayerState::Sit;	
-		rb->AddForce(Vector2::Right * speed/2);
+		rb->SetVelocity(Vector2::Right * speed/2);
 		Direction = Vector2::Right;
 	}
 	else if (InputManager::getKeyDown(VK_SPACE))
@@ -323,7 +316,6 @@ void PlayerLowerBodyScript::jump()
 }
 void PlayerLowerBodyScript::idleJump()
 {
-	jump();
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	auto animationName = an->GetActive()->getName();
 	if (rb->IsGround())

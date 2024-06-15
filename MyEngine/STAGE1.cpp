@@ -303,15 +303,15 @@ namespace ys
 
 			//가만점프
 			an->CrateAnimation(L"플레이어가만점프", Resources::Find<graphics::Texture>(L"플레이어가만점프")
-				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-60.0f, -92.0f), 6, 0.1f);
+				, Vector2(0.0f, 0.0f), Vector2(126.0f, 139.0f), Vector2(-65.0f, -97.0f), 6, 0.1f);
 			an->CrateAnimation(L"플레이어가만점프좌", Resources::Find<graphics::Texture>(L"플레이어가만점프좌")
-				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
-
+				, Vector2(0.0f, 0.0f), Vector2(126.0f, 139.0f), Vector2(-65.0f, -97.0f), 6, 0.1f, true);
 			//이동점프
 			an->CrateAnimation(L"플레이어이동점프", Resources::Find<graphics::Texture>(L"플레이어이동점프")
-				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-55.0f, -92.0f), 6, 0.1f);
+				, Vector2(764.0f, 0.0f), Vector2(126.0f, 139.0f), Vector2(-60.0f, -87.0f), 6, 0.1f);
 			an->CrateAnimation(L"플레이어이동점프좌", Resources::Find<graphics::Texture>(L"플레이어이동점프좌")
-				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
+				, Vector2(764.0f, 0.0f), Vector2(126.0f, 139.0f), Vector2(-65.0f, -87.0f), 6, 0.1f, true);
+
 			//위에보기
 			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
 				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-45.f, -120.0f), 4, 0.2f);
