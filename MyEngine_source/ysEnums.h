@@ -11,7 +11,7 @@ namespace ys::enums
 		Block,
 		Impediments,
 		Enemy,
-		playerLowerBody,
+		PlayerLowerBody,
 		PlayerTop,
 		Particle,
 		FrontGround,

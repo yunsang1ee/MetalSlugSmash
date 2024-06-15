@@ -805,33 +805,6 @@ namespace ys
 				ownerAnimator->PlayAnimation(animationName);
 		}
 	}
-	void PlayerScript::idleJump()
-	{
-		auto an = GetOwner()->GetComponent<Animator>();
-		if (InputManager::getKey(VK_SPACE))
-		{
-			if (direction == Vector2::Right)
-			{
-				an->PlayAnimation(L"플레이어_기본총_우공격_점프_화염", false);
-			}
-			else {
-				an->PlayAnimation(L"플레이어_기본총_좌공격_점프_화염", false);
-			}
-		}
-	}
-	void PlayerScript::moveJump()
-	{
-		
-	}
-
-	void PlayerScript::jumpAttack()
-	{
-
-	}
-
-	void PlayerScript::idleAttack()
-	{
-	}
 
 	void PlayerScript::LateUpdate()
 	{
