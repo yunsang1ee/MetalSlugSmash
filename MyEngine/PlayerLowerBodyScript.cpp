@@ -112,10 +112,10 @@ void PlayerLowerBodyScript::idle()
 		jump();
 		if (Direction == Vector2::Right)
 		{
-			an->PlayAnimation(L"플레이어_점프_하체", true);
+			an->PlayAnimation(L"플레이어_점프_하체", false);
 		}
 		else {
-			an->PlayAnimation(L"플레이어_점프_하체좌", true);
+			an->PlayAnimation(L"플레이어_점프_하체좌", false);
 		}
 		state = PlayerState::IdleJump;
 	}
@@ -180,11 +180,11 @@ void PlayerLowerBodyScript::move()
 	{
 		if (Direction ==Vector2::Right)
 		{
-			an->PlayAnimation(L"플레이어_이동_점프_하체", true);
+			an->PlayAnimation(L"플레이어_이동_점프_하체", false);
 		}
 		else
 		{
-			an->PlayAnimation(L"플레이어_이동_점프_하체좌", true);
+			an->PlayAnimation(L"플레이어_이동_점프_하체좌", false);
 		}
 		jump();
 		state = PlayerState::MoveJump;
@@ -233,12 +233,14 @@ void PlayerLowerBodyScript::sit()
 		if (Direction == Vector2::Right)
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩",false);
-			rb->SetVelocity(Vector2(300.0f, rb->GetVelocity().y));
+			rb->AddForce(Vector2::Right * 400);
+			rb->SetFriction(200.f);
 		}
 		else
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩좌",false);
-			rb->SetVelocity(Vector2(-300.0f, rb->GetVelocity().y));
+			rb->AddForce(Vector2::Left * 400);
+			rb->SetFriction(200.f);
 		}
 		
 		state = PlayerState::Slide;
@@ -252,7 +254,7 @@ void PlayerLowerBodyScript::sit()
 			an->PlayAnimation(L"플레이어_앉음_이동좌", true);
 		}
 		state = PlayerState::Sit;
-		rb->AddForce(Vector2::Left * speed/2);
+		rb->AddForce(Vector2::Left * (speed / 2));
 		Direction = Vector2::Left;
 	}
 	else if (InputManager::getKey(VK_RIGHT))
@@ -262,7 +264,7 @@ void PlayerLowerBodyScript::sit()
 			an->PlayAnimation(L"플레이어_앉음_이동", true);
 		}
 		state = PlayerState::Sit;	
-		rb->AddForce(Vector2::Right * speed/2);
+		rb->AddForce(Vector2::Right * (speed / 2));
 		Direction = Vector2::Right;
 	}
 	else if (InputManager::getKeyDown(VK_SPACE))
@@ -323,7 +325,7 @@ void PlayerLowerBodyScript::jump()
 }
 void PlayerLowerBodyScript::idleJump()
 {
-	jump();
+	
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	auto animationName = an->GetActive()->getName();
 	if (rb->IsGround())
@@ -484,8 +486,9 @@ void PlayerLowerBodyScript::slide()
 
 
 
-	if (InputManager::getKeyDown(VK_SPACE)&&rb->GetVelocity() != Vector2(0, 0))
+	if (InputManager::getKeyDown(VK_SPACE) && rb->GetVelocity() != Vector2(0, 0))
 	{
+		rb->SetFriction(100.f);
 		if (Direction==Vector2::Right)
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩_기본총_공격",false);

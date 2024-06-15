@@ -28,6 +28,7 @@
 #include <ysRigidBody.h>
 #include "ysSoundManager.h"
 #include <ysAudioListener.h>
+#include <ysAudioSource.h>
 
 extern ys::Application app;
 namespace ys
@@ -67,6 +68,11 @@ namespace ys
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
 			
 			auto bs = background->AddComponent<BackGroundScript>();
+			auto ad = background->AddComponent<AudioSource>();
+			ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
+			ad->SetLoop(true);
+			ad->Play();
+
 			bs->SetParallax(0);
 		}
 		{
@@ -138,7 +144,7 @@ namespace ys
 
 			auto cd = PlayerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
-			PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000, app.getScreen().y / 2.f));
+			PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000, -300));
 
 
 			
@@ -303,15 +309,15 @@ namespace ys
 
 			//가만점프
 			an->CrateAnimation(L"플레이어가만점프", Resources::Find<graphics::Texture>(L"플레이어가만점프")
-				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-60.0f, -92.0f), 6, 0.1f);
+				, Vector2(0.0f, 0.0f), Vector2(123.75f, 149.0f), Vector2(-60.0f, -102.0f), 6, 0.1f);
 			an->CrateAnimation(L"플레이어가만점프좌", Resources::Find<graphics::Texture>(L"플레이어가만점프좌")
-				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
+				, Vector2(0.0f, 0.0f), Vector2(123.75f, 149.0f), Vector2(-70.0f, -102.0f), 6, 0.1f, true);
 
 			//이동점프
 			an->CrateAnimation(L"플레이어이동점프", Resources::Find<graphics::Texture>(L"플레이어이동점프")
-				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-55.0f, -92.0f), 6, 0.1f);
+				, Vector2(748.5f, 0.0f), Vector2(130, 149.0f), Vector2(-55.0f, -92.0f), 6, 0.1f);
 			an->CrateAnimation(L"플레이어이동점프좌", Resources::Find<graphics::Texture>(L"플레이어이동점프좌")
-				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
+				, Vector2(748.5f, 0.0f), Vector2(130, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
 			//위에보기
 			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
 				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-45.f, -120.0f), 4, 0.2f);
@@ -514,15 +520,13 @@ namespace ys
 			bx->SetSize(Vector2::One * 0.1);
 			drawBox->AddComponent<drawBoxScript>();
 		}
-		//SoundManager::GetInstance()->playSound(L"stage1메인브금", SoundManager::SoundType::BACKGROUND);
-		//SoundManager::GetInstance()->GetBackGroundChannel()->setVolume(0.5f);
+		
 		
 		Scene::Init();
 	}
 
 	void ys::STAGE1::Update()
 	{
-		
 		Scene::Update();
 	}
 

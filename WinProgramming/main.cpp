@@ -58,11 +58,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Gdiplus::GdiplusStartup(&gpToken, &gpsi, NULL);
 
-	ys::LoadResources();
+	
 
 	app.Init(hWnd, windowRect);
-	ys::LoadScenes();
 
+	ys::LoadResources();
+
+	ys::LoadScenes();
+	
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {//event
 			::TranslateMessage(&msg);
