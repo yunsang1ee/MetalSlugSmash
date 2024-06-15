@@ -1,5 +1,6 @@
 #include "STAGE1.h"
 #include <random>
+#include <fstream>
 #include <ysTransform.h>
 #include <ysSpriteRenderer.h>
 #include "ysTitleScene.h"
@@ -40,11 +41,15 @@ namespace ys
 	}
 	void ys::STAGE1::Init()
 	{
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::playerLowerBody, LayerType::BackGround, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
+	
+		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
 	
 		{
 			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
@@ -59,7 +64,6 @@ namespace ys
 			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
 
 			auto sr = background->AddComponent<SpriteRenderer>();
-			
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
 			
 			auto bs = background->AddComponent<BackGroundScript>();
@@ -68,8 +72,7 @@ namespace ys
 		{
 			auto background = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
 
-			auto sr = background->AddComponent<SpriteRenderer>();
-
+			auto sr = backBackground->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
 			
 			auto bs = background->AddComponent<BackGroundScript>();
@@ -125,7 +128,7 @@ namespace ys
 		}
 		//Player하체
 		{
-			playerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
+			playerLowerBody = object::Instantiate<Player>(LayerType::playerLowerBody, { 0, 0 });
 
 
 			auto an = playerLowerBody->AddComponent<Animator>();
@@ -161,7 +164,7 @@ namespace ys
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-55.f, -19.f), 12, 0.1f);
 			an->CrateAnimation(L"플레이어좌이동하체", Resources::Find<graphics::Texture>(L"플레이어좌이동")
 				, Vector2(0.0f, 140.f), Vector2(137.75f, 86), Vector2(-70.f, -19.f), 12, 0.1f, true);
-			
+
 
 			an->CrateAnimation(L"플레이어앉기시작", Resources::Find<graphics::Texture>(L"플레이어앉기시작")
 				, Vector2(0.0f, 0.f), Vector2(135.3f, 152), Vector2(-60.f, -109.f), 3, 0.05f);
@@ -274,7 +277,7 @@ namespace ys
 			//an->PlayAnimation(L"플레이어우이동하체", true);
 			//an->PlayAnimation(L"플레이어앉기중간", true);
 			auto rb = playerLowerBody->AddComponent<RigidBody>();
-
+			rb->SetGravity(Vector2::Down * 3.0f);
 			ys::object::DontDestroyOnLoad(playerLowerBody);
 		}
 
@@ -287,86 +290,31 @@ namespace ys
 			plysc->SetLowerBody(playerLowerBody);
 			
 			auto an = player->AddComponent<Animator>();
+			//가만
 			an->CrateAnimation(L"플레이어가만기본", Resources::Find<graphics::Texture>(L"플레이어_가만")
-				, Vector2(10, 0)
-				, Vector2(127.72f, 148)
-				, Vector2(-50.f, -100.f), 4, 0.1f);
+				, Vector2(10, 0), Vector2(127.72f, 148), Vector2(-50.f, -100.f), 4, 0.1f);
 			an->CrateAnimation(L"플레이어가만기본좌", Resources::Find<graphics::Texture>(L"플레이어_좌가만")
-				, Vector2(10, 0)
-				, Vector2(127.72f, 148)
-				, Vector2(-83.f, -100.f), 4, 0.1f, true);
-			an->CrateAnimation(L"플레이어우이동상체", Resources::Find<graphics::Texture>(L"플레이어이동")
-				, Vector2(0.0f, 0.0f)
-				, Vector2(137.75f, 113.0f)
-				, Vector2(-50.f,-80.f), 12, 0.1f);
-			an->CrateAnimation(L"플레이어좌이동상체", Resources::Find<graphics::Texture>(L"플레이어좌이동")
-				, Vector2(0.0f, 0.0f)
-				, Vector2(137.75f, 146.0f)
-				, Vector2(-70.0f, -80.f), 12, 0.1f, true); //약간의 부자연스러움이 있음
-			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
-				, Vector2(0.0f, 0.0f)
-				, Vector2(123.5f, 149.0f)
-				, Vector2(-45.f, -120.0f), 4, 0.1f);
-			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌")
-				, Vector2(0.0f, 0.0f)
-				, Vector2(123.5f, 149.0f)
-				, Vector2(-65.f, -120.0f), 4, 0.1f, true);
-			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만")
-				, Vector2(800, 0)
-				, Vector2(127.72f, 148)
-				, Vector2(-50.f, -100.f), 1, 1.f);
-			
+				, Vector2(10, 0), Vector2(127.72f, 148),Vector2(-83.f, -100.f), 4, 0.1f, true);
+
+			//이동
+			an->CrateAnimation(L"플레이어이동상체", Resources::Find<graphics::Texture>(L"플레이어이동")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 113.0f), Vector2(-50.f,-80.f), 12, 0.1f);
+			an->CrateAnimation(L"플레이어이동상체좌", Resources::Find<graphics::Texture>(L"플레이어좌이동")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 146.0f), Vector2(-70.0f, -80.f), 12, 0.1f, true);
+
+			//가만점프
+			an->CrateAnimation(L"플레이어가만점프", Resources::Find<graphics::Texture>(L"플레이어가만점프")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-60.0f, -92.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어가만점프좌", Resources::Find<graphics::Texture>(L"플레이어가만점프좌")
+				, Vector2(0.0f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
+
+			//이동점프
+			an->CrateAnimation(L"플레이어이동점프", Resources::Find<graphics::Texture>(L"플레이어이동점프")
+				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-55.0f, -92.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어이동점프좌", Resources::Find<graphics::Texture>(L"플레이어이동점프좌")
+				, Vector2(826.5f, 0.0f), Vector2(137.75f, 149.0f), Vector2(-70.0f, -92.0f), 6, 0.1f, true);
 
 
-
-			an->CrateAnimation(L"플레이어_기본총_우공격_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
-				, Vector2(0, 0)
-				, Vector2(200, 110)
-				, Vector2(-50.f, -75.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
-				, Vector2(600, 0)
-				, Vector2(145.5f, 110)
-				, Vector2(-50.f, -100.f), 7, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_점프_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
-				, Vector2(1620, 0)
-				, Vector2(200, 110.f)
-				, Vector2(-50.f, -80.f), 3, 0.05f);
-			an->CrateAnimation(L"플레이어_기본총_우공격_점프", Resources::Find<graphics::Texture>(L"플레이어_기본총_우공격")
-				, Vector2(2210, 0)
-				, Vector2(144.9f, 110.f)
-				, Vector2(-50.f, -80.f), 7, 0.05f);
-
-
-			an->CrateAnimation(L"플레이어_기본총_좌공격_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
-				, Vector2(0, 0)
-				, Vector2(200, 110)
-				, Vector2(-50.f, -75.f), 3, 0.05f, true);
-			an->CrateAnimation(L"플레이어_기본총_좌공격", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
-				, Vector2(600, 0)
-				, Vector2(145.5f, 110)
-				, Vector2(-50.f, -100.f), 7, 0.05f, true);
-			an->CrateAnimation(L"플레이어_기본총_좌공격_점프_화염", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
-				, Vector2(1620, 0)
-				, Vector2(200, 110.f)
-				, Vector2(-140.f, -80.f), 3, 0.05f, true);
-			an->CrateAnimation(L"플레이어_기본총_좌공격_점프", Resources::Find<graphics::Texture>(L"플레이어_기본총_좌공격")
-				, Vector2(2210, 0)
-				, Vector2(144.9f, 110.f)
-				, Vector2(-50.f, -80.f), 7, 0.05f, true);
-
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_점프_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_우공격_점프") = std::bind(&PlayerScript::NextAnimation, plysc);
-
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_점프_화염") = std::bind(&PlayerScript::NextAnimation, plysc);
-			an->GetCompleteEvent(L"플레이어_기본총_좌공격_점프") = std::bind(&PlayerScript::NextAnimation, plysc);
-
-			an->PlayAnimation(L"플레이어_기본총_좌공격_화염", true);
-			
-		}
 		
 		//Enemy
 		{
@@ -416,11 +364,25 @@ namespace ys
 				, Vector2(243, 170)
 				, Vector2(-60, -50), 4, 0.1f);
 
+			//위에보기
+			an->CrateAnimation(L"플레이어기본총위상체", Resources::Find<graphics::Texture>(L"플레이어기본총위")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-45.f, -120.0f), 4, 0.2f);
+			an->CrateAnimation(L"플레이어기본총위상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총위좌")
+				, Vector2(0.0f, 0.0f), Vector2(123.5f, 149.0f), Vector2(-65.f, -120.0f), 4, 0.2f, true);
 			an->GetCompleteEvent(L"게_attack_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
 			an->GetCompleteEvent(L"게_attack_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
 			an->GetCompleteEvent(L"게_attack_좌_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
 			an->GetCompleteEvent(L"게_attack_좌_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
 
+			//아래보기
+			an->CrateAnimation(L"플레이어기본총아래상체", Resources::Find<graphics::Texture>(L"플레이어기본총아래")
+				, Vector2(0.0f, 0.0f), Vector2(108.0f, 134.0f), Vector2(-45.f, -64.0f), 1, 0.2f);
+			an->CrateAnimation(L"플레이어기본총아래상체좌", Resources::Find<graphics::Texture>(L"플레이어기본총아래좌")
+				, Vector2(0.0f, 0.0f), Vector2(108.0f, 134.0f), Vector2(-65.f, -64.0f), 1, 0.2f, true);
+			
+			//투명(앉기)
+			an->CrateAnimation(L"플레이어가만안보임", Resources::Find<graphics::Texture>(L"플레이어_가만")
+				, Vector2(800, 0), Vector2(127.72f, 148), Vector2(-50.f, -100.f), 1, 1.f);
 			an->PlayAnimation(L"게_walk", true);
 		}
 		
@@ -429,195 +391,112 @@ namespace ys
 			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10, 10 });
 			auto block = Blocks[Blocks.size() - 1];
 			
-			block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(0.1f, 30.f));
-			block->AddComponent<BlockScript>();
-		
-		}
-		
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size()-1] = object::Instantiate<GameObject>(LayerType::Block, { 0, 681});
-			auto block = Blocks[Blocks.size() - 1];
+			//가만어택
+			an->CrateAnimation(L"플레이어가만총쏘는중상체", Resources::Find<graphics::Texture>(L"플레이어가만총쏘는중")
+				, Vector2(0.0f, 0.0f), Vector2(213.0f, 130.0f), Vector2(-51.0f, -92.0f), 3, 0.1f);
+			an->CrateAnimation(L"플레이어가만총쏘는중상체좌", Resources::Find<graphics::Texture>(L"플레이어가만총쏘는중좌")
+				, Vector2(0.0f, 0.0f), Vector2(213.0f, 130.0f), Vector2(-153.0f, -92.0f), 3, 0.1f, true);
+			an->CrateAnimation(L"플레이어가만총쏘기상체", Resources::Find<graphics::Texture>(L"플레이어가만총쏘기")
+				, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-45.0f, -92.0f), 7, 0.05f);
+			an->CrateAnimation(L"플레이어가만총쏘기상체좌", Resources::Find<graphics::Texture>(L"플레이어가만총쏘기좌")
+				, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-95.0f, -92.0f), 7, 0.05f, true);
+
+			an->GetStartEvent(L"플레이어가만총쏘는중상체") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetStartEvent(L"플레이어가만총쏘는중상체좌") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetCompleteEvent(L"플레이어가만총쏘는중상체") = std::bind(&PlayerScript::ShootEnd, plysc);
+			an->GetCompleteEvent(L"플레이어가만총쏘는중상체좌") = std::bind(&PlayerScript::ShootEnd, plysc);
+
+			//점프어택
+			an->CrateAnimation(L"플레이어점프총쏘는중상체", Resources::Find<graphics::Texture>(L"플레이어점프총쏘는중")
+				, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-51.0f, -92.0f), 3, 0.1f);
+			an->CrateAnimation(L"플레이어점프총쏘는중상체좌", Resources::Find<graphics::Texture>(L"플레이어점프총쏘는중좌")
+				, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-153.0f, -92.0f), 3, 0.1f, true);
+			an->CrateAnimation(L"플레이어점프총쏘기상체", Resources::Find<graphics::Texture>(L"플레이어점프총쏘기")
+				, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-51.0f, -92.0f), 7, 0.05f);
+			an->CrateAnimation(L"플레이어점프총쏘기상체좌", Resources::Find<graphics::Texture>(L"플레이어점프총쏘기좌")
+				, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-95.0f, -92.0f), 7, 0.05f, true);
 			
-			block->AddComponent<BoxCollider2D>();
-			block->GetComponent<BoxCollider2D>()->setName(L"BackGround");
-			block->GetComponent<BoxCollider2D>()->SetSize(Vector2(30, 0.23f));
-			block->AddComponent<BlockScript>();
+			an->GetStartEvent(L"플레이어점프총쏘는중상체") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetStartEvent(L"플레이어점프총쏘는중상체좌") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetCompleteEvent(L"플레이어점프총쏘는중상체") = std::bind(&PlayerScript::ShootEnd, plysc);
+			an->GetCompleteEvent(L"플레이어점프총쏘는중상체좌") = std::bind(&PlayerScript::ShootEnd, plysc);
 
-		}
-		//block2
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 0, app.getScreen().y-100.f});
-			auto block = Blocks[Blocks.size() - 1];
+			//위어택
+			an->CrateAnimation(L"플레이어위총쏘는중상체", Resources::Find<graphics::Texture>(L"플레이어위총쏘는중")
+				, Vector2(0.0f, 0.0f), Vector2(102.0f, 260.0f), Vector2(-51.0f, -230.0f), 3, 0.1f);
+			an->CrateAnimation(L"플레이어위총쏘는중상체좌", Resources::Find<graphics::Texture>(L"플레이어위총쏘는중좌")
+				, Vector2(0.0f, 0.0f), Vector2(102.0f, 260.0f), Vector2(-51.0f, -230.0f), 3, 0.1f, true);
+			an->CrateAnimation(L"플레이어위총쏘기상체", Resources::Find<graphics::Texture>(L"플레이어위총쏘기")
+				, Vector2(0.0f, 0.0f), Vector2(107.0f, 260.0f), Vector2(-51.0f, -230.0f), 7, 0.05f);
+			an->CrateAnimation(L"플레이어위총쏘기상체좌", Resources::Find<graphics::Texture>(L"플레이어위총쏘기좌")
+				, Vector2(0.0f, 0.0f), Vector2(107.0f, 260.0f), Vector2(-51.0f, -230.0f), 7, 0.05f, true);
+
+			an->GetStartEvent(L"플레이어위총쏘는중상체") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetStartEvent(L"플레이어위총쏘는중상체좌") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetCompleteEvent(L"플레이어위총쏘는중상체") = std::bind(&PlayerScript::ShootEnd, plysc);
+			an->GetCompleteEvent(L"플레이어위총쏘는중상체좌") = std::bind(&PlayerScript::ShootEnd, plysc);
 			
-			auto bx=block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			//tr->SetScale(Vector2(500, 0.1f));
-			bx->SetSize(Vector2(500, 1.f));
-			block->AddComponent<BlockScript>();
-			
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 3846, 637 });
-			auto block = Blocks[Blocks.size() - 1];
-			
-			auto bx = block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.75f, 0.23f));
-			block->AddComponent<BlockScript>();
-		
-		}
-		
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 4200, 461 });
-			auto block = Blocks[Blocks.size() - 1];
-			
-			auto bx = block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(8.06f, 0.23f));
-			block->AddComponent<BlockScript>();
+			//아래어택
+			an->CrateAnimation(L"플레이어아래총쏘는중상체", Resources::Find<graphics::Texture>(L"플레이어아래총쏘는중")
+				, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 3, 0.1f);
+			an->CrateAnimation(L"플레이어아래총쏘는중상체좌", Resources::Find<graphics::Texture>(L"플레이어아래총쏘는중좌")
+				, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 3, 0.1f, true);
+			an->CrateAnimation(L"플레이어아래총쏘기상체", Resources::Find<graphics::Texture>(L"플레이어아래총쏘기")
+				, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 7, 0.05f);
+			an->CrateAnimation(L"플레이어아래총쏘기상체좌", Resources::Find<graphics::Texture>(L"플레이어아래총쏘기좌")
+				, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 7, 0.05f, true);
 
-		}
-	
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 4993, 645 });
-			auto block = Blocks[Blocks.size() - 1];
-			
-			auto bx = block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.93f, 0.23f));
-			block->AddComponent<BlockScript>();
+			an->GetStartEvent(L"플레이어아래총쏘는중상체") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetStartEvent(L"플레이어아래총쏘는중상체좌") = std::bind(&PlayerScript::ShootBullet, plysc);
+			an->GetCompleteEvent(L"플레이어아래총쏘는중상체") = std::bind(&PlayerScript::ShootEnd, plysc);
+			an->GetCompleteEvent(L"플레이어아래총쏘는중상체좌") = std::bind(&PlayerScript::ShootEnd, plysc);
 
-		}
-		{
-	
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 5261, 460 });
-			auto block = Blocks[Blocks.size() - 1];
-			
-			auto bx = block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(6.35f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-		
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 6098, 459 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-			
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(7.29f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 6864, 640 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-			
-			bx->setName(L"BackGround");
-			bx->SetSize(Vector2(2.93f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 9276, 488 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
+			//수류탄
+			an->CrateAnimation(L"플레이어가만수류탄", Resources::Find<graphics::Texture>(L"플레이어가만수류탄")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어가만수류탄좌", Resources::Find<graphics::Texture>(L"플레이어가만수류탄좌")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f, true);
+			an->CrateAnimation(L"플레이어점프수류탄", Resources::Find<graphics::Texture>(L"플레이어점프수류탄")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-61.0f, -90.0f), 6, 0.1f);
+			an->CrateAnimation(L"플레이어점프수류탄좌", Resources::Find<graphics::Texture>(L"플레이어점프수류탄좌")
+				, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-61.0f, -90.0f), 6, 0.1f, true);
 
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(3.64f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 9715, 280 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
+			an->GetCompleteEvent(L"플레이어가만수류탄") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어가만수류탄좌") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어점프수류탄") = std::bind(&PlayerScript::ThrowGrenade, plysc);
+			an->GetCompleteEvent(L"플레이어점프수류탄좌") = std::bind(&PlayerScript::ThrowGrenade, plysc);
 
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(1.83f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10140, 480 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
 
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(3.66f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11013, 630 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(1.42f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11083, 454 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(1.47f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10786, 270 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(6.25f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 10572, 310 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(1.77f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 11564, 457 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(4.12f, 0.23f));
-			block->AddComponent<BlockScript>();
-		}
-		{
-			Blocks.resize(Blocks.size() + 1);
-			Blocks[Blocks.size() - 1] = object::Instantiate<GameObject>(LayerType::Block, { 12129, 280 });
-			auto block = Blocks[Blocks.size() - 1];
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(Vector2(2.08f, 0.23f));
-			block->AddComponent<BlockScript>();
+			an->PlayAnimation(L"플레이어가만기본", true);
+			//an->PlayAnimation(L"플레이어가만기본총위상체", true);
+			/*an->CrateAnimation(L"플레이어가만하체", Resources::Find<graphics::Texture>(L"플레이어_가만"), Vector2(550, 0), Vector2(127.72f, 148),
+				Vector2(-55.f, -65.f), 1, 0.5f);
+			an->PlayAnimation(L"플레이어가만하체", true);*/
 		}
 		
+		{
+			std::ifstream file{ "..\\Resource\\box1.txt" };
+			std::string buff;
+			Vector2 pos;
+			Vector2 size;
+			while (file >> buff)
+			{
+				pos.x = stof(buff);
+				file >> buff;
+				pos.y = stof(buff);
+				file >> buff;
+				size.x = stof(buff);
+				file >> buff;
+				size.y = stof(buff);
+				auto block = object::Instantiate<GameObject>(LayerType::Block, pos);
+				auto bx = block->AddComponent<BoxCollider2D>();
+
+				bx->setName(L"BackGrounds");
+				bx->SetSize(size);
+				block->AddComponent<BlockScript>();
+				Blocks.push_back(block);
+			}
+		}
 
 
 	
@@ -642,9 +521,11 @@ namespace ys
 			camera->AddComponent<CameraScript>();
 			camera->AddComponent<AudioListener>();
 		}
+		//mapTool
 		{
-			auto drawBox = object::Instantiate<GameObject>(LayerType::Block, { 0, 0 });
-			auto bx = drawBox->AddComponent<BoxCollider2D>();
+			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
+			auto bx = drawBox->AddComponent<CircleCollider2D>();
+			bx->SetSize(Vector2::One * 0.1);
 			drawBox->AddComponent<drawBoxScript>();
 		}
 		//SoundManager::GetInstance()->playSound(L"stage1메인브금", SoundManager::SoundType::BACKGROUND);

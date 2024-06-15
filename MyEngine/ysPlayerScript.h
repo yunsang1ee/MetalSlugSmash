@@ -7,7 +7,9 @@ namespace ys
 	{
 		enum class PlayerState
 		{
-			Idle, Move, IdleJump,MoveJump, Slide, Damaged, Sit, Lookup, lookdown
+			Idle, IdleJump, Move, Grenade, JumpGrenade, Sit
+			, LookDown, LookDownAttack, JumpAttack, MoveJump, IdleAttack
+			, LookUp, LookUpAttack
 		};
 		
 	public:
@@ -20,36 +22,42 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void ShootBullet();
-	
+		void ThrowGrenade();
+		void ShootEnd();
 
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
 
+		void SetLowerBody(GameObject* playerLowerBody) { this->playerLowerBody = playerLowerBody; }
 		
-		void SetLowerBody(GameObject* PlayerLowerBody) { this->PlayerLowerBody = PlayerLowerBody; }
-		void NextAnimation();
 	private:
 		void idle();
+		void idle_Jump();
 		void move();
+		void grenade();
+		void jump_Grenade();
 		void sit();
-		void slide();
-		void attack();
-		void lookup();
-		void idleJump();
-		void moveJump();
 
-		void jumpAttack();
-		void idleAttack();
+		void lookDown();
+		void lookDown_Attack();
+
+		void jump_Attack();
+		void move_Jump();
+		void idle_Attack();
+		
+		void lookUp();
+		void lookUp_Attack();
+
 	private:
-		math::Vector2 shootedPos = { 1000,800 };
-		math::Vector2 direction;
-		math::Vector2 bulletStartPos;
-		float time = 0;
-		bool goingDown;
-		float coolTime;
+		float attackDirection;
+		math::Vector2 bulletOffset;
 		int count;
-		GameObject* PlayerLowerBody;
+
+		class Transform* ownerTransform;
+		class Animator* ownerAnimator;
+
+		GameObject* playerLowerBody;
 		PlayerState state;
 	};
 }

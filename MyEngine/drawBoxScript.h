@@ -13,7 +13,9 @@ public:
 	virtual void LateUpdate() override;
 	virtual void Render(HDC hDC) override;
 	void Release();
+
 private:
-	RECT rect;
+	Vector2 lt;
+	Vector2 rb;
 };
 

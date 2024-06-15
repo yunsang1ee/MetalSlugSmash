@@ -12,7 +12,7 @@ namespace ys
 
 	float Timer::FPS{};
 	float Timer::curFPS{};
-	float Timer::targetFPS{60};
+	float Timer::targetFPS{480};
 
 	void ys::Timer::Init()
 	{

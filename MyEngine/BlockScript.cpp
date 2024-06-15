@@ -3,9 +3,12 @@
 #include<ysBoxCollider2D.h>
 #include<ysSceneManager.h>
 #include<ysScene.h>
+#include<ysObject.h>
 #include <ysRigidBody.h>
 #include <ysTransform.h>
 #include <ysCircleCollider2D.h>
+#include <ysInputManager.h>
+#include "drawBoxScript.h"
 #include<ysCollisionManager.h>
 using namespace ys;
 BlockScript::BlockScript()
@@ -35,10 +38,9 @@ void BlockScript::Render(HDC hDC)
 
 void BlockScript::OnCollisionEnter(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
 		
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
@@ -65,10 +67,9 @@ void BlockScript::OnCollisionEnter(Collider* other)
 
 void BlockScript::OnCollisionStay(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		auto cd = GetOwner()->GetComponent<BoxCollider2D>();
 
 		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
 		auto playerTr = other->GetOwner()->GetComponent<Transform>();
@@ -90,11 +91,17 @@ void BlockScript::OnCollisionStay(Collider* other)
 		else
 			playerRb->SetGround(false);
 	}
+
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::Tool)
+	{
+		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
+			ys::object::Destroy(GetOwner());
+	}
 }
 
 void BlockScript::OnCollisionExit(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	if (other->GetOwner()->GetLayerType() == enums::LayerType::playerLowerBody)
 	{
 		auto rb = other->GetOwner()->GetComponent<RigidBody>();
 		auto tr = other->GetOwner()->GetComponent<Transform>();

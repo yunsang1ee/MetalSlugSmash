@@ -11,10 +11,11 @@ namespace ys::enums
 		Block,
 		Impediments,
 		Enemy,
-		PlayerLowerBody,
+		playerLowerBody,
 		PlayerTop,
 		Particle,
 		FrontGround,
+		Tool,
 		Camera,
 		Max = 16
 	};
