@@ -6,8 +6,6 @@
 #include "..\\MyEngine\\ysLoadResources.h"
 #include "..\\MyEngine\\LoadScene.h"
 #pragma comment(lib, "..\\x64\\Debug\\MyEngine.lib")
-#include "fmod.hpp"
-#include "fmod_errors.h"
 
 
 ys::Application app;
@@ -28,7 +26,7 @@ WNDCLASSEX NewWndClass(UINT, WNDPROC, HINSTANCE, HICON,
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(506);
+	//_CrtSetBreakAlloc(1215);
 	HWND hWnd;
 	MSG msg;
 	g_hInst = hInstance;

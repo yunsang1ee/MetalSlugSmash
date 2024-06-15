@@ -35,6 +35,16 @@ namespace ys::enums
 		End
 	};
 
+	enum class AudioGroup
+	{
+		None,
+		BackGorund,
+		Player,
+		Enemy,
+		Effect,
+		End
+	};
+
 	enum class ComponentType
 	{
 		Transform, 
@@ -44,6 +54,8 @@ namespace ys::enums
 		SpriteRenderer,
 		Animator,
 		Camera,
+		AudioListener,
+		AudioSource,
 		End
 	};// Reference : Unity lifeCycle
 }

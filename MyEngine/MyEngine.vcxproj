@@ -25,7 +25,6 @@
     <ClInclude Include="drawBoxScript.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="PlayerLowerBodyScript.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="STAGE1.h" />
     <ClInclude Include="ysBackGroundScript.h" />
     <ClInclude Include="ysEnemyScript.h" />
@@ -41,7 +40,6 @@
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="drawBoxScript.cpp" />
     <ClCompile Include="PlayerLowerBodyScript.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="STAGE1.cpp" />
     <ClCompile Include="ysBackGroundScript.cpp" />
     <ClCompile Include="ysEnemyScript.cpp" />
@@ -105,8 +103,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x64;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>$(SolutionDir)FMOD_SoundSystem\inc</ExternalIncludePath>
+    <LibraryPath>$(SolutionDir)FMOD_SoundSystem\lib\Debug</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExternalIncludePath>$(SolutionDir)FMOD_SoundSystem\inc</ExternalIncludePath>
+    <LibraryPath>$(SolutionDir)FMOD_SoundSystem\lib\Release</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,8 +154,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalOptions>fmod_vc.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)FMOD_SoundSystem\lib\Debug\fmodL.dll" "$(SolutionDir)Binariesx64\Debug\
+copy "$(SolutionDir)FMOD_SoundSystem\lib\Debug\fmodstudioL.dll" "$(SolutionDir)Binariesx64\Debug\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,6 +182,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)FMOD_SoundSystem\lib\Release\fmod.dll" "$(SolutionDir)Binariesx64\Release\"
+copy "$(SolutionDir)FMOD_SoundSystem\lib\Release\fmodstudio.dll" "$(SolutionDir)Binariesx64\Release\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

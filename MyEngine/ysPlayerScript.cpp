@@ -20,7 +20,7 @@
 #include<ysAnimator.h>
 #include<ysAnimation.h>
 #include"PlayerLowerBodyScript.h"
-#include"SoundManager.h"
+#include"ysSoundManager.h"
 extern ys::Application app;
 
 namespace ys
@@ -69,7 +69,7 @@ namespace ys
 		default:
 			break;
 		}
-		SoundManager::GetInstance()->GetplayerSound()->setPaused(true);
+		//SoundManager::GetplayerSound()->setPaused(true);
 		auto an = GetOwner()->GetComponent<Animator>();
 		tr->SetPosition({ PlayerLowerBody->GetComponent<Transform>()->GetPosition().x, PlayerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
 	}
@@ -374,7 +374,7 @@ namespace ys
 	void PlayerScript::ShootBullet()
 	{
 		
-		SoundManager::GetInstance()->playSound(L"발사사운드", SoundManager::SoundType::PlayerSound);
+		//SoundManager::playSound(L"발사사운드", SoundManager::SoundType::PlayerSound);
 
 		auto tr = GetOwner()->GetComponent<Transform>();
 		//Vector2 position = tr->GetPosition();

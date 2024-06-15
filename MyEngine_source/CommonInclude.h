@@ -10,9 +10,20 @@
 #include "ysEnums.h"
 #include "ysMath.h"
 
-#include "fmod.hpp"
-#include "fmod_errors.h"
-#pragma comment(lib, "fmod_vc.lib")
+#ifdef _DEBUG
+#pragma comment(lib, "..\\FMOD_SoundSystem\\lib\\Debug\\fmodL_vc.lib")
+#pragma comment(lib, "..\\FMOD_SoundSystem\\lib\\Debug\\fmodstudioL_vc.lib")
+#else
+#pragma comment(lib, "..\\FMOD_SoundSystem\\lib\\Release\\fmod_vc.lib")
+#pragma comment(lib, "..\\FMOD_SoundSystem\\lib\\Release\\fmodstudio_vc.lib")
+#endif // _DEBUG
+#include "..\\FMOD_SoundSystem\\inc\\fmod_studio.hpp"
+#include "..\\FMOD_SoundSystem\\inc\\fmod.hpp"
+#include "..\\FMOD_SoundSystem\\inc\\fmod_common.h"
+#include "..\\FMOD_SoundSystem\\inc\\fmod_codec.h"
+
+
+
 #include <mmsystem.h>
 #include <dinput.h>
 #pragma comment(lib, "Msimg32.lib")

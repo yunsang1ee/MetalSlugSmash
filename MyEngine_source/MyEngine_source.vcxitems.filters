@@ -77,6 +77,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysRigidBody.cpp">
       <Filter>Component\RigidBody</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioListener.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioSource.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioClip.cpp">
+      <Filter>Resource\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysSoundManager.cpp">
+      <Filter>Resource\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h">
@@ -164,6 +176,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysRigidBody.h">
       <Filter>Component\RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioListener.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioSource.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioClip.h">
+      <Filter>Resource\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysSoundManager.h">
+      <Filter>Resource\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="source">
@@ -216,6 +240,12 @@
     </Filter>
     <Filter Include="Component\RigidBody">
       <UniqueIdentifier>{5c90d864-c09f-408c-8aa5-7a7b86f1f808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Audio">
+      <UniqueIdentifier>{4480dd29-ca6d-42fa-a1fd-63e934a85f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Audio">
+      <UniqueIdentifier>{cd181372-5a13-4512-a96f-721132bf91c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

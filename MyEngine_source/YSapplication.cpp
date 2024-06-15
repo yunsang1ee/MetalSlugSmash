@@ -4,7 +4,7 @@
 #include "ysTimer.h"
 #include <ysResources.h>
 #include <ysCollisionManager.h>
-#include"..\\MyEngine\\SoundManager.h"
+#include "ysSoundManager.h"
 
 namespace ys
 {
@@ -22,6 +22,7 @@ namespace ys
 
 		setScreen(screenSize);
 
+		SoundManager::Init();
 		InputManager::Init();
 		Timer::Init();
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "..\\MyEngine_source\\ysResources.h"
 #include "..\\MyEngine_source\\ysTexture.h"
-#include "..\\MyEngine\\SoundManager.h"
+#include "..\\MyEngine_source\\ysAudioClip.h"
 
 namespace ys
 {
@@ -107,14 +107,11 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"보스_etcSFX", L"..\\Resource\\boss\\보스게_etcSFX.bmp");
 		Resources::Load<graphics::Texture>(L"보스_splashSFX", L"..\\Resource\\boss\\보스게_splashSFX.bmp");
 		Resources::Load<graphics::Texture>(L"보스_waves", L"..\\Resource\\boss\\보스게_waves.bmp");
-		
+
 		//보스게
 
 		//사운드
-		SoundManager::GetInstance()->LoadSound(L"stage1메인브금", "..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
-		SoundManager::GetInstance()->LoadSound(L"발사사운드", "..\\Resource\\gun_sound.wav");
-		SoundManager::GetInstance()->GetplayerSound()->setVolume(0.3f);
-
-
+		Resources::Load<AudioClip>(L"stage1메인브금", L"..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
+		Resources::Load<AudioClip>(L"발사사운드", L"..\\Resource\\gun_sound.wav");
 	}
 }

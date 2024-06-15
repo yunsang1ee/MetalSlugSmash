@@ -20,6 +20,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysAnimator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YSapplication.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioClip.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioListener.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysAudioSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysCircleCollider2D.h" />
@@ -40,6 +43,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysScript.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ysSoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysSpriteRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ysTimer.h" />
@@ -49,6 +53,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAbsoluteScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysAnimator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioClip.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioListener.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysAudioSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysBoxCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysCircleCollider2D.cpp" />
@@ -68,6 +75,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysScript.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ysSoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysSpriteRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ysTimer.cpp" />

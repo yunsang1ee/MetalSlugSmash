@@ -25,11 +25,12 @@
 #include"ysAnimator.h"
 #include "PlayerLowerBodyScript.h"
 #include <ysRigidBody.h>
-#include"SoundManager.h"
-#include "fmod.hpp"
-#include "fmod_errors.h"
+#include "ysSoundManager.h"
+#include <ysAudioListener.h>
+
 extern ys::Application app;
-namespace ys {
+namespace ys
+{
 	ys::STAGE1::STAGE1()
 	{
 	}
@@ -639,6 +640,7 @@ namespace ys {
 			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(
 				15600, 363));
 			camera->AddComponent<CameraScript>();
+			camera->AddComponent<AudioListener>();
 		}
 		{
 			auto drawBox = object::Instantiate<GameObject>(LayerType::Block, { 0, 0 });
