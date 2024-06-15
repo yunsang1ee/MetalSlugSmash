@@ -17,6 +17,7 @@
 #include <ysRenderer.h>
 #include "ysPlayScene.h"
 #include "BlockScript.h"
+#include "WallScript.h"
 extern Application app;
 drawBoxScript::drawBoxScript()
 {
@@ -34,43 +35,95 @@ void drawBoxScript::Update()
 {
 	auto position = app.getmousePosition() + ys::renderer::mainCamera->GetLookPosition() - (app.getScreenf() / 2);
 	GetOwner()->GetComponent<Transform>()->SetPosition(position);
-
-	if (InputManager::getKeyDown(VK_LBUTTON))
-		lt = position;
-
-	if (InputManager::getKey(VK_LBUTTON))
-		rb = position;
-
-	if (InputManager::getKeyUp(VK_LBUTTON))
+	if (InputManager::getKeyDown(VK_CAPITAL))
 	{
-		if(lt.x < rb.x && lt.y < rb.y)
-		{
-			auto block = object::Instantiate<GameObject>(LayerType::Block, lt);
-
-			auto size = (rb - lt) / 100.0f;
-			auto bx = block->AddComponent<BoxCollider2D>();
-			bx->setName(L"BackGround");
-			bx->SetSize(size);
-			block->AddComponent<BlockScript>();
-
-		}
-		lt = Vector2::Zero;
-		rb = Vector2::Zero;
+		wallDraw = !wallDraw;
+		
 	}
 
-	if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
+	if (!wallDraw)
 	{
-		std::ofstream file{ "..\\Resource\\box1.txt", std::ios::trunc };
-		if (file.is_open())
+		if (InputManager::getKeyDown(VK_LBUTTON))
+			lt = position;
+
+		if (InputManager::getKey(VK_LBUTTON))
+			rb = position;
+
+		if (InputManager::getKeyUp(VK_LBUTTON))
 		{
-			Vector2 pos;
-			Vector2 size;
-			auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Block)->GetGameObjects();
-			for (auto block : blocks)
+			if (lt.x < rb.x && lt.y < rb.y)
 			{
-				pos = block->GetComponent<Transform>()->GetPosition();
-				size = block->GetComponent<BoxCollider2D>()->GetSize();
-				file << pos.x << ' ' << pos.y << ' ' << size.x << ' ' << size.y << '\n';
+				auto block = object::Instantiate<GameObject>(LayerType::Block, lt);
+
+				auto size = (rb - lt) / 100.0f;
+				auto bx = block->AddComponent<BoxCollider2D>();
+				bx->setName(L"BackGround");
+				bx->SetSize(size);
+				block->AddComponent<BlockScript>();
+
+			}
+			lt = Vector2::Zero;
+			rb = Vector2::Zero;
+		}
+
+		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
+		{
+			std::ofstream file{ "..\\Resource\\box1.txt", std::ios::trunc };
+			if (file.is_open())
+			{
+				Vector2 pos;
+				Vector2 size;
+				auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Block)->GetGameObjects();
+				for (auto block : blocks)
+				{
+					pos = block->GetComponent<Transform>()->GetPosition();
+					size = block->GetComponent<BoxCollider2D>()->GetSize();
+					file << pos.x << ' ' << pos.y << ' ' << size.x << ' ' << size.y << '\n';
+				}
+			}
+		}
+	}
+	
+	
+	if (wallDraw)
+	{
+		if (InputManager::getKeyDown(VK_LBUTTON))
+			lt = position;
+
+		if (InputManager::getKey(VK_LBUTTON))
+			rb = position;
+
+		if (InputManager::getKeyUp(VK_LBUTTON))
+		{
+			if (lt.x < rb.x && lt.y < rb.y)
+			{
+				auto block = object::Instantiate<GameObject>(LayerType::Wall, lt);
+
+				auto size = (rb - lt) / 100.0f;
+				auto bx = block->AddComponent<BoxCollider2D>();
+				bx->setName(L"Wall");
+				bx->SetSize(size);
+				block->AddComponent<WallScript>();
+
+			}
+			lt = Vector2::Zero;
+			rb = Vector2::Zero;
+		}
+
+		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
+		{
+			std::ofstream file{ "..\\Resource\\Wall.txt", std::ios::trunc };
+			if (file.is_open())
+			{
+				Vector2 pos;
+				Vector2 size;
+				auto blocks = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Wall)->GetGameObjects();
+				for (auto block : blocks)
+				{
+					pos = block->GetComponent<Transform>()->GetPosition();
+					size = block->GetComponent<BoxCollider2D>()->GetSize();
+					file << pos.x << ' ' << pos.y << ' ' << size.x << ' ' << size.y << '\n';
+				}
 			}
 		}
 	}

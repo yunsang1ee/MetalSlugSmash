@@ -17,5 +17,6 @@ public:
 private:
 	Vector2 lt;
 	Vector2 rb;
+	bool wallDraw = false;
 };
 

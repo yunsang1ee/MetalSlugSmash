@@ -47,7 +47,12 @@
     <ClInclude Include="PlayerLowerBodyScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="SoundScript.h" />
+    <ClInclude Include="BossScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="WallScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayer.cpp" />
@@ -84,6 +89,11 @@
     <ClCompile Include="PlayerLowerBodyScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="SoundScript.cpp" />
+    <ClCompile Include="BossScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="WallScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

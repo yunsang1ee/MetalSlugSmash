@@ -143,7 +143,8 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"보스_splashSFX", L"..\\Resource\\boss\\보스게_splashSFX.bmp");
 		Resources::Load<graphics::Texture>(L"보스_waves", L"..\\Resource\\boss\\보스게_waves.bmp");
 
-		//보스게
+		//보스배경
+		Resources::Load<graphics::Texture>(L"보스배경", L"..\\Resource\\Boss배경.bmp");
 
 		//사운드
 		Resources::Load<AudioClip>(L"stage1메인브금", L"..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");

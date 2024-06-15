@@ -8,6 +8,7 @@ namespace ys::enums
 		BackBackGround,
 		BackGround,
 		Projectile,
+		Wall,
 		Block,
 		Impediments,
 		Enemy,
