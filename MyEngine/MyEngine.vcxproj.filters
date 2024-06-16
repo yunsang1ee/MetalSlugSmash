@@ -68,6 +68,7 @@
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="BossScript.h" />
+    <ClInclude Include="BossBulletScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayScene.cpp">
@@ -122,5 +123,6 @@
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="BossScript.cpp" />
+    <ClCompile Include="BossBulletScript.cpp" />
   </ItemGroup>
 </Project>

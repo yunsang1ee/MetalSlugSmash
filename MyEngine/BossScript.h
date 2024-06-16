@@ -17,8 +17,12 @@ public:
 	virtual void OnCollisionExit(Collider* other) override;
 
 	void NextAnimation();
+	void Move();
+	void ShootBullet();
 private:
 	float HP;
+	bool Right;
+	float timer;
 
 };
 

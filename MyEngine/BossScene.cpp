@@ -33,6 +33,7 @@
 #include <ysAudioSource.h>
 #include "WallScript.h"
 #include "BossSfxScript.h"
+#include "BossScript.h"
 using namespace ys;
 
 ys::BossScene::BossScene()
@@ -55,11 +56,11 @@ void ys::BossScene::Init()
 	{
 		boss = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
 		auto an = boss->AddComponent<Animator>();
-		auto es = boss->AddComponent<>();
+		auto es = boss->AddComponent<BossScript>();
 		auto cd = boss->AddComponent<BoxCollider2D>();
 
 		cd->SetSize(Vector2(9, 7.5f));
-		boss->GetComponent<Transform>()->SetPosition(Vector2(200, 300));
+		boss->GetComponent<Transform>()->SetPosition(Vector2(200, 250));
 
 		an->CrateAnimation(L"보스_기본_Move", Resources::Find<graphics::Texture>(L"보스_기본_Move")
 			, Vector2(0, 49)

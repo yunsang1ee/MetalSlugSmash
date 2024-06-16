@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockScript.h" />
+    <ClInclude Include="BossBulletScript.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossScript.h" />
     <ClInclude Include="BossSfxScript.h" />
@@ -42,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlockScript.cpp" />
+    <ClCompile Include="BossBulletScript.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="BossSfxScript.cpp" />

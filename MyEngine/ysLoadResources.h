@@ -174,6 +174,7 @@ namespace ys
 
 			//보스 총알
 			Resources::Load<graphics::Texture>(L"보스_총알", L"..\\Resource\\boss\\보스게_projectile.bmp");
+			Resources::Load<graphics::Texture>(L"보스_총알폭발", L"..\\Resource\\boss\\보스게_projectile2.bmp");
 			Resources::Load<graphics::Texture>(L"보스_대포알", L"..\\Resource\\boss\\보스게_cannonBall.bmp");
 
 			//보스sfx
