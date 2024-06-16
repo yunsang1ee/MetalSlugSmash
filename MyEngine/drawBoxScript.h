@@ -25,5 +25,6 @@ private:
 		Item
 	};
 	DrawType drawType;
+	std::vector<GameObject*> enemys;
 };
 

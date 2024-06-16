@@ -853,7 +853,7 @@ namespace ys
 		auto sr = bullet->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"ÃÑ¾Ëpng"));
 
-		bullet->AddComponent<BulletScript>();
+		bullet->AddComponent<BulletScript>()->SetDamage(50);
 		auto cd = bullet->AddComponent<CircleCollider2D>();
 		cd->SetSize(Vector2::One * 0.2f);
 

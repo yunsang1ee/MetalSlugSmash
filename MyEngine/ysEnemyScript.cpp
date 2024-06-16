@@ -13,11 +13,12 @@
 #include "BulletScript.h"
 #include <ysAnimator.h>
 #include <ysResources.h>
+#include "PlayerLowerBodyScript.h"
 
 extern ys::Application app;
 
 ys::EnemyScript::EnemyScript()
-	: timer(0.0f), moveRight(false), hp(100), enemyType(EnemyType::Normal), enemyState(EnemyState::Idle), death(false)
+	: timer(0.0f), moveRight(false), hp(100), enemyType(EnemyType::Normal), enemyState(EnemyState::Move), death(false)
 {
 	
 	
@@ -37,7 +38,6 @@ void ys::EnemyScript::Update()
 	switch (enemyType)
 	{
 	case ys::EnemyScript::EnemyType::Normal:
-		
 		break;
 	case ys::EnemyScript::EnemyType::Strong:
 		break;
@@ -46,6 +46,7 @@ void ys::EnemyScript::Update()
 	default:
 		break;
 	}
+	
 	
 }
 
@@ -72,7 +73,7 @@ void ys::EnemyScript::OnCollisionEnter(Collider* other)
 			- (Blocktr->GetPosition().y + Blockcd->GetOffset().y));
 		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerRb->GetVelocity().y > 0)
+		if (len < scale)
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len;
@@ -88,6 +89,42 @@ void ys::EnemyScript::OnCollisionEnter(Collider* other)
 
 	if (!death)
 	{
+
+		if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+		{
+			auto an = GetOwner()->GetComponent<Animator>();
+			auto playerLower = other->GetOwner();
+			auto playerPos = playerLower->GetComponent<Transform>()->GetPosition();
+			auto playerBd = playerLower->GetComponent<BoxCollider2D>();
+
+
+			auto pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			auto posY = ((GetOwner()->GetComponent<Transform>()->GetPosition().y + GetOwner()->GetComponent<BoxCollider2D>()->GetOffset().y)
+				- (GetOwner()->GetComponent<BoxCollider2D>()->GetSize().y * 100.f / 2.0f));
+			auto bd = GetOwner()->GetComponent<BoxCollider2D>();
+			auto len = fabs(playerPos.x );
+			if (playerPos.x+playerBd->GetSize().x*50 > pos.x + bd->GetSize().x * 100)
+			{
+				if (an->GetActive()->getName() != L"게_attack_좌_기본1" && an->GetActive()->getName() != L"게_attack_좌_기본2")
+				{
+					an->PlayAnimation(L"게_attack_좌_기본1", false);
+					enemyState = EnemyState::Attack;
+				}
+				moveRight = true;
+			}
+			else {
+				
+				if (an->GetActive()->getName() != L"게_attack_기본1" && an->GetActive()->getName() != L"게_attack_기본2")
+				{
+					an->PlayAnimation(L"게_attack_기본1", false);
+					enemyState = EnemyState::Attack;
+				}
+				moveRight = false;
+			}
+			
+			
+			
+		}
 		if (other->GetOwner()->GetLayerType() == enums::LayerType::Projectile) {
 			int damage = other->GetOwner()->GetComponent<BulletScript>()->getDamage();
 			hp -= damage;
@@ -116,7 +153,7 @@ void ys::EnemyScript::OnCollisionStay(Collider* other)
 			- (Blocktr->GetPosition().y + Blockcd->GetOffset().y));
 		float scale = fabs(playerCd->GetSize().y * 100);
 
-		if (len < scale && playerRb->GetVelocity().y > 0)
+		if (len < scale )
 		{
 			auto playerPosition = playerTr->GetPosition();
 			playerPosition.y -= scale - len;
@@ -129,8 +166,22 @@ void ys::EnemyScript::OnCollisionStay(Collider* other)
 		else
 			playerRb->SetGround(false);
 	}
+	
+
+
+
 	if (!death)
 	{
+		if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+		{
+			auto playerLower = other->GetOwner();
+			auto an = GetOwner()->GetComponent<Animator>();
+			if (an->GetActive()->getName() == L"게_attack_기본2"||
+				 an->GetActive()->getName() == L"게_attack_좌_기본2")
+			{
+				playerLower->GetComponent<PlayerLowerBodyScript>();
+			}
+		}
 		switch (enemyType)
 		{
 		case ys::EnemyScript::EnemyType::Normal:
@@ -160,7 +211,20 @@ void ys::EnemyScript::OnCollisionStay(Collider* other)
 						moveRight = true;
 					}
 				}
-				move();
+				switch (enemyState)
+				{
+				case ys::EnemyScript::EnemyState::Idle:
+					break;
+				case ys::EnemyScript::EnemyState::Move:
+					move();
+					break;
+				case ys::EnemyScript::EnemyState::Attack:
+					break;
+				case ys::EnemyScript::EnemyState::Death:
+					break;
+				default:
+					break;
+				}
 			}
 			break;
 		case ys::EnemyScript::EnemyType::Strong:
@@ -190,14 +254,31 @@ void ys::EnemyScript::NexTAnimation()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
 	auto nowName = an->GetActive()->getName();
-	if (an->GetActive()->getName()==L"게_attack_기본1")
+	if (nowName ==L"게_attack_기본1"|| nowName == L"게_attack_좌_기본1")
 	{
-		an->PlayAnimation(L"게_attack_기본2", false);
+		if (moveRight)
+		{
+			an->PlayAnimation(L"게_attack_기본2", false);
+		}
+		else
+		{
+			an->PlayAnimation(L"게_attack_좌_기본2", false);
+		}
+		
 		return;
 	}
-	else if (an->GetActive()->getName() == L"게_attack_기본2")
+	else if (nowName == L"게_attack_기본2"|| nowName == L"게_attack_좌_기본2")
 	{
-		an->PlayAnimation(L"게_idle", true);
+		
+		if (moveRight)
+		{
+			an->PlayAnimation(L"게_walk", true);
+		}
+		else
+		{
+			an->PlayAnimation(L"게_walk_좌", true);
+		}
+		enemyState = EnemyState::Move;
 		return;
 	}
 
@@ -255,6 +336,8 @@ void ys::EnemyScript::IsAdd()
 	auto cd = GetOwner()->AddComponent<BoxCollider2D>();
 	auto es = GetOwner()->GetComponent<EnemyScript>();
 
+	
+
 	cd->SetOffset(Vector2(-30, -25));
 	cd->SetSize(Vector2(1.5f, 1.25f));
 	an->CrateAnimation(L"게_idle", Resources::Find<graphics::Texture>(L"게_idle")
@@ -278,11 +361,11 @@ void ys::EnemyScript::IsAdd()
 	an->CrateAnimation(L"게_attack_기본1", Resources::Find<graphics::Texture>(L"게_attack")
 		, Vector2(50, 0)
 		, Vector2(177, 170)
-		, Vector2(-60, -50), 5, 0.1f, true);
+		, Vector2(-60, -50), 5, 0.1f,true);
 	an->CrateAnimation(L"게_attack_기본2", Resources::Find<graphics::Texture>(L"게_attack")
 		, Vector2(938, 0)
 		, Vector2(243, 170)
-		, Vector2(-60, -50), 4, 0.1f, true);
+		, Vector2(-60, -50), 4, 0.1f,true);
 	an->CrateAnimation(L"게_attack_좌_기본1", Resources::Find<graphics::Texture>(L"게_attack_좌")
 		, Vector2(50, 0)
 		, Vector2(177, 170)
@@ -344,7 +427,7 @@ void ys::EnemyScript::IsAdd()
 	an->GetCompleteEvent(L"게_death_3_좌") = std::bind(&EnemyScript::NexTAnimation, es);
 	an->GetCompleteEvent(L"게_death_4_좌") = std::bind(&EnemyScript::NexTAnimation, es);
 
-	an->PlayAnimation(L"게_walk_좌", true);
+	an->PlayAnimation(L"게_attack_좌_기본1", true);
 }
 
 void ys::EnemyScript::destroy()

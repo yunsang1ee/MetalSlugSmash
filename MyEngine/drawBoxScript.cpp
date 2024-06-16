@@ -42,6 +42,7 @@ void drawBoxScript::Update()
 
 	if (InputManager::getKey(VK_LBUTTON))
 		rb = position;
+
 	if (InputManager::getKeyDown(VK_CAPITAL))
 	{
 		switch (drawType)
@@ -63,6 +64,8 @@ void drawBoxScript::Update()
 	switch (drawType)
 	{
 	case drawBoxScript::DrawType::Block:
+	
+	{
 		if (InputManager::getKeyUp(VK_LBUTTON))
 		{
 			if (lt.x < rb.x && lt.y < rb.y)
@@ -95,8 +98,10 @@ void drawBoxScript::Update()
 				}
 			}
 		}
+	}
 		break;
 	case drawBoxScript::DrawType::Wall:
+	{
 		if (InputManager::getKeyUp(VK_LBUTTON))
 		{
 			if (lt.x < rb.x && lt.y < rb.y)
@@ -130,26 +135,29 @@ void drawBoxScript::Update()
 				}
 			}
 		}
+	}
 		break;
 	case drawBoxScript::DrawType::Enemy:
+	{
 		if (InputManager::getKeyUp(VK_LBUTTON))
 		{
-			if (lt.x < rb.x && lt.y < rb.y)
-			{
-				auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, lt);
-				enemy->AddComponent<EnemyScript>();
-			}
+			
+			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, lt);
+			auto es = enemy->AddComponent<EnemyScript>();
+			es->IsAdd();
+
+			enemys.push_back(enemy);
 			lt = Vector2::Zero;
 			rb = Vector2::Zero;
 		}
 		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 		{
-			std::ofstream file{ "..\\Resource\\Enemy.txt", std::ios::trunc };
+			std::ofstream file{ "..\\Resource\\Enemy.txt", std::ios::app };
 			if (file.is_open())
 			{
 				Vector2 pos;
 				Vector2 size;
-				auto enemys = SceneManager::GetActiveScene()->GetLayer(enums::LayerType::Enemy)->GetGameObjects();
+				
 				for (auto enemy : enemys)
 				{
 					pos = enemy->GetComponent<Transform>()->GetPosition();
@@ -157,6 +165,7 @@ void drawBoxScript::Update()
 				}
 			}
 		}
+	}
 		break;
 	case drawBoxScript::DrawType::Item:
 		break;

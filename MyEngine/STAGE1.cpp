@@ -44,6 +44,7 @@ namespace ys
 	}
 	void ys::STAGE1::Init()
 	{	
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		{
 			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
 
@@ -81,8 +82,8 @@ namespace ys
 		
 		//Player하체
 		{
-			PlayerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody
-				, Vector2(6000, app.getScreen().y / 5.0f));
+			PlayerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody, {0,0});
+			
 
 			auto an = PlayerLowerBody->AddComponent<Animator>();
 			auto plysc = PlayerLowerBody->AddComponent<PlayerLowerBodyScript>();
@@ -237,31 +238,8 @@ namespace ys
 			ys::object::DontDestroyOnLoad(player);
 		}
 		
-		//Enemy
-		/*{
-			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
-			enemy->GetComponent<Transform>()->SetPosition(Vector2(5750, 300));
-			enemy->AddComponent<EnemyScript>();
-		}*/
-		{
-			std::ifstream file{ "..\\Resource\\Enemy.txt" };
-			std::string buff;
-			Vector2 pos;
-			while (!file.eof())
-			{
-
-				getline(file, buff);
-				std::stringstream ss{ buff };
-				ss >> pos.x >> pos.y;
-				auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, {0,0});
-				enemy->GetComponent<Transform>()->SetPosition(pos);
-				auto es = enemy->AddComponent<EnemyScript>();
-				es->IsAdd();
-
-				Enemys.push_back(enemy);
-			}
-			file.close();
-		}
+		
+		
 		{
 			std::ifstream file{ "..\\Resource\\box1.txt" };
 			std::string buff;
@@ -309,7 +287,27 @@ namespace ys
 				Walls.push_back(block);
 			}
 		}
+		
+		{
+			std::ifstream file{ "..\\Resource\\Enemy.txt" };
+			std::string buff;
+			Vector2 pos;
+			while (!file.eof())
+			{
 
+				getline(file, buff);
+				std::stringstream ss{ buff };
+				ss >> pos.x >> pos.y;
+				auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
+				enemy->GetComponent<Transform>()->SetPosition(pos);
+				auto es = enemy->AddComponent<EnemyScript>();
+				
+				es->IsAdd();
+
+				Enemys.push_back(enemy);
+			}
+			file.close();
+		}
 		//플레이어보다 앞에있는 배경
 		{
 			auto frontBackground = object::Instantiate<GameObject>(LayerType::FrontGround, { 5576, 691 });
@@ -369,6 +367,7 @@ namespace ys
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
@@ -381,6 +380,9 @@ namespace ys
 		as->GetClip()->SetGroup(enums::AudioGroup::BackGorund);
 		as->Play();
 		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000.0f, app.getScreenf().y / 5.0f));
+
+		
+		
 	}
 	void STAGE1::OnExit() 
 	{
