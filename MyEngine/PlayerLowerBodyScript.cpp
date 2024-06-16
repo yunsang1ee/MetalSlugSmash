@@ -552,5 +552,10 @@ void PlayerLowerBodyScript::NextSitAnimation()
 		state = PlayerState::Sit;
 		return;
 	}
+	if (animationName == L"플레이어_죽음")
+	{
+		//다시 살아나는 로직
+		return;
+	}
 
 }

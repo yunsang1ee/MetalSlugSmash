@@ -114,6 +114,9 @@ namespace ys
 
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_위_하체좌", L"..\\Resource\\기본위우하체.bmp");
+
+		Resources::Load<graphics::Texture>(L"플레이어_죽음", L"..\\Resource\\플레이어_죽음.bmp");
+		
 		
 		Resources::Load<graphics::Texture>(L"게_idle", L"..\\Resource\\monster\\게idle.bmp");
 		Resources::Load<graphics::Texture>(L"게_idle_좌", L"..\\Resource\\monster\\게idle.bmp");
@@ -139,7 +142,7 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"게_death_4", L"..\\Resource\\monster\\게death_4.bmp");
 		Resources::Load<graphics::Texture>(L"게_death_4_좌", L"..\\Resource\\monster\\게death_4.bmp");
 		
-
+		
 		//보스
 		Resources::Load<graphics::Texture>(L"보스_기본_Move", L"..\\Resource\\boss\\보스게_move.bmp");
 		Resources::Load<graphics::Texture>(L"보스_기본_Shoot", L"..\\Resource\\boss\\보스게_shoot.bmp");
