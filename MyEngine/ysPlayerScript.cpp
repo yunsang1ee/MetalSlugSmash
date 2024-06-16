@@ -171,13 +171,13 @@ namespace ys
 
 	void PlayerScript::idle_Jump()
 	{
-		if (InputManager::getKey(VK_OEM_PERIOD) && playerLowerBody->GetComponent<RigidBody>()->IsGround())
+		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
 			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
-				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
+				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸ÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
 			else
-				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼", false);
+				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸ÃÑ½î´ÂÁß»óÃ¼", false);
 			state = PlayerState::JumpAttack;
 			return;
 		}
@@ -541,12 +541,12 @@ namespace ys
 			{
 				if (ownerTransform->GetRotation() == kPi)
 				{
-					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
+					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸ÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
 					attackDirection = kPi;
 				}
 				else
 				{
-					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼", false);
+					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸ÃÑ½î´ÂÁß»óÃ¼", false);
 					attackDirection = 0.0f;
 				}
 				state = PlayerState::IdleAttack;

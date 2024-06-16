@@ -389,6 +389,9 @@ namespace ys
 			renderer::mainCamera->SetTarget(player);
 			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(15600, 363));
 			camera->AddComponent<CameraScript>()->SetTarget(player);
+			auto ad = camera->AddComponent<AudioSource>();
+			ad->SetClip(Resources::Find<AudioClip>(L"stage1¸ÞÀÎºê±Ý"));
+			ad->SetLoop(true);
 		}
 	}
 	void STAGE1::OnExit() 
@@ -455,13 +458,13 @@ namespace ys
 
 		//Á¡ÇÁ¾îÅÃ
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß")
-			, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-51.0f, -92.0f), 3, 0.1f);
+			, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-61.0f, -102.0f), 3, 0.1f);
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼ÁÂ", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁßÁÂ")
-			, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-153.0f, -92.0f), 3, 0.1f, true);
+			, Vector2(0.0f, 0.0f), Vector2(221.0f, 130.0f), Vector2(-153.0f, -112.0f), 3, 0.1f, true);
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î±â»óÃ¼", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î±â")
-			, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-51.0f, -92.0f), 7, 0.05f);
+			, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-51.0f, -102.0f), 7, 0.05f);
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î±â»óÃ¼ÁÂ", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î±âÁÂ")
-			, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-95.0f, -92.0f), 7, 0.05f, true);
+			, Vector2(0.0f, 0.0f), Vector2(149.5f, 130.0f), Vector2(-95.0f, -102.0f), 7, 0.05f, true);
 
 		an->GetStartEvent(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼") = std::bind(&PlayerScript::ShootBullet, plysc);
 		an->GetStartEvent(L"ÇÃ·¹ÀÌ¾îÁ¡ÇÁÃÑ½î´ÂÁß»óÃ¼ÁÂ") = std::bind(&PlayerScript::ShootBullet, plysc);
