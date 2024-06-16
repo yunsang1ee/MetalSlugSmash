@@ -7,12 +7,14 @@
     <Filter Include="Script">
       <UniqueIdentifier>{c98c25d8-e19d-4b40-a6e7-9cacf1359713}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{f1d451e0-e9b9-4710-83bf-550efe3e2ce1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ysPlayer.h" />
     <ClInclude Include="ysPlayScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -47,6 +49,12 @@
     <ClInclude Include="PlayerLowerBodyScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="GrenadeScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="ysPlayer.h">
+      <Filter>Object</Filter>
+    </ClInclude>
     <ClInclude Include="BossScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -55,7 +63,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ysPlayer.cpp" />
     <ClCompile Include="ysPlayScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -88,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="PlayerLowerBodyScript.cpp">
       <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="GrenadeScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="ysPlayer.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="BossScene.cpp">
       <Filter>Scene</Filter>

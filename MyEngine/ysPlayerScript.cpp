@@ -21,6 +21,8 @@
 #include<ysAnimation.h>
 #include"PlayerLowerBodyScript.h"
 #include"ysSoundManager.h"
+#include <ysAudioSource.h>
+#include "GrenadeScript.h"
 extern ys::Application app;
 
 namespace ys
@@ -42,14 +44,17 @@ namespace ys
 	void PlayerScript::Update()
 	{
 		if (!ownerAnimator)
+		{
 			ownerAnimator = GetOwner()->GetComponent<Animator>();
-		if (!ownerTransform)
 			ownerTransform = GetOwner()->GetComponent<Transform>();
+			ownerAudioSource = GetOwner()->GetComponent<AudioSource>();
+		}
 
 		if (count != 0 && ownerAnimator->GetActive()->IsComplete())
 			ShootBullet();
 
-		ownerTransform->SetPosition({ playerLowerBody->GetComponent<Transform>()->GetPosition().x, playerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
+		ownerTransform->SetPosition({ playerLowerBody->GetComponent<Transform>()->GetPosition().x
+			, playerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
 		switch (state)
 		{
 		case PlayerScript::PlayerState::Idle:
@@ -370,7 +375,8 @@ namespace ys
 
 	void PlayerScript::sit()
 	{
-		if (InputManager::getKeyUp(VK_DOWN))
+		if (!InputManager::getKey(VK_DOWN) 
+			&& playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() != PlayerLowerBodyScript::PlayerState::Slide)
 		{
 			std::wstring animationName;
 
@@ -647,7 +653,7 @@ namespace ys
 		{
 			if (InputManager::getKey(VK_UP))
 			{
-				attackDirection = kPi / 2.0f;
+				attackDirection = 3.0f * kPi / 2.0f;
 				state = PlayerState::LookUpAttack;
 			}
 			else if (InputManager::getKey(VK_LEFT))
@@ -749,23 +755,30 @@ namespace ys
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
 			if (InputManager::getKey(VK_LEFT))
-			{
-				attackDirection = kPi;
 				ownerTransform->SetRotation(kPi);
-				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÀ§ÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
-			}
 			else if (InputManager::getKey(VK_RIGHT))
-			{
-				attackDirection = 0.0f;
-				ownerTransform->SetRotation(0);
-				ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÀ§ÃÑ½î´ÂÁß»óÃ¼", false);
-			}
-			else
+				ownerTransform->SetRotation(0.0f);
+
+			if(InputManager::getKey(VK_UP))
 			{
 				if (ownerTransform->GetRotation() == kPi)
 					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÀ§ÃÑ½î´ÂÁß»óÃ¼ÁÂ", false);
 				else
 					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾îÀ§ÃÑ½î´ÂÁß»óÃ¼", false);
+			}
+			else
+			{
+				if (ownerTransform->GetRotation() == kPi)
+				{
+					attackDirection = kPi;
+					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸½î´ÂÁß»óÃ¼ÁÂ", false);
+				}
+				else
+				{
+					attackDirection = 0.0f;
+					ownerAnimator->PlayAnimation(L"ÇÃ·¹ÀÌ¾î°¡¸¸½î´ÂÁß»óÃ¼", false);
+				}
+				state = PlayerState::IdleAttack;
 			}
 		}
 		else if (InputManager::getKey(VK_UP))
@@ -816,6 +829,9 @@ namespace ys
 
 	void PlayerScript::ShootBullet()
 	{
+		ownerAudioSource->SetClip(Resources::Find<AudioClip>(L"¹ß»ç»ç¿îµå"));
+		ownerAudioSource->GetClip()->SetVolume(70.0f);
+		ownerAudioSource->Play();
 		bulletOffset = Vector2::Rotate(Vector2::Right, attackDirection) * 80 - Vector2(0, 30); //ÃÑ±îÁö ±æÀÌ°¡ 80Á¤µµ
 		Vector2 bulletPosition = ownerTransform->GetPosition() + bulletOffset;
 		//Vector2 mousePosition =
@@ -872,7 +888,27 @@ namespace ys
 
 	void PlayerScript::ThrowGrenade()
 	{
+		auto grenade = object::Instantiate<GameObject>(LayerType::Projectile
+			, ownerTransform->GetPosition());
+		auto tr = grenade->GetComponent<Transform>();
+		tr->SetRotation(ownerTransform->GetRotation());
 
+		auto sc = grenade->AddComponent<GrenadeScript>();
+
+		auto cd = grenade->AddComponent<BoxCollider2D>();
+		cd->SetOffset(Vector2::One * -30.0f);
+		cd->SetSize(Vector2::One * 0.6f);
+
+		auto rb = grenade->AddComponent<RigidBody>();
+		rb->SetVelocity((Vector2::Rotate(Vector2::Right, tr->GetRotation()) + Vector2::Up) * 800.0f);
+		rb->SetGravity(Vector2::Down * 3.0f);
+
+		auto an = grenade->AddComponent<Animator>();
+		an->CrateAnimation(L"¼ö·ùÅº", Resources::Find<graphics::Texture>(L"¼ö·ùÅº")
+			, Vector2(0.0f, 0.0f), Vector2(60.0f, 60.0f), Vector2::One * -30.0f, 32, 0.03125f);
+		an->CrateAnimation(L"¼ö·ùÅºÆø¹ß", Resources::Find<graphics::Texture>(L"¼ö·ùÅºÆø¹ß")
+			, Vector2(0.0f, 0.0f), Vector2(220.0f, 440.0f), Vector2(-110.0f, -440.0f), 27, 0.037f);
+		an->PlayAnimation(L"¼ö·ùÅº");
 	}
 
 	void PlayerScript::ShootEnd()

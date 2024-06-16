@@ -21,6 +21,9 @@ namespace ys
 		virtual void OnEnter() override; //title -> play scene (play init)
 		virtual void OnExit() override;  //title -> play scene (title exit)
 	private:
+		void playerCreateAnimation();
+
+	private:
 		GameObject* backBackground;
 		GameObject* background;
 		GameObject* player;

@@ -18,12 +18,13 @@ namespace ys
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
 
-		void SetDamage(int Damage) { this->Damage = Damage; }
-		int getDamage() { return Damage; }
+		void SetDamage(const unsigned int& damage) { this->damage = damage; }
+		unsigned int getDamage() const { return damage; }
+
 	private:
 		float deathTime;
 		float time;
-		int Damage;
+		unsigned int damage;
 	};
 }
 

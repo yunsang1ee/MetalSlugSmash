@@ -46,6 +46,7 @@ namespace ys
 	{
 		CollisionManager::Update();
 		SceneManager::Update();
+		SoundManager::Update();
 	}
 
 	void Application::LateUpdate()
@@ -72,7 +73,6 @@ namespace ys
 
 	void Application::Release()
 	{
-		
 		SceneManager::Release();
 		Resources::Release();
 		SoundManager::Release();

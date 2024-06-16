@@ -20,7 +20,10 @@ namespace ys
 		void SetLoop(const bool& loop);
 
 		void SetClip(AudioClip* clip) { audioClip = clip; }
-		AudioClip* GetClip() { return audioClip; }
+		AudioClip* GetClip() 
+		{ 
+			return audioClip;
+		}
 
 	private:
 		AudioClip* audioClip;

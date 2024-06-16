@@ -14,6 +14,7 @@ namespace ys::enums
 		Enemy,
 		PlayerLowerBody,
 		PlayerTop,
+		Boom,
 		Particle,
 		FrontGround,
 		Tool,
