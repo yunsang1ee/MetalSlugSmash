@@ -22,7 +22,7 @@ namespace ys
 	void Player::Render(HDC hDC)
 	{
 		GameObject::Render(hDC);
-		auto tr = GetComponent<Transform>();
+		/*auto tr = GetComponent<Transform>();
 		auto positionedByCamera = renderer::mainCamera->CalculatPosition(tr->GetPosition());
 		auto position = tr->GetPosition();
 		SetBkMode(hDC, TRANSPARENT);
@@ -31,6 +31,6 @@ namespace ys
 			, (L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).size());
 		TextOut(hDC, positionedByCamera.x, positionedByCamera.y + 20,
 			(L"x: " + std::to_wstring(positionedByCamera.x) + L" y: " + std::to_wstring(positionedByCamera.y)).c_str()
-			, (L"x: " + std::to_wstring(positionedByCamera.x) + L" y: " + std::to_wstring(positionedByCamera.y)).size());
+			, (L"x: " + std::to_wstring(positionedByCamera.x) + L" y: " + std::to_wstring(positionedByCamera.y)).size());*/
 	}
 }

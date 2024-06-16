@@ -38,10 +38,7 @@ private:
 	void idleJump();
 	void moveJump();
 	void lookUp();
-	void lookUpMove();
 	void slide();
-	void attack();
-	void damaged();
 	
 private:
 	math::Vector2 Direction;

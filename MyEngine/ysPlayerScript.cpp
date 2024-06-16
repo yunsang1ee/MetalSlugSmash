@@ -381,6 +381,20 @@ namespace ys
 
 	void PlayerScript::sit()
 	{
+		if (InputManager::getKeyDown(VK_OEM_PERIOD))
+		{
+			ShootBullet();
+		}
+		if (InputManager::getKey(VK_LEFT))
+		{
+			attackDirection = kPi;
+			ownerTransform->SetRotation(kPi);
+		}
+		else if (InputManager::getKey(VK_RIGHT))
+		{
+			attackDirection = 0.0f;
+			ownerTransform->SetRotation(0);
+		}
 		if (!InputManager::getKey(VK_DOWN) 
 			&& playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() != PlayerLowerBodyScript::PlayerState::Slide)
 		{
@@ -852,7 +866,13 @@ namespace ys
 		ownerAudioSource->GetClip()->SetVolume(70.0f);
 		ownerAudioSource->Play();
 		bulletOffset = Vector2::Rotate(Vector2::Right, attackDirection) * 80 - Vector2(0, 30); //총까지 길이가 80정도
+		
 		Vector2 bulletPosition = ownerTransform->GetPosition() + bulletOffset;
+		if (playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() == PlayerLowerBodyScript::PlayerState::Sit
+			|| playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() == PlayerLowerBodyScript::PlayerState::Slide)
+		{
+			bulletPosition.y += 80;
+		}
 		//Vector2 mousePosition =
 		//	app.getmousePosition(); //+ Vector2(position.x - app.getScreen().x / 2, position.y - app.getScreen().y / 2);
 

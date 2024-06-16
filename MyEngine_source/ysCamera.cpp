@@ -64,8 +64,8 @@ namespace ys
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 		auto position = tr->GetPosition();
-		TextOut(hDC, position.x, position.y,
+		/*TextOut(hDC, position.x, position.y,
 			(L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).c_str()
-			, (L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).size());
+			, (L"x: " + std::to_wstring(position.x) + L" y: " + std::to_wstring(position.y)).size());*/
 	}
 }

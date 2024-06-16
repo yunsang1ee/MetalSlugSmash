@@ -275,7 +275,7 @@ void PlayerLowerBodyScript::sit()
 		rb->SetVelocity(Vector2::Right * speed/2);
 		Direction = Vector2::Right;
 	}
-	else if (InputManager::getKeyDown(VK_SPACE))
+	else if (InputManager::getKeyDown(VK_OEM_PERIOD))
 	{
 		if (Direction == Vector2::Right)
 		{
