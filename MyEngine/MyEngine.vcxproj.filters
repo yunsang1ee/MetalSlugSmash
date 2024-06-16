@@ -61,6 +61,7 @@
     <ClInclude Include="WallScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="StartScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayScene.cpp">
@@ -108,5 +109,6 @@
     <ClCompile Include="WallScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="StartScript.cpp" />
   </ItemGroup>
 </Project>

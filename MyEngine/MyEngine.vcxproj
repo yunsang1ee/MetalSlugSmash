@@ -112,7 +112,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>$(SolutionDir)FMOD_SoundSystem\inc</ExternalIncludePath>
-    <LibraryPath>$(SolutionDir)FMOD_SoundSystem\lib\Debug</LibraryPath>
+    <LibraryPath>$(SolutionDir)FMOD_SoundSystem\lib\Release;$(SolutionDir)FMOD_SoundSystem\lib\Debug</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
