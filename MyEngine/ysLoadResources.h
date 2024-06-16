@@ -15,9 +15,15 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"플레이어_가만", L"..\\Resource\\플레이어_가만.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_좌가만", L"..\\Resource\\플레이어_가만.bmp");
 		
-		Resources::Load<graphics::Texture>(L"총알png", L"..\\Resource\\heavyBullet.png");
 		Resources::Load<graphics::Texture>(L"Stage1", L"..\\Resource\\스테이지1.bmp");
 
+		//무기
+		Resources::Load<graphics::Texture>(L"총알png", L"..\\Resource\\heavyBullet.png");
+		Resources::Load<graphics::Texture>(L"수류탄", L"..\\Resource\\수류탄.bmp");
+
+		//폭발
+		Resources::Load<graphics::Texture>(L"수류탄폭발", L"..\\Resource\\수류탄폭발.bmp");
+		
 
 		Resources::Load<graphics::Texture>(L"플레이어_가만", L"..\\Resource\\플레이어_가만.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어_좌가만", L"..\\Resource\\플레이어_가만.bmp");
@@ -70,9 +76,6 @@ namespace ys
 
 		Resources::Load<graphics::Texture>(L"플레이어위_우_하체", L"..\\Resource\\기본위우하체.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어위_좌_하체", L"..\\Resource\\기본위좌하체.bmp");
-
-		
-
 
 		Resources::Load<graphics::Texture>(L"플레이어앉기시작", L"..\\Resource\\플레이어앉기시작.bmp");
 		Resources::Load<graphics::Texture>(L"플레이어앉기시작좌", L"..\\Resource\\플레이어앉기시작.bmp");

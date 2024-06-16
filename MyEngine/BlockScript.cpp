@@ -38,74 +38,119 @@ void BlockScript::Render(HDC hDC)
 
 void BlockScript::OnCollisionEnter(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	switch (other->GetOwner()->GetLayerType())
+	{
+	case ys::enums::LayerType::Projectile:
+	{
+		if (other->GetColliderType() == ColliderType::Circle2D)
+			break;
+		else
+			__fallthrough;
+	}
+	case ys::enums::LayerType::PlayerLowerBody:
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
-		
-		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
-		auto playerTr = other->GetOwner()->GetComponent<Transform>();
-		auto playerCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
-		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
-		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
+		auto otherRb = other->GetOwner()->GetComponent<RigidBody>();
+		auto otherTr = other->GetOwner()->GetComponent<Transform>();
+		auto otherCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
-		if (len < scale && playerRb->GetVelocity().y > 0)
+		float len = fabs(otherTr->GetPosition().y - tr->GetPosition().y);
+		float scale = fabs(otherCd->GetSize().y * 100 / 2.0f);
+
+		if (len < scale && otherRb->GetVelocity().y > 0)
 		{
-			auto playerPosition = playerTr->GetPosition();
-			playerPosition.y -= scale - len;
+			auto otherPosition = otherTr->GetPosition();
+			otherPosition.y -= scale - len;
 
-			playerTr->SetPosition(playerPosition);
+			otherTr->SetPosition(otherPosition);
 		}
 
-		if(playerRb->GetVelocity().y > 0)
-			playerRb->SetGround(true);
+		if (otherRb->GetVelocity().y > 0)
+			otherRb->SetGround(true);
 		else
-			playerRb->SetGround(false);
+			otherRb->SetGround(false);
+		break;
+	}
+	default:
+		break;
 	}
 
 }
 
 void BlockScript::OnCollisionStay(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	switch (other->GetOwner()->GetLayerType())
+	{
+	case ys::enums::LayerType::Projectile:
+	{
+		if (other->GetColliderType() == ColliderType::Circle2D)
+			break;
+		else
+			__fallthrough;
+	}
+	case ys::enums::LayerType::PlayerLowerBody:
 	{
 		auto tr = GetOwner()->GetComponent<Transform>();
 
-		auto playerRb = other->GetOwner()->GetComponent<RigidBody>();
-		auto playerTr = other->GetOwner()->GetComponent<Transform>();
-		auto playerCd = other->GetOwner()->GetComponent<BoxCollider2D>();
+		auto otherRb = other->GetOwner()->GetComponent<RigidBody>();
+		auto otherTr = other->GetOwner()->GetComponent<Transform>();
+		auto otherCd = other->GetOwner()->GetComponent<BoxCollider2D>();
 
-		float len = fabs(playerTr->GetPosition().y - tr->GetPosition().y);
-		float scale = fabs(playerCd->GetSize().y * 100 / 2.0f);
+		float len = fabs(otherTr->GetPosition().y - tr->GetPosition().y);
+		float scale = fabs(otherCd->GetSize().y * 100 / 2.0f);
 
-		if (len < scale && playerRb->GetVelocity().y > 0)
+		if (len < scale && otherRb->GetVelocity().y > 0)
 		{
-			auto playerPosition = playerTr->GetPosition();
-			playerPosition.y -= scale - len - 1.0f;
+			auto otherPosition = otherTr->GetPosition();
+			otherPosition.y -= scale - len - 1.0f;
 
-			playerTr->SetPosition(playerPosition);
+			otherTr->SetPosition(otherPosition);
 		}
 
-		if (playerRb->GetVelocity().y > 0)
-			playerRb->SetGround(true);
+		if (otherRb->GetVelocity().y > 0)
+			otherRb->SetGround(true);
 		else
-			playerRb->SetGround(false);
+			otherRb->SetGround(false);
+		break;
 	}
-
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::Tool)
+	case ys::enums::LayerType::Tool:
 	{
 		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
 			ys::object::Destroy(GetOwner());
+		break;
+	}
+	default:
+		break;
 	}
 }
 
 void BlockScript::OnCollisionExit(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+	switch (other->GetOwner()->GetLayerType())
+	{
+	case ys::enums::LayerType::Projectile:
+	{
+		if (other->GetColliderType() == ColliderType::Circle2D)
+			break;
+		else
+			__fallthrough;
+	}
+	case ys::enums::LayerType::PlayerLowerBody:
 	{
 		auto rb = other->GetOwner()->GetComponent<RigidBody>();
 		auto tr = other->GetOwner()->GetComponent<Transform>();
 
 		rb->SetGround(false);
+		break;
+	}
+	case ys::enums::LayerType::Tool:
+	{
+		if (ys::InputManager::getKeyDown(VK_RBUTTON) && ys::InputManager::getKey(VK_CONTROL))
+			ys::object::Destroy(GetOwner());
+		break;
+	}
+	default:
+		break;
 	}
 }

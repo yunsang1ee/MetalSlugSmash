@@ -226,12 +226,12 @@ void PlayerLowerBodyScript::sit()
 		if (Direction == Vector2::Right)
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩",false);
-			rb->SetVelocity(Vector2(300.0f, rb->GetVelocity().y));
+			rb->SetVelocity(Vector2(800.0f, rb->GetVelocity().y));
 		}
 		else
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩좌",false);
-			rb->SetVelocity(Vector2(-300.0f, rb->GetVelocity().y));
+			rb->SetVelocity(Vector2(-800.0f, rb->GetVelocity().y));
 		}
 		
 		state = PlayerState::Slide;
@@ -455,11 +455,11 @@ void PlayerLowerBodyScript::slide()
 	auto an = GetOwner()->GetComponent<Animator>();
 	auto rb = GetOwner()->GetComponent<RigidBody>();
 	
-	if (InputManager::getKey(VK_DOWN))
+	if (fabsf(rb->GetVelocity().x) <= 400.0f)
 	{
-		if (rb->GetVelocity() == Vector2(0, 0))
+		if(InputManager::getKey(VK_DOWN))
 		{
-			if (Direction==Vector2::Right)
+			if (Direction == Vector2::Right)
 			{
 				an->PlayAnimation(L"플레이어앉음");
 			}
@@ -467,18 +467,26 @@ void PlayerLowerBodyScript::slide()
 			{
 				an->PlayAnimation(L"플레이어앉음좌");
 			}
-			
 			state = PlayerState::Sit;
-			return;
 		}
+		else
+		{
+			if (Direction == Vector2::Right)
+			{
+				an->PlayAnimation(L"플레이어가만하체");
+			}
+			else
+			{
+				an->PlayAnimation(L"플레이어가만하체좌");
+			}
+			state = PlayerState::Idle;
+		}
+		return;
 	}
-	
 
-
-
-	if (InputManager::getKeyDown(VK_SPACE)&&rb->GetVelocity() != Vector2(0, 0))
+	if (InputManager::getKeyDown(VK_OEM_PERIOD))
 	{
-		if (Direction==Vector2::Right)
+		if (Direction == Vector2::Right)
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩_기본총_공격",false);
 		}
@@ -487,20 +495,7 @@ void PlayerLowerBodyScript::slide()
 			an->PlayAnimation(L"플레이어_슬라이딩_기본총_공격좌",false);
 		}
 		
-	}
-	if (rb->GetVelocity() == Vector2(0, 0))
-	{
-		if (Direction == Vector2::Right)
-		{
-			an->PlayAnimation(L"플레이어가만하체");
-		}
-		else
-		{
-			an->PlayAnimation(L"플레이어가만하체좌");
-		}
-		state = PlayerState::Idle;
-	}
-	
+	} 	
 }
 void PlayerLowerBodyScript::NextSitAnimation()
 {

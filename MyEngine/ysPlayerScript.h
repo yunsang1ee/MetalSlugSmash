@@ -56,6 +56,7 @@ namespace ys
 
 		class Transform* ownerTransform;
 		class Animator* ownerAnimator;
+		class AudioSource* ownerAudioSource;
 
 		GameObject* playerLowerBody;
 		PlayerState state;

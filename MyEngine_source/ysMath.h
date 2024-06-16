@@ -63,9 +63,15 @@ namespace ys::math
 		Vector2 nomalize() 
 		{ 
 			auto len = scalar();
-			x /= len;
-			y /= len;
-			return *this;
+			
+			if (len != 0.0f)
+			{
+				x /= len;
+				y /= len;
+				return *this;
+			}
+			else
+				return Vector2::Zero;
 		}
 	};
 }

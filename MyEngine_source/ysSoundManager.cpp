@@ -1,6 +1,7 @@
 #include "ysSoundManager.h"
 #include "ysAudioClip.h"
 #include "YSapplication.h"
+#include <cassert>
 
 extern ys::Application app;
 namespace ys
@@ -8,6 +9,7 @@ namespace ys
 	std::unordered_multimap<enums::AudioGroup, AudioClip*> SoundManager::groups;
 	FMOD::Studio::System* SoundManager::system;
 	FMOD::System* SoundManager::coreSystem;
+	UINT SoundManager::id = 1;
 
 	void SoundManager::Init()
 	{
@@ -20,16 +22,24 @@ namespace ys
 		system->initialize(1024, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, extraDriverData);
 	}
 
-	bool SoundManager::CreateSound(const std::string& path, FMOD::Sound** sound)
+	bool SoundManager::CreateSound(const std::string& path, FMOD::Sound** sound, FMOD::Channel** channel)
 	{
-		if (FMOD_OK != coreSystem->createSound(path.c_str(), FMOD_2D, 0, sound))
+		if (FMOD_OK != coreSystem->createSound(path.c_str(), FMOD_3D, 0, sound))
+		{
+			assert(false);
 			return false;
+		}
+		coreSystem->playSound(*sound, 0, true, channel);
 		return true;
 	}
 
-	void SoundManager::SoundPlay(FMOD::Sound* sound, FMOD::Channel** channel)
+	void SoundManager::SoundPlay(FMOD::Sound* sound, FMOD::Channel** channel, const float& volume)
 	{
-		coreSystem->playSound(sound, 0, false, channel);
+		coreSystem->playSound(sound, 0, true, channel);
+		auto result = (*channel)->setVolume(volume);
+		if (FMOD_OK != result)
+			assert(false);
+		(*channel)->setPaused(false);
 	}
 	void SoundManager::SetListenerAttributes(const math::Vector2& pos)
 	{
@@ -61,6 +71,16 @@ namespace ys
 		}
 
 		groups.insert(std::make_pair(group, clip));
+	}
+	void SoundManager::SetChannel(FMOD::Channel** channel, const UINT& channelId)
+	{
+		if (coreSystem->getChannel(channelId, channel) != FMOD_OK)
+			assert(false);
+	}
+	void SoundManager::Update()
+	{
+		system->update();
+		coreSystem->update();
 	}
 	void SoundManager::Release()
 	{

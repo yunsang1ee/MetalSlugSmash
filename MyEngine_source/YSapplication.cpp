@@ -46,6 +46,7 @@ namespace ys
 	{
 		CollisionManager::Update();
 		SceneManager::Update();
+		SoundManager::Update();
 	}
 
 	void Application::LateUpdate()

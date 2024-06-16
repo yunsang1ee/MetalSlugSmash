@@ -1,6 +1,7 @@
 #include "ysAudioClip.h"
 #include <YSapplication.h>
 #include <ysSoundManager.h>
+#include <cassert>
 
 extern ys::Application app;
 namespace ys
@@ -9,6 +10,7 @@ namespace ys
 		, sound(nullptr), channel(nullptr)
 		, minDistance(1.0f), maxDistance(app.getScreenf().x / 2.0f)
 		, loop(false), group(enums::AudioGroup::None)
+		, volume(1.0f)
 	{
 	}
 	AudioClip::~AudioClip()
@@ -19,7 +21,7 @@ namespace ys
 	HRESULT AudioClip::Load(const std::wstring& path)
 	{
 		std::string sPath{ path.begin(), path.end() };
-		if (!SoundManager::CreateSound(sPath, &sound))
+		if (!SoundManager::CreateSound(sPath, &sound, &channel))
 			return S_FALSE;
 
 		sound->set3DMinMaxDistance(minDistance, maxDistance);
@@ -33,7 +35,7 @@ namespace ys
 		else
 			sound->setMode(FMOD_LOOP_OFF);
 
-		SoundManager::SoundPlay(sound, &channel);
+		SoundManager::SoundPlay(sound, &channel, volume);
 	}
 	void AudioClip::Stop()
 	{
@@ -51,4 +53,8 @@ namespace ys
 	{
 		SoundManager::SetToGroup(group, this);
 	}
+	void AudioClip::SetVolume(const float& percent)
+	{
+		volume = percent / 100.0f;
+	}	
 }
