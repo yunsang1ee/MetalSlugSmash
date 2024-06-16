@@ -10,9 +10,10 @@ namespace ys
 	{
 		//SceneManager::CreateScene<TitleScene>(L"TitleScene");
 		//SceneManager::CreateScene<PlayScene>(L"PlayScene");
-		SceneManager::CreateScene<BossScene>(L"BossScene");
 		SceneManager::CreateScene<STAGE1>(L"Stage1");
-		SceneManager::LoadScene(L"Stage1");
+		SceneManager::CreateScene<BossScene>(L"BossScene");
+		
+		SceneManager::LoadScene(L"BossScene");
 
 	}
 }

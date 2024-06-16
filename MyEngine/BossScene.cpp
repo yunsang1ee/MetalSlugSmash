@@ -31,6 +31,8 @@
 #include "ysSoundManager.h"
 #include <ysAudioListener.h>
 #include <ysAudioSource.h>
+#include "WallScript.h"
+#include "BossSfxScript.h"
 using namespace ys;
 
 ys::BossScene::BossScene()
@@ -51,11 +53,13 @@ void ys::BossScene::Init()
 	}
 	//boss
 	{
-		auto boss = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
+		boss = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
 		auto an = boss->AddComponent<Animator>();
-		auto es = boss->AddComponent<EnemyScript>();
+		auto es = boss->AddComponent<>();
 		auto cd = boss->AddComponent<BoxCollider2D>();
-		boss->GetComponent<Transform>()->SetPosition(Vector2(100, 0));
+
+		cd->SetSize(Vector2(9, 7.5f));
+		boss->GetComponent<Transform>()->SetPosition(Vector2(200, 300));
 
 		an->CrateAnimation(L"보스_기본_Move", Resources::Find<graphics::Texture>(L"보스_기본_Move")
 			, Vector2(0, 49)
@@ -87,18 +91,106 @@ void ys::BossScene::Init()
 	}
 	//보스 sfx
 	{
-		auto bossSfx = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
-		//보스 위치에 맞춰서 맞춰져야함
-		bossSfx->GetComponent<Transform>()->SetPosition(Vector2(5500, 0));
+		auto bossSfx = object::Instantiate<GameObject>(LayerType::Particle, Vector2(0, 0));
+		bossSfx->AddComponent<BossSfxScript>()->SetBoss(boss);
+
 		auto an = bossSfx->AddComponent<Animator>();
 		an->CrateAnimation(L"보스_sfx", Resources::Find<graphics::Texture>(L"보스_SFX")
 			, Vector2(0, 50)
 			, Vector2(825, 374)
-			, Vector2(0, 0), 10, 0.1f);
+			, Vector2(150, -130), 10, 0.1f);
+		
 		an->PlayAnimation(L"보스_sfx");
 	}
-	
+	{
+		auto bossSfx = object::Instantiate<GameObject>(LayerType::Particle, Vector2(0, 0));
+		bossSfx->AddComponent<BossSfxScript>()->SetBoss(boss);
+		auto an = bossSfx->AddComponent<Animator>();
+		an->CrateAnimation(L"보스_waves", Resources::Find<graphics::Texture>(L"보스_waves")
+			, Vector2(15, 0)
+			, Vector2(930, 259)
+			, Vector2(-30, 500), 10, 0.1f);
+		an->PlayAnimation(L"보스_waves");
+	}
+	{
+		auto bossBullet = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
+		auto an = bossBullet->AddComponent<Animator>();
+		auto bs = bossBullet->AddComponent<BulletScript>();
+		auto cd = bossBullet->AddComponent<BoxCollider2D>();
+		cd->SetSize(Vector2(1, 1));
+		bossBullet->GetComponent<Transform>()->SetPosition(Vector2(100, 0));
 
+		an->CrateAnimation(L"보스_총알", Resources::Find<graphics::Texture>(L"보스_총알")
+			, Vector2(0, 0)
+			, Vector2(16, 16)
+			, Vector2(0, 0), 1, 0.1f);
+		an->PlayAnimation(L"보스_총알", true);
+
+
+	}
+	{
+		camera = object::Instantiate<GameObject>(LayerType::Camera);
+		renderer::mainCamera = camera->AddComponent<Camera>();
+		renderer::mainCamera;
+		camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 500), Vector2(3350, 1225));
+		camera->AddComponent<CameraScript>();
+		auto ad = camera->AddComponent<AudioSource>();
+		ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
+		ad->SetLoop(true);
+	}
+	//플랫폼
+	{
+		std::ifstream file{ "..\\Resource\\box2.txt" };
+		std::string buff;
+		Vector2 pos;
+		Vector2 size;
+		while (file >> buff)
+		{
+			pos.x = stof(buff);
+			file >> buff;
+			pos.y = stof(buff);
+			file >> buff;
+			size.x = stof(buff);
+			file >> buff;
+			size.y = stof(buff);
+			auto block = object::Instantiate<GameObject>(LayerType::Block, pos);
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(size);
+			block->AddComponent<BlockScript>();
+			Blocks.push_back(block);
+		}
+	}
+	//벽
+	{
+		std::ifstream file{ "..\\Resource\\Wall2.txt" };
+		std::string buff;
+		Vector2 pos;
+		Vector2 size;
+		while (file >> buff)
+		{
+			pos.x = stof(buff);
+			file >> buff;
+			pos.y = stof(buff);
+			file >> buff;
+			size.x = stof(buff);
+			file >> buff;
+			size.y = stof(buff);
+			auto block = object::Instantiate<GameObject>(LayerType::Wall, pos);
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"Wall");
+			bx->SetSize(size);
+			block->AddComponent<WallScript>();
+			Walls.push_back(block);
+		}
+	}
+	{
+		auto drawBox = object::Instantiate<GameObject>(LayerType::Tool, Vector2(0, 0));
+		auto ds = drawBox->AddComponent<drawBoxScript>();
+
+	}
 	Scene::Init();
 }
 

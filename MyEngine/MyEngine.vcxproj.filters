@@ -61,7 +61,13 @@
     <ClInclude Include="WallScript.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="StartScript.h" />
+    <ClInclude Include="BossSfxScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ysPlayScene.cpp">
@@ -109,6 +115,12 @@
     <ClCompile Include="WallScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="StartScript.cpp" />
+    <ClCompile Include="BossSfxScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScript.cpp" />
   </ItemGroup>
 </Project>

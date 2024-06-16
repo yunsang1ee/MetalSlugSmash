@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="BlockScript.h" />
     <ClInclude Include="BossScene.h" />
+    <ClInclude Include="BossScript.h" />
+    <ClInclude Include="BossSfxScript.h" />
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="drawBoxScript.h" />
@@ -41,6 +43,8 @@
   <ItemGroup>
     <ClCompile Include="BlockScript.cpp" />
     <ClCompile Include="BossScene.cpp" />
+    <ClCompile Include="BossScript.cpp" />
+    <ClCompile Include="BossSfxScript.cpp" />
     <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="drawBoxScript.cpp" />

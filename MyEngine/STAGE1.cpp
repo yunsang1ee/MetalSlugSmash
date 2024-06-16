@@ -218,14 +218,7 @@ namespace ys
 
 	void ys::STAGE1::Update()
 	{
-		if (PlayerLowerBody->GetComponent<Transform>()->GetPosition().x >= 9000)
-		{
-			backBackground->GetComponent<BackGroundScript>()->SetParallax(-100);
-		}
-		else
-		{
-			backBackground->GetComponent<BackGroundScript>()->SetParallax(0);
-		}
+		
 		
 		Scene::Update();
 	}
