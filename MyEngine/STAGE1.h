@@ -30,6 +30,8 @@ namespace ys
 		GameObject* PlayerLowerBody;
 		std::vector<GameObject*> bulletPool;
 		std::vector<GameObject*> Blocks;
+		std::vector<GameObject*> Walls;
+		std::vector<GameObject*> Enemys;
 		GameObject* camera;
 	};
 }

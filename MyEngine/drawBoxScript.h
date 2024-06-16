@@ -17,6 +17,13 @@ public:
 private:
 	Vector2 lt;
 	Vector2 rb;
-	bool wallDraw = false;
+	enum class DrawType
+	{
+		Block,
+		Wall,
+		Enemy,
+		Item
+	};
+	DrawType drawType;
 };
 

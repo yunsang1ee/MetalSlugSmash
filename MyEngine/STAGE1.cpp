@@ -30,7 +30,8 @@
 #include <ysAudioListener.h>
 #include <ysAudioSource.h>
 #include "WallScript.h"
-
+#include <string>
+#include <sstream>
 extern ys::Application app;
 namespace ys
 {
@@ -237,12 +238,30 @@ namespace ys
 		}
 		
 		//Enemy
-		{
+		/*{
 			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
 			enemy->GetComponent<Transform>()->SetPosition(Vector2(5750, 300));
 			enemy->AddComponent<EnemyScript>();
+		}*/
+		{
+			std::ifstream file{ "..\\Resource\\Enemy.txt" };
+			std::string buff;
+			Vector2 pos;
+			while (!file.eof())
+			{
+
+				getline(file, buff);
+				std::stringstream ss{ buff };
+				ss >> pos.x >> pos.y;
+				auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, {0,0});
+				enemy->GetComponent<Transform>()->SetPosition(pos);
+				auto es = enemy->AddComponent<EnemyScript>();
+				es->IsAdd();
+
+				Enemys.push_back(enemy);
+			}
+			file.close();
 		}
-		
 		{
 			std::ifstream file{ "..\\Resource\\box1.txt" };
 			std::string buff;
@@ -287,7 +306,7 @@ namespace ys
 				bx->setName(L"Wall");
 				bx->SetSize(size);
 				block->AddComponent<WallScript>();
-				Blocks.push_back(block);
+				Walls.push_back(block);
 			}
 		}
 

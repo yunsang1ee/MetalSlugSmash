@@ -31,5 +31,8 @@
     <Text Include="..\Resource\Wall.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+    <Text Include="..\Resource\Enemy.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>

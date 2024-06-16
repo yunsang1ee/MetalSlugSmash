@@ -32,7 +32,7 @@ namespace ys
 		void SetHp(int hp) { this->hp = hp; }
 		int GetHp() { return hp; }
 		void NexTAnimation();
-		
+		void IsAdd();
 	private:
 		void destroy();
 		void move();

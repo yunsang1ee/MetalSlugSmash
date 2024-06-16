@@ -26,104 +26,10 @@ ys::EnemyScript::EnemyScript()
 ys::EnemyScript::~EnemyScript()
 {
 }
-
+ 
 void ys::EnemyScript::Init()
 {
-	auto an = GetOwner()->AddComponent<Animator>();
-	auto rb = GetOwner()->AddComponent<RigidBody>();
-	auto cd = GetOwner()->AddComponent<BoxCollider2D>();
-	auto es = GetOwner()->GetComponent<EnemyScript>();
-
-	cd->SetOffset(Vector2(-30, -25));
-	cd->SetSize(Vector2(1.5f, 1.25f));
-	an->CrateAnimation(L"╟т_idle", Resources::Find<graphics::Texture>(L"╟т_idle")
-		, Vector2(0, 0)
-		, Vector2(200, 150)
-		, Vector2(-60, -50), 7, 0.1f, true);
-	an->CrateAnimation(L"╟т_idle_аб", Resources::Find<graphics::Texture>(L"╟т_idle_аб")
-		, Vector2(0, 0)
-		, Vector2(200, 150)
-		, Vector2(-60, -50), 7, 0.1f);
-
-	an->CrateAnimation(L"╟т_walk", Resources::Find<graphics::Texture>(L"╟т_walk")
-		, Vector2(0, 0)
-		, Vector2(200, 146)
-		, Vector2(-60, -50), 7, 0.1f, true);
-	an->CrateAnimation(L"╟т_walk_аб", Resources::Find<graphics::Texture>(L"╟т_walk_аб")
-		, Vector2(0, 0)
-		, Vector2(200, 146)
-		, Vector2(-60, -50), 7, 0.1f);
-
-	an->CrateAnimation(L"╟т_attack_╠Б╨╩1", Resources::Find<graphics::Texture>(L"╟т_attack")
-		, Vector2(50, 0)
-		, Vector2(177, 170)
-		, Vector2(-60, -50), 5, 0.1f, true);
-	an->CrateAnimation(L"╟т_attack_╠Б╨╩2", Resources::Find<graphics::Texture>(L"╟т_attack")
-		, Vector2(938, 0)
-		, Vector2(243, 170)
-		, Vector2(-60, -50), 4, 0.1f, true);
-	an->CrateAnimation(L"╟т_attack_аб_╠Б╨╩1", Resources::Find<graphics::Texture>(L"╟т_attack_аб")
-		, Vector2(50, 0)
-		, Vector2(177, 170)
-		, Vector2(-60, -50), 5, 0.1f);
-	an->CrateAnimation(L"╟т_attack_аб_╠Б╨╩2", Resources::Find<graphics::Texture>(L"╟т_attack_аб")
-		, Vector2(938, 0)
-		, Vector2(243, 170)
-		, Vector2(-60, -50), 4, 0.1f);
-
-
-	an->CrateAnimation(L"╟т_death_1", Resources::Find<graphics::Texture>(L"╟т_death_1")
-		, Vector2(10, 0)
-		, Vector2(320, 165)
-		, Vector2(-70, -65), 7, 0.1f, true);
-	an->CrateAnimation(L"╟т_death_1_аб", Resources::Find<graphics::Texture>(L"╟т_death_1_аб")
-		, Vector2(10, 0)
-		, Vector2(320, 165)
-		, Vector2(-70, -65), 7, 0.1f);
-
-	an->CrateAnimation(L"╟т_death_2", Resources::Find<graphics::Texture>(L"╟т_death_2")
-		, Vector2(77, 0)
-		, Vector2(245, 184)
-		, Vector2(-60, -75), 6, 0.1f, true);
-	an->CrateAnimation(L"╟т_death_2_аб", Resources::Find<graphics::Texture>(L"╟т_death_2_аб")
-		, Vector2(77, 0)
-		, Vector2(245, 184)
-		, Vector2(-60, -55), 6, 0.1f);
-
-	an->CrateAnimation(L"╟т_death_3", Resources::Find<graphics::Texture>(L"╟т_death_3")
-		, Vector2(0, 0)
-		, Vector2(353, 190)
-		, Vector2(-90, -90), 7, 0.1f, true);
-	an->CrateAnimation(L"╟т_death_3_аб", Resources::Find<graphics::Texture>(L"╟т_death_3_аб")
-		, Vector2(0, 0)
-		, Vector2(353, 190)
-		, Vector2(-90, -90), 7, 0.1f);
-	an->CrateAnimation(L"╟т_death_4", Resources::Find<graphics::Texture>(L"╟т_death_4")
-		, Vector2(50, 0)
-		, Vector2(280, 182)
-		, Vector2(-100, -70), 3, 0.1f, true);
-	an->CrateAnimation(L"╟т_death_4_аб", Resources::Find<graphics::Texture>(L"╟т_death_4_аб")
-		, Vector2(50, 0)
-		, Vector2(280, 182)
-		, Vector2(-100, -70), 3, 0.1f);
-
-
-	an->GetCompleteEvent(L"╟т_attack_╠Б╨╩1") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_attack_╠Б╨╩2") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_attack_аб_╠Б╨╩1") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_attack_аб_╠Б╨╩2") = std::bind(&EnemyScript::NexTAnimation, es);
-
-	an->GetCompleteEvent(L"╟т_death_1") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_2") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_3") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_4") = std::bind(&EnemyScript::NexTAnimation, es);
-
-	an->GetCompleteEvent(L"╟т_death_1_аб") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_2_аб") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_3_аб") = std::bind(&EnemyScript::NexTAnimation, es);
-	an->GetCompleteEvent(L"╟т_death_4_аб") = std::bind(&EnemyScript::NexTAnimation, es);
-
-	an->PlayAnimation(L"╟т_walk_аб", true);
+	
 }
 
 void ys::EnemyScript::Update()
@@ -340,6 +246,105 @@ void ys::EnemyScript::NexTAnimation()
 		}
 	}
 	
+}
+
+void ys::EnemyScript::IsAdd()
+{
+	auto an = GetOwner()->AddComponent<Animator>();
+	auto rb = GetOwner()->AddComponent<RigidBody>();
+	auto cd = GetOwner()->AddComponent<BoxCollider2D>();
+	auto es = GetOwner()->GetComponent<EnemyScript>();
+
+	cd->SetOffset(Vector2(-30, -25));
+	cd->SetSize(Vector2(1.5f, 1.25f));
+	an->CrateAnimation(L"╟т_idle", Resources::Find<graphics::Texture>(L"╟т_idle")
+		, Vector2(0, 0)
+		, Vector2(200, 150)
+		, Vector2(-60, -50), 7, 0.1f, true);
+	an->CrateAnimation(L"╟т_idle_аб", Resources::Find<graphics::Texture>(L"╟т_idle_аб")
+		, Vector2(0, 0)
+		, Vector2(200, 150)
+		, Vector2(-60, -50), 7, 0.1f);
+
+	an->CrateAnimation(L"╟т_walk", Resources::Find<graphics::Texture>(L"╟т_walk")
+		, Vector2(0, 0)
+		, Vector2(200, 146)
+		, Vector2(-60, -50), 7, 0.1f, true);
+	an->CrateAnimation(L"╟т_walk_аб", Resources::Find<graphics::Texture>(L"╟т_walk_аб")
+		, Vector2(0, 0)
+		, Vector2(200, 146)
+		, Vector2(-60, -50), 7, 0.1f);
+
+	an->CrateAnimation(L"╟т_attack_╠Б╨╩1", Resources::Find<graphics::Texture>(L"╟т_attack")
+		, Vector2(50, 0)
+		, Vector2(177, 170)
+		, Vector2(-60, -50), 5, 0.1f, true);
+	an->CrateAnimation(L"╟т_attack_╠Б╨╩2", Resources::Find<graphics::Texture>(L"╟т_attack")
+		, Vector2(938, 0)
+		, Vector2(243, 170)
+		, Vector2(-60, -50), 4, 0.1f, true);
+	an->CrateAnimation(L"╟т_attack_аб_╠Б╨╩1", Resources::Find<graphics::Texture>(L"╟т_attack_аб")
+		, Vector2(50, 0)
+		, Vector2(177, 170)
+		, Vector2(-60, -50), 5, 0.1f);
+	an->CrateAnimation(L"╟т_attack_аб_╠Б╨╩2", Resources::Find<graphics::Texture>(L"╟т_attack_аб")
+		, Vector2(938, 0)
+		, Vector2(243, 170)
+		, Vector2(-60, -50), 4, 0.1f);
+
+
+	an->CrateAnimation(L"╟т_death_1", Resources::Find<graphics::Texture>(L"╟т_death_1")
+		, Vector2(10, 0)
+		, Vector2(320, 165)
+		, Vector2(-70, -65), 7, 0.1f, true);
+	an->CrateAnimation(L"╟т_death_1_аб", Resources::Find<graphics::Texture>(L"╟т_death_1_аб")
+		, Vector2(10, 0)
+		, Vector2(320, 165)
+		, Vector2(-70, -65), 7, 0.1f);
+
+	an->CrateAnimation(L"╟т_death_2", Resources::Find<graphics::Texture>(L"╟т_death_2")
+		, Vector2(77, 0)
+		, Vector2(245, 184)
+		, Vector2(-60, -75), 6, 0.1f, true);
+	an->CrateAnimation(L"╟т_death_2_аб", Resources::Find<graphics::Texture>(L"╟т_death_2_аб")
+		, Vector2(77, 0)
+		, Vector2(245, 184)
+		, Vector2(-60, -55), 6, 0.1f);
+
+	an->CrateAnimation(L"╟т_death_3", Resources::Find<graphics::Texture>(L"╟т_death_3")
+		, Vector2(0, 0)
+		, Vector2(353, 190)
+		, Vector2(-90, -90), 7, 0.1f, true);
+	an->CrateAnimation(L"╟т_death_3_аб", Resources::Find<graphics::Texture>(L"╟т_death_3_аб")
+		, Vector2(0, 0)
+		, Vector2(353, 190)
+		, Vector2(-90, -90), 7, 0.1f);
+	an->CrateAnimation(L"╟т_death_4", Resources::Find<graphics::Texture>(L"╟т_death_4")
+		, Vector2(50, 0)
+		, Vector2(280, 182)
+		, Vector2(-100, -70), 3, 0.1f, true);
+	an->CrateAnimation(L"╟т_death_4_аб", Resources::Find<graphics::Texture>(L"╟т_death_4_аб")
+		, Vector2(50, 0)
+		, Vector2(280, 182)
+		, Vector2(-100, -70), 3, 0.1f);
+
+
+	an->GetCompleteEvent(L"╟т_attack_╠Б╨╩1") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_attack_╠Б╨╩2") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_attack_аб_╠Б╨╩1") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_attack_аб_╠Б╨╩2") = std::bind(&EnemyScript::NexTAnimation, es);
+
+	an->GetCompleteEvent(L"╟т_death_1") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_2") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_3") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_4") = std::bind(&EnemyScript::NexTAnimation, es);
+
+	an->GetCompleteEvent(L"╟т_death_1_аб") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_2_аб") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_3_аб") = std::bind(&EnemyScript::NexTAnimation, es);
+	an->GetCompleteEvent(L"╟т_death_4_аб") = std::bind(&EnemyScript::NexTAnimation, es);
+
+	an->PlayAnimation(L"╟т_walk_аб", true);
 }
 
 void ys::EnemyScript::destroy()

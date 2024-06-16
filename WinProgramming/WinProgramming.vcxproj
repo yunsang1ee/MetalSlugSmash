@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Resource\box1.txt" />
+    <Text Include="..\Resource\Enemy.txt" />
     <Text Include="..\Resource\Wall.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
