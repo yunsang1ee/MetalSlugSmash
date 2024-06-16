@@ -52,9 +52,12 @@ namespace ys
 
 		if (count != 0 && ownerAnimator->GetActive()->IsComplete())
 			ShootBullet();
+		
+		if(ownerAudioSource->GetClip())
+			ownerAudioSource->GetClip()->SetAttributes(ownerTransform->GetPosition() + bulletOffset);
 
 		ownerTransform->SetPosition({ playerLowerBody->GetComponent<Transform>()->GetPosition().x
-			, playerLowerBody->GetComponent<Transform>()->GetPosition().y-20 });
+			, playerLowerBody->GetComponent<Transform>()->GetPosition().y - 20 });
 		switch (state)
 		{
 		case PlayerScript::PlayerState::Idle:
@@ -131,6 +134,7 @@ namespace ys
 		}
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 			else
@@ -169,6 +173,7 @@ namespace ys
 	{
 		if (InputManager::getKey(VK_OEM_PERIOD) && playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
+			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
 			else
@@ -237,6 +242,7 @@ namespace ys
 		}
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 			else
@@ -410,6 +416,7 @@ namespace ys
 	{
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			attackDirection = kPi / 2.0f;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어아래총쏘는중상체좌", false);
@@ -455,6 +462,7 @@ namespace ys
 			return;
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (playerLowerBody->GetComponent<RigidBody>()->IsGround())
 			{
 				if (ownerTransform->GetRotation() == kPi)
@@ -479,6 +487,7 @@ namespace ys
 		}
 		else if (!playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
+			attack = false;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);
 			else
@@ -487,6 +496,7 @@ namespace ys
 		}
 		else
 		{
+			attack = false;
 			std::wstring animationName;
 
 			animationName = L"플레이어이동상체";
@@ -521,6 +531,7 @@ namespace ys
 			return;
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (InputManager::getKey(VK_UP))
 			{
 				attackDirection = kPi / 2.0f;
@@ -550,6 +561,7 @@ namespace ys
 		}
 		else if(!playerLowerBody->GetComponent<RigidBody>()->IsGround())
 		{
+			attack = false;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어이동점프좌", false);
 			else
@@ -558,6 +570,7 @@ namespace ys
 		}
 		else
 		{
+			attack = false;
 			std::wstring animationName;
 
 			animationName = L"플레이어이동상체";
@@ -590,6 +603,7 @@ namespace ys
 	{
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어점프총쏘는중상체좌", false);
 			else
@@ -646,11 +660,11 @@ namespace ys
 	}
 	void PlayerScript::idle_Attack()
 	{
-		//보고있는 방향으로 총쏘기
 		if (!ownerAnimator->IsComplete())
 			return;
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (InputManager::getKey(VK_UP))
 			{
 				attackDirection = 3.0f * kPi / 2.0f;
@@ -678,6 +692,7 @@ namespace ys
 		}
 		else
 		{
+			attack = false;
 			std::wstring animationName;
 
 			animationName = L"플레이어이동상체";
@@ -710,6 +725,7 @@ namespace ys
 	{
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어위총쏘는중상체좌", false);
 			else
@@ -754,6 +770,7 @@ namespace ys
 			return;
 		if (InputManager::getKey(VK_OEM_PERIOD))
 		{
+			attack = true;
 			if (InputManager::getKey(VK_LEFT))
 				ownerTransform->SetRotation(kPi);
 			else if (InputManager::getKey(VK_RIGHT))
@@ -783,6 +800,7 @@ namespace ys
 		}
 		else if (InputManager::getKey(VK_UP))
 		{
+			attack = false;
 			attackDirection = 3.0f * kPi / 2.0f;
 			if (ownerTransform->GetRotation() == kPi)
 				ownerAnimator->PlayAnimation(L"플레이어기본총위상체좌");
@@ -792,6 +810,7 @@ namespace ys
 		}
 		else
 		{
+			attack = false;
 			std::wstring animationName;
 
 			animationName = L"플레이어이동상체";

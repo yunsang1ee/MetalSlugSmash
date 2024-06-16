@@ -30,6 +30,7 @@
 #include <ysAudioListener.h>
 #include <ysAudioSource.h>
 #include "WallScript.h"
+#include "StartScript.h"
 
 extern ys::Application app;
 namespace ys
@@ -43,45 +44,6 @@ namespace ys
 	}
 	void ys::STAGE1::Init()
 	{	
-		{
-			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
-
-			auto sr = stone->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"돌"));
-
-			auto bs = stone->AddComponent<BackGroundScript>();
-			bs->SetParallax(0);
-		}
-		{
-			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
-
-			auto sr = background->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
-			
-			auto bs = background->AddComponent<BackGroundScript>();
-			auto ad = background->AddComponent<AudioSource>();
-			ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
-			ad->SetLoop(true);
-			if (SceneManager::GetActiveScene()->getName()==L"Stage1")
-			{
-				//ad->Play();
-				// 엑티브 씬이 Stage1일때만 플레이인데 왜 되는지 모르겠음
-			}
-			
-
-			bs->SetParallax(0);
-			background->AddComponent<AudioSource>();
-		}
-		{
-			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
-
-			auto sr = backBackground->AddComponent<SpriteRenderer>();
-			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
-			
-			auto bs = backBackground->AddComponent<BackGroundScript>();
-			bs->SetParallax(0);
-		}
-		
 		//Player하체
 		{
 			PlayerLowerBody = object::Instantiate<Player>(LayerType::PlayerLowerBody
@@ -89,7 +51,7 @@ namespace ys
 
 			auto an = PlayerLowerBody->AddComponent<Animator>();
 			auto plysc = PlayerLowerBody->AddComponent<PlayerLowerBodyScript>();
-			
+			plysc->SetPlayerChest(player);
 			auto cd = PlayerLowerBody->AddComponent<BoxCollider2D>();
 			cd->SetOffset(Vector2(-50, -50));
 			
@@ -229,17 +191,20 @@ namespace ys
 		}
 
 		//Player
-
 		{
 			player = object::Instantiate<Player>(LayerType::PlayerTop, { 0, 0 });
 			auto as = player->AddComponent<AudioSource>();
+			player->AddComponent<AudioListener>();
 			auto plysc = player->AddComponent<PlayerScript>();
 
 			plysc->SetLowerBody(PlayerLowerBody);
 			playerCreateAnimation();
 			ys::object::DontDestroyOnLoad(player);
 		}
-		
+
+		auto plysc = PlayerLowerBody->GetComponent<PlayerLowerBodyScript>();
+		plysc->SetPlayerChest(player);
+
 		//Enemy
 		{
 			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
@@ -296,6 +261,103 @@ namespace ys
 			an->PlayAnimation(L"게_walk", true);
 		}
 		
+		//mapTool
+		{
+			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
+			auto bx = drawBox->AddComponent<CircleCollider2D>();
+			bx->SetSize(Vector2::One * 0.1);
+			drawBox->AddComponent<drawBoxScript>();
+		}
+		Scene::Init();
+	}
+
+	void ys::STAGE1::Update()
+	{
+		Scene::Update();
+	}
+
+	void ys::STAGE1::LateUpdate()
+	{
+		Scene::LateUpdate();
+		
+	}
+
+	void ys::STAGE1::Render(HDC hDC, const int& index)
+	{
+		Scene::Render(hDC, index);
+	}
+
+	void STAGE1::Destroy()
+	{
+		Scene::Destroy();
+	}
+
+	void STAGE1::OnEnter()
+	{
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
+		
+		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(100.0f, app.getScreenf().y / 5.0f));
+		//미션스타트
+		{
+			auto start = object::Instantiate<GameObject>(LayerType::UI
+				, Vector2(app.getScreenf().x + 100.0f, app.getScreenf().y / 4.0f));
+
+			auto sr = start->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"MISSION_1_START"));
+			sr->SetSizeByScreen(Vector2(256.0f, 64.0f) * 3.0f);
+			sr->SetOffset(Vector2(0.0f, 66.0f), Vector2(445.0f, 171.0f));
+			auto rb = start->AddComponent<RigidBody>();
+			rb->SetGravity(Vector2::Zero);
+			rb->SetFriction(0.0f);
+			rb->SetVelocity(Vector2::Left * 600.0f);
+		}
+		//돌
+		{
+			auto stone = object::Instantiate<GameObject>(LayerType::Impediments, Vector2(1542, 500));
+
+			auto sr = stone->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"돌"));
+
+			auto bs = stone->AddComponent<BackGroundScript>();
+			bs->SetParallax(0);
+		}
+		//스테이지 1
+		{
+			background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, -450));
+
+			auto sr = background->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"Stage1"));
+
+			auto bs = background->AddComponent<BackGroundScript>();
+			bs->SetParallax(0);
+			auto as = background->AddComponent<AudioSource>();
+			as->SetClip(Resources::Find<AudioClip>(L"미션스타트"));
+			as->SetLoop(false);
+			as->Play();
+
+			as->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
+			as->SetLoop(true);
+			as->Play();
+		}
+		//배경배경
+		{
+			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
+
+			auto sr = backBackground->AddComponent<SpriteRenderer>();
+			sr->SetTexture(Resources::Find<graphics::Texture>(L"뒷배경숲"));
+
+			auto bs = backBackground->AddComponent<BackGroundScript>();
+			bs->SetParallax(0);
+		}
+		//플랫폼
 		{
 			std::ifstream file{ "..\\Resource\\box1.txt" };
 			std::string buff;
@@ -319,7 +381,7 @@ namespace ys
 				Blocks.push_back(block);
 			}
 		}
-
+		//벽
 		{
 			std::ifstream file{ "..\\Resource\\Wall.txt" };
 			std::string buff;
@@ -361,59 +423,11 @@ namespace ys
 			renderer::mainCamera = camera->AddComponent<Camera>();
 			renderer::mainCamera->SetTarget(player);
 			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(15600, 363));
-			camera->AddComponent<CameraScript>();
-			camera->AddComponent<AudioListener>();
+			camera->AddComponent<CameraScript>()->SetTarget(player);
+			auto ad = camera->AddComponent<AudioSource>();
+			ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
+			ad->SetLoop(true);
 		}
-		//mapTool
-		{
-			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
-			auto bx = drawBox->AddComponent<CircleCollider2D>();
-			bx->SetSize(Vector2::One * 0.1);
-			drawBox->AddComponent<drawBoxScript>();
-		}
-		
-		
-		Scene::Init();
-	}
-
-	void ys::STAGE1::Update()
-	{
-		Scene::Update();
-	}
-
-	void ys::STAGE1::LateUpdate()
-	{
-		Scene::LateUpdate();
-		
-	}
-
-	void ys::STAGE1::Render(HDC hDC, const int& index)
-	{
-		Scene::Render(hDC, index);
-	}
-
-	void STAGE1::Destroy()
-	{
-		Scene::Destroy();
-	}
-
-	void STAGE1::OnEnter()
-	{
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
-		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
-		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
-
-		auto as = background->GetComponent<AudioSource>();
-		as->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
-		as->SetLoop(true);
-		as->GetClip()->SetGroup(enums::AudioGroup::BackGorund);
-		as->Play();
-		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(6000.0f, app.getScreenf().y / 5.0f));
 	}
 	void STAGE1::OnExit() 
 	{

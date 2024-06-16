@@ -1,6 +1,7 @@
 #include "CameraScript.h"
 #include <ysCamera.h>
 #include <ysTransform.h>
+#include <ysAudioSource.h>
 
 namespace ys
 {
@@ -18,7 +19,9 @@ namespace ys
 
 	void ys::CameraScript::Update()
 	{
-
+		auto tr = GetOwner()->GetComponent<Transform>();
+		if (target)
+			tr->SetPosition(target->GetComponent<Transform>()->GetPosition());
 	}
 
 	void ys::CameraScript::LateUpdate()

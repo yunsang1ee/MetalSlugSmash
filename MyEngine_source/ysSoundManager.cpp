@@ -24,7 +24,8 @@ namespace ys
 
 	bool SoundManager::CreateSound(const std::string& path, FMOD::Sound** sound, FMOD::Channel** channel)
 	{
-		if (FMOD_OK != coreSystem->createSound(path.c_str(), FMOD_3D, 0, sound))
+		auto result = coreSystem->createSound(path.c_str(), FMOD_3D, 0, sound);
+		if (FMOD_OK != result)
 		{
 			assert(false);
 			return false;
