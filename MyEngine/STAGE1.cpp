@@ -218,6 +218,15 @@ namespace ys
 
 	void ys::STAGE1::Update()
 	{
+		if (PlayerLowerBody->GetComponent<Transform>()->GetPosition().x >= 9000)
+		{
+			backBackground->GetComponent<BackGroundScript>()->SetParallax(-100);
+		}
+		else
+		{
+			backBackground->GetComponent<BackGroundScript>()->SetParallax(0);
+		}
+		
 		Scene::Update();
 	}
 
@@ -294,7 +303,7 @@ namespace ys
 		}
 		//¹è°æ¹è°æ
 		{
-			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -250));
+			backBackground = object::Instantiate<GameObject>(LayerType::BackBackGround, Vector2(9000, -450));
 
 			auto sr = backBackground->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"µÞ¹è°æ½£"));
