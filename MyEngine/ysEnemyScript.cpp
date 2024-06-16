@@ -46,7 +46,13 @@ void ys::EnemyScript::Update()
 	default:
 		break;
 	}
-	
+	if (!death)
+	{
+		if (hp <= 0)
+		{
+			destroy();
+		}
+	}
 	
 }
 
@@ -128,10 +134,11 @@ void ys::EnemyScript::OnCollisionEnter(Collider* other)
 		if (other->GetOwner()->GetLayerType() == enums::LayerType::Projectile) {
 			int damage = other->GetOwner()->GetComponent<BulletScript>()->getDamage();
 			hp -= damage;
-			if (hp < 0)
-			{
-				destroy();
-			}
+			
+		}
+		if (other->GetOwner()->GetLayerType() == enums::LayerType::Boom)
+		{
+			hp -= 101;
 		}
 	}
 	
@@ -166,6 +173,7 @@ void ys::EnemyScript::OnCollisionStay(Collider* other)
 		else
 			playerRb->SetGround(false);
 	}
+	
 	
 
 
@@ -281,51 +289,56 @@ void ys::EnemyScript::NexTAnimation()
 		enemyState = EnemyState::Move;
 		return;
 	}
-
-	if (!moveRight)
+	if (death)
 	{
-		if (nowName == L"╟т_death_1")
+		if (moveRight)
 		{
-			an->PlayAnimation(L"╟т_death_2", false);
-			return;
+			if (nowName == L"╟т_death_1")
+			{
+				an->PlayAnimation(L"╟т_death_2", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_2")
+			{
+				an->PlayAnimation(L"╟т_death_3", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_3")
+			{
+				an->PlayAnimation(L"╟т_death_4", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_4")
+			{
+				ys::object::Destroy(GetOwner());
+				return;
+			}
 		}
-		else if (nowName == L"╟т_death_2")
+		else if (!moveRight)
 		{
-			an->PlayAnimation(L"╟т_death_3", false);
-			return;
-		}
-		else if (nowName == L"╟т_death_3")
-		{
-			an->PlayAnimation(L"╟т_death_4", false);
-			return;
-		}
-		else if (nowName == L"╟т_death_4")
-		{
-			ys::object::Destroy(GetOwner());
+			if (nowName == L"╟т_death_1_аб")
+			{
+				an->PlayAnimation(L"╟т_death_2_аб", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_2_аб")
+			{
+				an->PlayAnimation(L"╟т_death_3_аб", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_3_аб")
+			{
+				an->PlayAnimation(L"╟т_death_4_аб", false);
+				return;
+			}
+			else if (nowName == L"╟т_death_4_аб")
+			{
+				ys::object::Destroy(GetOwner());
+				return;
+			}
 		}
 	}
-	else if (moveRight)
-	{
-		if (nowName == L"╟т_death_1_аб")
-		{
-			an->PlayAnimation(L"╟т_death_2_аб", false);
-			return;
-		}
-		else if (nowName == L"╟т_death_2_аб")
-		{
-			an->PlayAnimation(L"╟т_death_3_аб", false);
-			return;
-		}
-		else if (nowName == L"╟т_death_3_аб")
-		{
-			an->PlayAnimation(L"╟т_death_4_аб", false);
-			return;
-		}
-		else if (nowName == L"╟т_death_4_аб")
-		{
-			ys::object::Destroy(GetOwner());
-		}
-	}
+	
 	
 }
 
@@ -427,13 +440,21 @@ void ys::EnemyScript::IsAdd()
 	an->GetCompleteEvent(L"╟т_death_3_аб") = std::bind(&EnemyScript::NexTAnimation, es);
 	an->GetCompleteEvent(L"╟т_death_4_аб") = std::bind(&EnemyScript::NexTAnimation, es);
 
-	an->PlayAnimation(L"╟т_attack_аб_╠Б╨╩1", true);
+	an->PlayAnimation(L"╟т_walk", true);
 }
 
 void ys::EnemyScript::destroy()
 {
 	auto an = GetOwner()->GetComponent<Animator>();
-	an->PlayAnimation(L"╟т_death_1", false);
+	if (moveRight)
+	{
+		an->PlayAnimation(L"╟т_death_1", false);
+	}
+	else
+	{
+		an->PlayAnimation(L"╟т_death_1_аб", false);
+	}
+	
 	death = true;
 }
 
