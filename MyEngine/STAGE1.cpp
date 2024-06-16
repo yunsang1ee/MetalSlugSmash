@@ -62,11 +62,7 @@ namespace ys
 			auto ad = background->AddComponent<AudioSource>();
 			ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
 			ad->SetLoop(true);
-			if (SceneManager::GetActiveScene()->getName()==L"Stage1")
-			{
-				//ad->Play();
-				// 엑티브 씬이 Stage1일때만 플레이인데 왜 되는지 모르겠음
-			}
+			
 			
 
 			bs->SetParallax(0);
@@ -244,56 +240,7 @@ namespace ys
 		{
 			auto enemy = object::Instantiate<GameObject>(LayerType::Enemy, { 0,0 });
 			enemy->GetComponent<Transform>()->SetPosition(Vector2(5750, 300));
-			auto es = enemy->AddComponent<EnemyScript>();
-			auto an = enemy->AddComponent<Animator>();
-			auto rb = enemy->AddComponent<RigidBody>();
-			auto cd = enemy->AddComponent<BoxCollider2D>();
-
-			
-			cd->SetOffset(Vector2(-30, -25));
-			cd->SetSize(Vector2(1.5f, 1.25f));
-			//이걸 죄다 스크립트에 넣으면 좋을듯
-			an->CrateAnimation(L"게_idle", Resources::Find<graphics::Texture>(L"게_idle")
-				, Vector2(0, 0)
-				, Vector2(200, 150)
-				, Vector2(-60, -50), 7, 0.1f);
-			an->CrateAnimation(L"게_idle_좌", Resources::Find<graphics::Texture>(L"게_idle_좌")
-				, Vector2(0, 0)
-				, Vector2(200, 150)
-				, Vector2(-60, -50), 7, 0.1f, true);
-
-			an->CrateAnimation(L"게_walk", Resources::Find<graphics::Texture>(L"게_walk")
-				, Vector2(0, 0)
-				, Vector2(200, 146)
-				, Vector2(-60, -50), 7, 0.1f);
-			an->CrateAnimation(L"게_walk_좌", Resources::Find<graphics::Texture>(L"게_walk_좌")
-				, Vector2(0, 0)
-				, Vector2(200, 146)
-				, Vector2(-60, -50), 7, 0.1f, true);
-
-			an->CrateAnimation(L"게_attack_기본1", Resources::Find<graphics::Texture>(L"게_attack")
-				, Vector2(50, 0)
-				, Vector2(177, 170)
-				, Vector2(-60, -50), 5, 0.1f);
-			an->CrateAnimation(L"게_attack_기본2", Resources::Find<graphics::Texture>(L"게_attack")
-				, Vector2(938, 0)
-				, Vector2(243, 170)
-				, Vector2(-60, -50), 4, 0.1f);
-			an->CrateAnimation(L"게_attack_좌_기본1", Resources::Find<graphics::Texture>(L"게_attack_좌")
-				, Vector2(50, 0)
-				, Vector2(177, 170)
-				, Vector2(-60, -50), 5, 0.1f);
-			an->CrateAnimation(L"게_attack_좌_기본2", Resources::Find<graphics::Texture>(L"게_attack_좌")
-				, Vector2(938, 0)
-				, Vector2(243, 170)
-				, Vector2(-60, -50), 4, 0.1f);
-
-			an->GetCompleteEvent(L"게_attack_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
-			an->GetCompleteEvent(L"게_attack_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
-			an->GetCompleteEvent(L"게_attack_좌_기본1") = std::bind(&EnemyScript::NexTAnimation, es);
-			an->GetCompleteEvent(L"게_attack_좌_기본2") = std::bind(&EnemyScript::NexTAnimation, es);
-
-			an->PlayAnimation(L"게_walk", true);
+			enemy->AddComponent<EnemyScript>();
 		}
 		
 		{
@@ -402,6 +349,7 @@ namespace ys
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);

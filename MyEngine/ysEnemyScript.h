@@ -40,6 +40,7 @@ namespace ys
 		int hp;
 		float timer;
 		bool moveRight;
+		bool death;
 		math::Vector2 direction;
 		EnemyType enemyType;
 		EnemyState enemyState;

@@ -127,6 +127,19 @@ namespace ys
 		Resources::Load<graphics::Texture>(L"게_attack", L"..\\Resource\\monster\\게attack.bmp");
 		Resources::Load<graphics::Texture>(L"게_attack_좌", L"..\\Resource\\monster\\게attack.bmp");
 
+		Resources::Load<graphics::Texture>(L"게_death_1", L"..\\Resource\\monster\\게death_1.bmp");
+		Resources::Load<graphics::Texture>(L"게_death_1_좌", L"..\\Resource\\monster\\게death_1.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_death_2", L"..\\Resource\\monster\\게death_2.bmp");
+		Resources::Load<graphics::Texture>(L"게_death_2_좌", L"..\\Resource\\monster\\게death_2.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_death_3", L"..\\Resource\\monster\\게death_3.bmp");
+		Resources::Load<graphics::Texture>(L"게_death_3_좌", L"..\\Resource\\monster\\게death_3.bmp");
+
+		Resources::Load<graphics::Texture>(L"게_death_4", L"..\\Resource\\monster\\게death_4.bmp");
+		Resources::Load<graphics::Texture>(L"게_death_4_좌", L"..\\Resource\\monster\\게death_4.bmp");
+		
+
 		//보스
 		Resources::Load<graphics::Texture>(L"보스_기본_Move", L"..\\Resource\\boss\\보스게_move.bmp");
 		Resources::Load<graphics::Texture>(L"보스_기본_Shoot", L"..\\Resource\\boss\\보스게_shoot.bmp");
