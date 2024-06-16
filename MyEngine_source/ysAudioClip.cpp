@@ -39,7 +39,8 @@ namespace ys
 	}
 	void AudioClip::Stop()
 	{
-		channel->stop();
+		if(playing)
+			channel->stop();
 	}
 	void AudioClip::SetAttributes(const math::Vector2& pos)
 	{

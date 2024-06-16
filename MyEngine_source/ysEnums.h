@@ -17,6 +17,7 @@ namespace ys::enums
 		Boom,
 		Particle,
 		FrontGround,
+		UI,
 		Tool,
 		Camera,
 		Max = 16

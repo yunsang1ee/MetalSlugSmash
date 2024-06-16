@@ -30,7 +30,8 @@ namespace ys
 		virtual void OnCollisionExit(Collider* other) override;
 
 		void SetLowerBody(GameObject* playerLowerBody) { this->playerLowerBody = playerLowerBody; }
-		
+		bool IsAttack() const { return attack; }
+
 	private:
 		void idle();
 		void idle_Jump();
@@ -53,6 +54,7 @@ namespace ys
 		float attackDirection;
 		math::Vector2 bulletOffset;
 		int count;
+		bool attack;
 
 		class Transform* ownerTransform;
 		class Animator* ownerAnimator;

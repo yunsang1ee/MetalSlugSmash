@@ -17,6 +17,11 @@ namespace ys
 		void SetGroup(const enums::AudioGroup& group);
 		void SetVolume(const float& percent);
 		enums::AudioGroup GetGroup() const { return group; }
+		bool isPlaying() 
+		{ 
+			channel->isPlaying(&playing);
+			return playing;
+		}
 
 
 	private:
@@ -28,6 +33,7 @@ namespace ys
 		float minDistance;
 		float maxDistance;
 		bool loop;
+		bool playing;
 	};
 }
 
