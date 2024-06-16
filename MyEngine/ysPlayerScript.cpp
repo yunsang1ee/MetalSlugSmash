@@ -102,7 +102,7 @@ namespace ys
 		default:
 			break;
 		}
-
+	
 	}
 
 	void PlayerScript::idle()

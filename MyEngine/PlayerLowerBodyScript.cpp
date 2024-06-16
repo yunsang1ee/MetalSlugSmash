@@ -87,11 +87,7 @@ void PlayerLowerBodyScript::OnCollisionEnter(Collider* other)
 
 void PlayerLowerBodyScript::OnCollisionStay(Collider* other)
 {
-	if (other->GetOwner()->GetLayerType() == LayerType::Enemy)
-	{
-		GetOwner()->SetActive(false);
-		playerChest->SetActive(false);
-	}
+	
 }
 
 void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
@@ -565,7 +561,7 @@ void PlayerLowerBodyScript::NextSitAnimation()
 	}
 	if (animationName == L"플레이어_죽음")
 	{
-		//다시 살아나는 로직
+		Revival();
 		return;
 	}
 
@@ -575,6 +571,8 @@ void PlayerLowerBodyScript::Revival()
 {
 	auto tr = GetOwner()->GetComponent<Transform>();
 	tr->SetPosition(Vector2(app.getScreenf().x / 10.0f, app.getScreenf().y / 5.0f));
-	GetOwner()->SetActive(true);
+	state = PlayerState::Idle;
+	auto an = GetOwner()->GetComponent<Animator>();
+	an->PlayAnimation(L"플레이어가만하체");
 	playerChest->SetActive(true);
 }

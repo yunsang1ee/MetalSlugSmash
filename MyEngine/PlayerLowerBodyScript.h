@@ -7,7 +7,7 @@ class PlayerLowerBodyScript : public Script
 public:
 	enum class PlayerState
 	{
-		Idle, Move, Sit, SitShoot, Slide, Attack, Damaged, Lookup, Jump, IdleJump, MoveJump
+		Idle, Move, Sit, SitShoot, Slide, Attack, Damaged, Lookup, Jump, IdleJump, MoveJump,Death
 	};
 
 public:
@@ -22,6 +22,7 @@ public:
 	void SetPlayerChest(GameObject* playerChest) { this->playerChest = playerChest; }
 	GameObject* GetPlayerChest() { return playerChest; }
 	PlayerState GetState() { return state; }
+	void SetState(PlayerLowerBodyScript::PlayerState state) { this->state = state; }
 
 	virtual void OnCollisionEnter(class Collider* other) override;
 	virtual void OnCollisionStay(class Collider* other) override;

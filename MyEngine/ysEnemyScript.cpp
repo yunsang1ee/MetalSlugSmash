@@ -187,7 +187,11 @@ void ys::EnemyScript::OnCollisionStay(Collider* other)
 			if (an->GetActive()->getName() == L"게_attack_기본2"||
 				 an->GetActive()->getName() == L"게_attack_좌_기본2")
 			{
-				playerLower->GetComponent<PlayerLowerBodyScript>();
+				auto ps = playerLower->GetComponent<PlayerLowerBodyScript>();
+				ps->GetPlayerChest()->SetActive(false);
+				ps->SetState(PlayerLowerBodyScript::PlayerState::Death);
+				auto pan = playerLower->GetComponent<Animator>();
+				pan->PlayAnimation(L"플레이어_죽음",false);
 			}
 		}
 		switch (enemyType)
