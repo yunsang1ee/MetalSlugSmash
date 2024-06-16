@@ -2,6 +2,7 @@
 #include "ysGameObject.h"
 #include "ysTransform.h"
 #include <ysSoundManager.h>
+#include <ysRenderer.h>
 
 namespace ys
 {

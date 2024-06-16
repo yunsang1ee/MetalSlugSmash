@@ -16,9 +16,12 @@
 #include <ysRigidBody.h>
 #include<ysCircleCollider2D.h>
 #include <ysCollisionManager.h>
+#include <YSapplication.h>
 #include "STAGE1.h"
 #include<random>
 #include"ysAnimator.h"
+
+extern ys::Application app;
 
 PlayerLowerBodyScript::PlayerLowerBodyScript() :playerChest(nullptr), speed(3000), state(PlayerState::Idle)
 {
@@ -84,7 +87,11 @@ void PlayerLowerBodyScript::OnCollisionEnter(Collider* other)
 
 void PlayerLowerBodyScript::OnCollisionStay(Collider* other)
 {
-	
+	if (other->GetOwner()->GetLayerType() == LayerType::Enemy)
+	{
+		GetOwner()->SetActive(false);
+		playerChest->SetActive(false);
+	}
 }
 
 void PlayerLowerBodyScript::OnCollisionExit(Collider* other)
@@ -123,8 +130,15 @@ void PlayerLowerBodyScript::idle()
 	{
 		state = PlayerState::Lookup;
 	}
-	if (InputManager::getKey(VK_DOWN))
+	if (InputManager::getKey(VK_DOWN) && !playerChest->GetComponent<PlayerScript>()->IsAttack())
 	{
+		if (Direction == Vector2::Right)
+		{
+			an->PlayAnimation(L"플레이어앉기시작", false);
+		}
+		else {
+			an->PlayAnimation(L"플레이어앉기시작좌", false);
+		}
 		state = PlayerState::Sit;
 	}
 	
@@ -165,7 +179,7 @@ void PlayerLowerBodyScript::move()
 		}
 		state = PlayerState::Lookup;
 	}
-	if (InputManager::getKey(VK_DOWN))
+	if (InputManager::getKey(VK_DOWN) && !playerChest->GetComponent<PlayerScript>()->IsAttack())
 	{
 		if (Direction==Vector2::Right)
 		{
@@ -234,13 +248,11 @@ void PlayerLowerBodyScript::sit()
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩",false);
 			rb->SetVelocity(Vector2(800.0f, rb->GetVelocity().y));
-			rb->SetFriction(200.f);
 		}
 		else
 		{
 			an->PlayAnimation(L"플레이어_슬라이딩좌",false);
 			rb->SetVelocity(Vector2(-800.0f, rb->GetVelocity().y));
-			rb->SetFriction(200.f);
 		}
 		
 		state = PlayerState::Slide;
@@ -466,7 +478,6 @@ void PlayerLowerBodyScript::slide()
 	
 	if (fabsf(rb->GetVelocity().x) <= 400.0f)
 	{
-		rb->SetFriction(100.f);
 		if(InputManager::getKey(VK_DOWN))
 		{
 			if (Direction == Vector2::Right)
@@ -558,4 +569,12 @@ void PlayerLowerBodyScript::NextSitAnimation()
 		return;
 	}
 
+}
+
+void PlayerLowerBodyScript::Revival()
+{
+	auto tr = GetOwner()->GetComponent<Transform>();
+	tr->SetPosition(Vector2(app.getScreenf().x / 10.0f, app.getScreenf().y / 5.0f));
+	GetOwner()->SetActive(true);
+	playerChest->SetActive(true);
 }

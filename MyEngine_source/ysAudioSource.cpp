@@ -19,6 +19,8 @@ namespace ys
 	}
 	void AudioSource::LateUpdate()
 	{
+		if (audioClip)
+			audioClip->SetAttributes(GetOwner()->GetComponent<Transform>()->GetPosition());
 		SoundManager::SetListenerAttributes(GetOwner()->GetComponent<Transform>()->GetPosition());
 	}
 	void AudioSource::Render(HDC hDC)
