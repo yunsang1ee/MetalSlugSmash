@@ -11,6 +11,7 @@ namespace ys
 		//UI
 		{
 			Resources::Load<graphics::Texture>(L"MISSION_1_START", L"..\\Resource\\UI\\Font.bmp");
+			Resources::Load<graphics::Texture>(L"씬전환", L"..\\Resource\\UI\\next.bmp");
 		}
 		
 		//스테이지 1

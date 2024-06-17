@@ -5,7 +5,12 @@
 #include "..\\MyEngine_source\\ysInputManager.h"
 #include "..\\MyEngine\\ysLoadResources.h"
 #include "..\\MyEngine\\LoadScene.h"
+
+#ifdef _DEBUG
 #pragma comment(lib, "..\\x64\\Debug\\MyEngine.lib")
+#else
+#pragma comment(lib, "..\\x64\\Release\\MyEngine.lib")
+#endif
 
 
 ys::Application app;

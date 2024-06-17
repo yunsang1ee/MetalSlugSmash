@@ -16,7 +16,9 @@ namespace ys
 		virtual void Render(HDC hDC, const int& index) override;
 		virtual void Destroy();
 
-		GameObject* GetPlayer() { return player; }
+		static GameObject* GetPlayer() { return player; }
+		static GameObject* GetPlayerLow() { return PlayerLowerBody; }
+		static GameObject* GetCamera() { return camera; }
 
 		virtual void OnEnter() override; //title -> play scene (play init)
 		virtual void OnExit() override;  //title -> play scene (title exit)
@@ -26,13 +28,13 @@ namespace ys
 	private:
 		GameObject* backBackground;
 		GameObject* background;
-		GameObject* player;
-		GameObject* PlayerLowerBody;
+		static GameObject* player;
+		static GameObject* PlayerLowerBody;
 		std::vector<GameObject*> bulletPool;
 		std::vector<GameObject*> Blocks;
 		std::vector<GameObject*> Walls;
 		std::vector<GameObject*> Enemys;
-		GameObject* camera;
+		static GameObject* camera;
 	};
 }
 

@@ -84,7 +84,7 @@ void drawBoxScript::Update()
 		}
 		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 		{
-			std::ofstream file{ "..\\Resource\\box2.txt", std::ios::trunc };
+			std::ofstream file{ "..\\Resource\\box1.txt", std::ios::trunc };
 			if (file.is_open())
 			{
 				Vector2 pos;
@@ -121,7 +121,7 @@ void drawBoxScript::Update()
 
 		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 		{
-			std::ofstream file{ "..\\Resource\\Wall2.txt", std::ios::trunc };
+			std::ofstream file{ "..\\Resource\\Wall.txt", std::ios::trunc };
 			if (file.is_open())
 			{
 				Vector2 pos;
@@ -190,10 +190,21 @@ void drawBoxScript::Render(HDC hDC)
 			ltTmp = ys::renderer::mainCamera->CalculatPosition(lt);
 			rbTmp = ys::renderer::mainCamera->CalculatPosition(rb);
 		}
-
+		auto rgb = RGB(255, 0, 0);
+		switch (drawType)
+		{
+		case drawBoxScript::DrawType::Block:
+			rgb = RGB(255, 0, 0);
+			break;
+		case drawBoxScript::DrawType::Wall:
+			rgb = RGB(0, 255, 0);
+			break;
+		default:
+			break;
+		}
 		auto brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 		auto oldBrush = SelectObject(hDC, brush);
-		auto pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
+		auto pen = CreatePen(PS_SOLID, 2, rgb);
 		auto oldPen = SelectObject(hDC, pen);
 		Rectangle(hDC
 			, ltTmp.x

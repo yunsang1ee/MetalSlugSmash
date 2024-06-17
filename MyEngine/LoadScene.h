@@ -13,7 +13,7 @@ namespace ys
 		SceneManager::CreateScene<STAGE1>(L"Stage1");
 		SceneManager::CreateScene<BossScene>(L"BossScene");
 		
-		SceneManager::LoadScene(L"BossScene");
+		SceneManager::LoadScene(L"Stage1");
 
 	}
 }

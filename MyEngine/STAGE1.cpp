@@ -34,9 +34,14 @@
 
 #include <string>
 #include <sstream>
+#include "NextSceneScript.h"
 extern ys::Application app;
 namespace ys
 {
+	GameObject* STAGE1::player;
+	GameObject* STAGE1::PlayerLowerBody;
+	GameObject* STAGE1::camera;
+
 	ys::STAGE1::STAGE1()
 	{
 	}
@@ -200,18 +205,33 @@ namespace ys
 
 		//Player
 		{
-			player = object::Instantiate<Player>(LayerType::PlayerTop, { 0, 0 });
+			player = object::Instantiate<Player>(LayerType::PlayerLowerBody, { 0, 0 });
 			auto as = player->AddComponent<AudioSource>();
-			player->AddComponent<AudioListener>();
 			auto plysc = player->AddComponent<PlayerScript>();
 
 			plysc->SetLowerBody(PlayerLowerBody);
 			playerCreateAnimation();
 			ys::object::DontDestroyOnLoad(player);
 		}
+		PlayerLowerBody->AddComponent<AudioListener>();
 		auto plysc = PlayerLowerBody->GetComponent<PlayerLowerBodyScript>();
 		plysc->SetPlayerChest(player);
-
+		//mapTool
+		{
+			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
+			auto bx = drawBox->AddComponent<CircleCollider2D>();
+			bx->SetSize(Vector2::One * 0.1);
+			drawBox->AddComponent<drawBoxScript>();
+		}
+		//Camera
+		{
+			camera = object::Instantiate<GameObject>(LayerType::Camera);
+			renderer::mainCamera = camera->AddComponent<Camera>();
+			renderer::mainCamera->SetTarget(PlayerLowerBody);
+			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(15600, 363));
+			camera->AddComponent<CameraScript>()->SetTarget(PlayerLowerBody);
+			auto ad = camera->AddComponent<AudioSource>();
+		}
 
 		Scene::Init();
 	}
@@ -245,13 +265,14 @@ namespace ys
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::BackGround, true);
+		CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Trigger, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Block, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
 		
-		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(100.0f, app.getScreenf().y / 5.0f));
+		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(15000.0f, app.getScreenf().y / 5.0f));
 		//미션스타트
 		{
 			auto start = object::Instantiate<GameObject>(LayerType::UI
@@ -265,6 +286,13 @@ namespace ys
 			rb->SetGravity(Vector2::Zero);
 			rb->SetFriction(0.0f);
 			rb->SetVelocity(Vector2::Left * 600.0f);
+		}
+		//다음 씬 트리거
+		{
+			auto next = object::Instantiate<GameObject>(LayerType::Trigger, Vector2(16203, 0));
+			auto cd = next->AddComponent<BoxCollider2D>();
+			cd->SetSize(Vector2(1.0f, 5.0f));
+			next->AddComponent<NextSceneScript>();
 		}
 		//돌
 		{
@@ -288,10 +316,6 @@ namespace ys
 			auto as = background->AddComponent<AudioSource>();
 			as->SetClip(Resources::Find<AudioClip>(L"미션스타트"));
 			as->SetLoop(false);
-			as->Play();
-
-			as->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
-			as->SetLoop(true);
 			as->Play();
 		}
 		//배경배경
@@ -384,20 +408,20 @@ namespace ys
 			auto sr = frontBackground->AddComponent<SpriteRenderer>();
 			sr->SetTexture(Resources::Find<graphics::Texture>(L"잠수함구조물2"));
 		}
-		//Camera
-		{
-			camera = object::Instantiate<GameObject>(LayerType::Camera);
-			renderer::mainCamera = camera->AddComponent<Camera>();
-			renderer::mainCamera->SetTarget(player);
-			camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 420), Vector2(15600, 363));
-			camera->AddComponent<CameraScript>()->SetTarget(player);
-			auto ad = camera->AddComponent<AudioSource>();
-			ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
-			ad->SetLoop(true);
-		}
+		auto ad = camera->GetComponent<AudioSource>();
+		ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
+		ad->SetLoop(true);
+		ad->Play();
 	}
 	void STAGE1::OnExit() 
 	{
+		for (int i = 0; i < (UINT)LayerType::Max; ++i)
+		{
+			for (auto& gameObject : Scene::GetLayer((LayerType)i)->GetGameObjects())
+			{
+				object::Destroy(gameObject);
+			}
+		}
 	}
 
 	void STAGE1::playerCreateAnimation()
