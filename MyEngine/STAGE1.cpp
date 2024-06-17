@@ -216,13 +216,13 @@ namespace ys
 		PlayerLowerBody->AddComponent<AudioListener>();
 		auto plysc = PlayerLowerBody->GetComponent<PlayerLowerBodyScript>();
 		plysc->SetPlayerChest(player);
-		//mapTool
-		{
-			auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
-			auto bx = drawBox->AddComponent<CircleCollider2D>();
-			bx->SetSize(Vector2::One * 0.1);
-			drawBox->AddComponent<drawBoxScript>();
-		}
+		////mapTool
+		//{
+		//	auto drawBox = object::Instantiate<GameObject>(LayerType::Tool);
+		//	auto bx = drawBox->AddComponent<CircleCollider2D>();
+		//	bx->SetSize(Vector2::One * 0.1);
+		//	drawBox->AddComponent<drawBoxScript>();
+		//}
 		//Camera
 		{
 			camera = object::Instantiate<GameObject>(LayerType::Camera);
@@ -272,7 +272,7 @@ namespace ys
 		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
 		CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Tool, true);
 		
-		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(15000.0f, app.getScreenf().y / 5.0f));
+		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(100.0f, app.getScreenf().y / 5.0f));
 		//미션스타트
 		{
 			auto start = object::Instantiate<GameObject>(LayerType::UI
@@ -531,7 +531,7 @@ namespace ys
 		an->CrateAnimation(L"플레이어가만수류탄", Resources::Find<graphics::Texture>(L"플레이어가만수류탄")
 			, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f);
 		an->CrateAnimation(L"플레이어가만수류탄좌", Resources::Find<graphics::Texture>(L"플레이어가만수류탄좌")
-			, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-51.0f, -80.0f), 6, 0.1f, true);
+			, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-71.0f, -80.0f), 6, 0.1f, true);
 		an->CrateAnimation(L"플레이어점프수류탄", Resources::Find<graphics::Texture>(L"플레이어점프수류탄")
 			, Vector2(0.0f, 0.0f), Vector2(139.0f, 140.0f), Vector2(-61.0f, -90.0f), 6, 0.1f);
 		an->CrateAnimation(L"플레이어점프수류탄좌", Resources::Find<graphics::Texture>(L"플레이어점프수류탄좌")

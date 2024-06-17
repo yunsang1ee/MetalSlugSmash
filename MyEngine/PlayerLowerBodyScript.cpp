@@ -570,7 +570,7 @@ void PlayerLowerBodyScript::NextSitAnimation()
 void PlayerLowerBodyScript::Revival()
 {
 	auto tr = GetOwner()->GetComponent<Transform>();
-	tr->SetPosition(Vector2(app.getScreenf().x / 10.0f, app.getScreenf().y / 5.0f));
+	tr->SetPosition(Vector2(app.getScreenf().x * 9 / 10.0f, app.getScreenf().y / 5.0f));
 	state = PlayerState::Idle;
 	auto an = GetOwner()->GetComponent<Animator>();
 	an->PlayAnimation(L"플레이어가만하체");

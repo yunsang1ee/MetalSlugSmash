@@ -16,6 +16,11 @@ public:
 	virtual void OnCollisionStay(Collider* other) override;
 	virtual void OnCollisionExit(Collider* other) override;
 
+	bool IsDead() const
+	{
+		return (HP <= 0);
+	};
+
 	void NextAnimation();
 	void Move();
 	void ShootBullet();

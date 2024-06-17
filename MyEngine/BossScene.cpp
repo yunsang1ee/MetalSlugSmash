@@ -36,10 +36,13 @@
 #include "BossScript.h"
 #include "STAGE1.h"
 #include "YSapplication.h"
+#include "BossBackGroundScript.h"
+#include "BlockConstructorScript.h"
+#include <ysTimer.h>
 using namespace ys;
 
 extern ys::Application app;
-ys::BossScene::BossScene()
+ys::BossScene::BossScene() : complete(false), completeTime(7.0f)
 {
 }
 
@@ -49,57 +52,10 @@ ys::BossScene::~BossScene()
 
 void ys::BossScene::Init()
 {
-	
-	//플랫폼
-	{
-		std::ifstream file{ "..\\Resource\\box2.txt" };
-		std::string buff;
-		Vector2 pos;
-		Vector2 size;
-		while (file >> buff)
-		{
-			pos.x = stof(buff);
-			file >> buff;
-			pos.y = stof(buff);
-			file >> buff;
-			size.x = stof(buff);
-			file >> buff;
-			size.y = stof(buff);
-			auto block = object::Instantiate<GameObject>(LayerType::Block, pos);
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"BackGrounds");
-			bx->SetSize(size);
-			block->AddComponent<BlockScript>();
-			Blocks.push_back(block);
-		}
-	}
-	//벽
-	{
-		std::ifstream file{ "..\\Resource\\Wall2.txt" };
-		std::string buff;
-		Vector2 pos;
-		Vector2 size;
-		while (file >> buff)
-		{
-			pos.x = stof(buff);
-			file >> buff;
-			pos.y = stof(buff);
-			file >> buff;
-			size.x = stof(buff);
-			file >> buff;
-			size.y = stof(buff);
-			auto block = object::Instantiate<GameObject>(LayerType::Wall, pos);
-			auto bx = block->AddComponent<BoxCollider2D>();
-
-			bx->setName(L"Wall");
-			bx->SetSize(size);
-			block->AddComponent<WallScript>();
-			Walls.push_back(block);
-		}
-	}
 	{
 		auto drawBox = object::Instantiate<GameObject>(LayerType::Tool, Vector2(0, 0));
+		auto bx = drawBox->AddComponent<CircleCollider2D>();
+		bx->SetSize(Vector2::One * 0.1);
 		auto ds = drawBox->AddComponent<drawBoxScript>();
 
 	}
@@ -109,6 +65,25 @@ void ys::BossScene::Init()
 void ys::BossScene::Update()
 {
 	Scene::Update();
+	if (!boss->IsActive())
+	{
+		auto as = camera->GetComponent<AudioSource>();
+		if(!complete)
+		{
+			as->SetClip(Resources::Find<AudioClip>(L"미션완료"));
+			as->SetLoop(false);
+			as->Play();
+			complete = true;
+		}
+		else if(completeTime <= 0.0f)
+		{
+			PostMessage(app.getHWND(), WM_CLOSE, 0, 0);
+		}
+		else
+		{
+			completeTime -= Timer::getDeltaTime();
+		}
+	}
 }
 
 void ys::BossScene::LateUpdate()
@@ -128,18 +103,47 @@ void ys::BossScene::Destroy()
 
 void ys::BossScene::OnEnter()
 {
+	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
+	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
+	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall , true);
+	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy , true);
+	CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
+	CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
+	CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
+
 	player = STAGE1::GetPlayer();
 	PlayerLowerBody = STAGE1::GetPlayerLow();
 	camera = STAGE1::GetCamera();
+	PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(app.getScreenf().x * 9 / 10.0f, 0.0f));
 
 	{
-		PlayerLowerBody->GetComponent<Transform>()->SetPosition(Vector2(app.getScreenf().x * 9 / 10.0f, app.getScreenf().y / 5.0f));
-	}
-	{
-		auto background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(0, 0));
+		auto background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(-app.getScreenf().x + 100.0f, 0));
 		auto sr = background->AddComponent<SpriteRenderer>();
 		sr->SetTexture(Resources::Find<graphics::Texture>(L"보스배경"));
-		auto bs = background->AddComponent<BackGroundScript>();
+		sr->SetSizeByScreen(app.getScreenf() + 2.0f);
+		auto bs = background->AddComponent<BossBackGroundScript>();
+		bs->SetParallax(100);
+	}
+	{
+		auto background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(100.0f, 0));
+		auto sr = background->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"보스배경"));
+		sr->SetSizeByScreen(app.getScreenf() + 2.0f);
+		auto bs = background->AddComponent<BossBackGroundScript>();
+		bs->SetParallax(100);
+	}
+	{
+		auto background = object::Instantiate<GameObject>(LayerType::BackGround, Vector2(app.getScreenf().x + 100.0f, 0));
+		auto sr = background->AddComponent<SpriteRenderer>();
+		sr->SetTexture(Resources::Find<graphics::Texture>(L"보스배경"));
+		sr->SetSizeByScreen(app.getScreenf() + 2.0f);
+		auto bs = background->AddComponent<BossBackGroundScript>();
+		bs->SetParallax(100);
+	}
+	{
+		auto blockConstructor = object::Instantiate<GameObject>(LayerType::None);
+		auto sc = blockConstructor->AddComponent<BlockConstructorScript>();
+		sc->Init();
 	}
 	//boss
 	{
@@ -148,7 +152,7 @@ void ys::BossScene::OnEnter()
 		auto es = boss->AddComponent<BossScript>();
 		auto cd = boss->AddComponent<BoxCollider2D>();
 
-		cd->SetSize(Vector2(9, 7.5f));
+		cd->SetSize(Vector2(7.5f, 7.5f));
 		boss->GetComponent<Transform>()->SetPosition(Vector2(200, 250));
 
 		an->CrateAnimation(L"보스_기본_Move", Resources::Find<graphics::Texture>(L"보스_기본_Move")
@@ -218,11 +222,59 @@ void ys::BossScene::OnEnter()
 
 
 	}
+	//플랫폼
+	/*{
+		std::ifstream file{ "..\\Resource\\box2.txt" };
+		std::string buff;
+		Vector2 pos;
+		Vector2 size;
+		while (file >> buff)
+		{
+			pos.x = stof(buff);
+			file >> buff;
+			pos.y = stof(buff);
+			file >> buff;
+			size.x = stof(buff);
+			file >> buff;
+			size.y = stof(buff);
+			auto block = object::Instantiate<GameObject>(LayerType::Block, pos);
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"BackGrounds");
+			bx->SetSize(size);
+			block->AddComponent<BlockScript>();
+			Blocks.push_back(block);
+		}
+	}*/
+	//벽
+	{
+		std::ifstream file{ "..\\Resource\\Wall2.txt" };
+		std::string buff;
+		Vector2 pos;
+		Vector2 size;
+		while (file >> buff)
+		{
+			pos.x = stof(buff);
+			file >> buff;
+			pos.y = stof(buff);
+			file >> buff;
+			size.x = stof(buff);
+			file >> buff;
+			size.y = stof(buff);
+			auto block = object::Instantiate<GameObject>(LayerType::Wall, pos);
+			auto bx = block->AddComponent<BoxCollider2D>();
+
+			bx->setName(L"Wall");
+			bx->SetSize(size);
+			block->AddComponent<WallScript>();
+			Walls.push_back(block);
+		}
+	}
 	{
 		camera = object::Instantiate<GameObject>(LayerType::Camera);
 		renderer::mainCamera = camera->AddComponent<Camera>();
-		renderer::mainCamera;
-		camera->GetComponent<Camera>()->SetMinMax(Vector2(650, 500), Vector2(3350, 1225));
+		renderer::mainCamera->SetTarget(PlayerLowerBody);
+		camera->GetComponent<Camera>()->SetMinMax(app.getScreenf() / 2.0f, app.getScreenf() / 2.0f);
 		camera->AddComponent<CameraScript>();
 		auto ad = camera->AddComponent<AudioSource>();
 		ad->SetClip(Resources::Find<AudioClip>(L"stage1메인브금"));
@@ -232,4 +284,11 @@ void ys::BossScene::OnEnter()
 
 void ys::BossScene::OnExit()
 {
+	for (int i = 0; i < (UINT)LayerType::Max; ++i)
+	{
+		for (auto& gameObject : Scene::GetLayer((LayerType)i)->GetGameObjects())
+		{
+			object::Destroy(gameObject);
+		}
+	}
 }

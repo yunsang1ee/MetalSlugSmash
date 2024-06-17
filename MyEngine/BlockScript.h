@@ -16,7 +16,9 @@ public:
 	virtual void OnCollisionStay(Collider* other) override;
 	virtual void OnCollisionExit(Collider* other) override;
 
+	void SetOffset(const math::Vector2& offset) { this->offset = offset; }
 private:
+	math::Vector2 offset;
 	float deathTime;
 	float time;
 };

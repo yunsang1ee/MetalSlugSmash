@@ -14,7 +14,7 @@ namespace ys
 		virtual void Render(HDC hDC);
 
 		void SetParallax(const float& parallax) { this->parallax = parallax; }
-
+		float GetParallax() const { return parallax; }
 	private:
 		float parallax;
 

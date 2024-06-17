@@ -31,8 +31,8 @@ namespace ys
 		std::vector<GameObject*> Walls;
 		GameObject* camera;
 
-		
-
+		bool complete;
+		float completeTime;
 
 	};
 }

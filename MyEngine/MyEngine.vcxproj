@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockConstructorScript.h" />
     <ClInclude Include="BlockScript.h" />
+    <ClInclude Include="BossBackGroundScript.h" />
     <ClInclude Include="BossBulletScript.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossScript.h" />
@@ -43,7 +45,9 @@
     <ClInclude Include="ysTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlockConstructorScript.cpp" />
     <ClCompile Include="BlockScript.cpp" />
+    <ClCompile Include="BossBackGroundScript.cpp" />
     <ClCompile Include="BossBulletScript.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossScript.cpp" />

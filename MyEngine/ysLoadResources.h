@@ -11,6 +11,7 @@ namespace ys
 		//UI
 		{
 			Resources::Load<graphics::Texture>(L"MISSION_1_START", L"..\\Resource\\UI\\Font.bmp");
+			Resources::Load<graphics::Texture>(L"MISSION_1_COMPLTE", L"..\\Resource\\UI\\Font.bmp");
 			Resources::Load<graphics::Texture>(L"씬전환", L"..\\Resource\\UI\\next.bmp");
 		}
 		
@@ -26,6 +27,7 @@ namespace ys
 		//보스배경
 		{
 			Resources::Load<graphics::Texture>(L"보스배경", L"..\\Resource\\Boss배경.bmp");
+			Resources::Load<graphics::Texture>(L"보스발판", L"..\\Resource\\Boss발판.bmp");
 		}
 
 		//플레이어 상체
@@ -190,6 +192,8 @@ namespace ys
 		//사운드
 		AudioClip* tmp;
 		tmp = Resources::Load<AudioClip>(L"미션스타트", L"..\\Resource\\MissionStart.mp3");
+		tmp->SetGroup(enums::AudioGroup::BackGorund);
+		tmp = Resources::Load<AudioClip>(L"미션완료", L"..\\Resource\\MissionComplete.mp3");
 		tmp->SetGroup(enums::AudioGroup::BackGorund);
 		tmp = Resources::Load<AudioClip>(L"stage1메인브금", L"..\\Resource\\03 Main Theme from Metal Slug (Stage 1).mp3");
 		tmp->SetGroup(enums::AudioGroup::BackGorund);

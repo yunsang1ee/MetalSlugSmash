@@ -63,7 +63,7 @@ void BlockScript::OnCollisionEnter(Collider* other)
 			auto otherPosition = otherTr->GetPosition();
 			otherPosition.y -= scale - len;
 
-			otherTr->SetPosition(otherPosition);
+			otherTr->SetPosition(otherPosition + offset);
 		}
 
 		if (otherRb->GetVelocity().y > 0)
@@ -105,7 +105,7 @@ void BlockScript::OnCollisionStay(Collider* other)
 			auto otherPosition = otherTr->GetPosition();
 			otherPosition.y -= scale - len - 1.0f;
 
-			otherTr->SetPosition(otherPosition);
+			otherTr->SetPosition(otherPosition + offset);
 		}
 
 		if (otherRb->GetVelocity().y > 0)

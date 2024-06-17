@@ -84,7 +84,7 @@ void drawBoxScript::Update()
 		}
 		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 		{
-			std::ofstream file{ "..\\Resource\\box1.txt", std::ios::trunc };
+			std::ofstream file{ "..\\Resource\\box2.txt", std::ios::trunc };
 			if (file.is_open())
 			{
 				Vector2 pos;
@@ -121,7 +121,7 @@ void drawBoxScript::Update()
 
 		if (InputManager::getKeyDown((UINT)Key::S) && InputManager::getKey(VK_CONTROL))
 		{
-			std::ofstream file{ "..\\Resource\\Wall.txt", std::ios::trunc };
+			std::ofstream file{ "..\\Resource\\Wall2.txt", std::ios::trunc };
 			if (file.is_open())
 			{
 				Vector2 pos;

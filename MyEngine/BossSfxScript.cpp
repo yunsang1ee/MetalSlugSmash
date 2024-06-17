@@ -1,6 +1,9 @@
 #include "BossSfxScript.h"
 #include"ysGameObject.h"
 #include"ysTransform.h"
+#include "BossScript.h"
+#include <ysAnimator.h>
+#include <ysObject.h>
 BossSfxScript::BossSfxScript()
 {
 }
@@ -15,8 +18,15 @@ void BossSfxScript::Init()
 
 void BossSfxScript::Update()
 {
-	auto bossPos = boss->GetComponent<Transform>()->GetPosition();
-	GetOwner()->GetComponent<Transform>()->SetPosition(bossPos);
+	if(boss->IsActive())
+	{
+		auto bossPos = boss->GetComponent<Transform>()->GetPosition();
+		GetOwner()->GetComponent<Transform>()->SetPosition(bossPos);
+	}
+	else
+	{
+		object::Destroy(GetOwner());
+	}
 }
 
 void BossSfxScript::LateUpdate()
