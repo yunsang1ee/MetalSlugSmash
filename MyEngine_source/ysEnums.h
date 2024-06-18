@@ -13,6 +13,7 @@ namespace ys::enums
 		Block,
 		Impediments,
 		Enemy,
+		EnemyProjectile,
 		PlayerLowerBody,
 		Boom,
 		Particle,
@@ -20,7 +21,7 @@ namespace ys::enums
 		UI,
 		Tool,
 		Camera,
-		Max = 16
+		Max
 	};
 
 	enum class ColliderType

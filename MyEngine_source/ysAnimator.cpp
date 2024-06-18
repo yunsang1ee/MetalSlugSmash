@@ -1,4 +1,5 @@
 #include "ysAnimator.h"
+#include <cassert>
 
 namespace ys
 {
@@ -76,7 +77,10 @@ namespace ys
 	{
 		Animation* animation = FindAnimation(name);
 		if (animation == nullptr)
+		{
+			assert(false);
 			return;
+		}
 
 		if(activeAnimation)
 		{

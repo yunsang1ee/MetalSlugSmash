@@ -9,22 +9,13 @@
 #include "ysResources.h"
 #include "ysObject.h"
 #include <ysBoxCollider2D.h>
+#include <ysCircleCollider2D.h>
+#include "PlayerLowerBodyScript.h"
 
 namespace ys
 {
 	BossBulletScript::BossBulletScript() : deathTime(6.0f), time(0.0f), damage(10)
 	{
-		auto rb = GetOwner()->AddComponent<RigidBody>();
-		auto an = GetOwner()->AddComponent<Animator>();
-		auto bd = GetOwner()->AddComponent<BoxCollider2D>();
-		an->CrateAnimation(L"º¸½º_ÃÑ¾Ë", Resources::Find<graphics::Texture>(L"º¸½º_ÃÑ¾Ë")
-			, Vector2(5, 0)
-			, Vector2(65, 58)
-			, Vector2(0, 0), 12, 0.1f);
-		an->CrateAnimation(L"º¸½º_ÃÑ¾ËÆø¹ß", Resources::Find<graphics::Texture>(L"º¸½º_ÃÑ¾ËÆø¹ß")
-			, Vector2(10, 0)
-			, Vector2(50, 40)
-			, Vector2(0, 0), 12, 0.1f);
 	}
 
 	BossBulletScript::~BossBulletScript()
@@ -37,14 +28,27 @@ namespace ys
 
 	void BossBulletScript::Update()
 	{
-		auto tr = GetOwner()->GetComponent<Transform>();
+		if (GetOwner()->GetLayerType() == LayerType::Projectile)
+		{
+			auto rb = GetOwner()->GetComponent<RigidBody>();
+			if (rb->IsGround())
+			{
+				boom();
+			}
+		}
+		else if (GetOwner()->GetComponent<Animator>()->IsComplete())
+		{
+			object::Destroy(GetOwner());
+		}
+
+		/*auto tr = GetOwner()->GetComponent<Transform>();
 		auto pos = tr->GetPosition();
 		tr->SetPosition(Vector2(pos.x + 40, pos.y));
 		time += Timer::getDeltaTime();
 		if (time >= deathTime)
 		{
 			ys::object::Destroy(GetOwner());
-		}
+		}*/
 	}
 
 	void BossBulletScript::LateUpdate()
@@ -57,14 +61,41 @@ namespace ys
 
 	void BossBulletScript::OnCollisionEnter(Collider* other)
 	{
+		if (other->GetOwner()->GetLayerType() == LayerType::PlayerLowerBody
+			|| other->GetOwner()->GetLayerType() == LayerType::Block)
+		{
+			boom();
+		}
 	}
 
 	void BossBulletScript::OnCollisionStay(Collider* other)
 	{
+		if (other->GetOwner()->GetLayerType() == enums::LayerType::PlayerLowerBody)
+		{
+			auto playerLower = other->GetOwner();
+			auto ps = playerLower->GetComponent<PlayerLowerBodyScript>();
+			ps->GetPlayerChest()->SetActive(false);
+			ps->SetState(PlayerLowerBodyScript::PlayerState::Death);
+			auto pan = playerLower->GetComponent<Animator>();
+			pan->PlayAnimation(L"ÇÃ·¹ÀÌ¾î_Á×À½", false);
+		}
 	}
 
 	void BossBulletScript::OnCollisionExit(Collider* other)
 	{
 	}
-}
+	void BossBulletScript::boom()
+	{
+		GetOwner()->SetLayerType(LayerType::Particle);
+		auto cd = GetOwner()->GetComponent<CircleCollider2D>();
+		cd->SetOffset(Vector2(-85.0f, -50.0f));
+		cd->SetSize(Vector2(1.2f, 1.2f));
 
+		auto rb = GetOwner()->GetComponent<RigidBody>();
+		rb->SetVelocity(Vector2::Zero);
+		rb->SetGravity(Vector2::Zero);
+
+		auto an = GetOwner()->GetComponent<Animator>();
+		an->PlayAnimation(L"º¸½º_ÃÑ¾ËÆø¹ß", false);
+	}
+}

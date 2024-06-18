@@ -17,6 +17,10 @@ namespace ys
 		virtual void OnCollisionEnter(Collider* other) override;
 		virtual void OnCollisionStay(Collider* other) override;
 		virtual void OnCollisionExit(Collider* other) override;
+
+	private:
+		void boom();
+
 	private:
 		float deathTime;
 		float time;

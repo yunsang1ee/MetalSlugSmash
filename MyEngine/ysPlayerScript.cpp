@@ -396,7 +396,8 @@ namespace ys
 			ownerTransform->SetRotation(0);
 		}
 		if (!InputManager::getKey(VK_DOWN) 
-			&& playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() != PlayerLowerBodyScript::PlayerState::Slide)
+			&& playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() != PlayerLowerBodyScript::PlayerState::Slide
+			&& playerLowerBody->GetComponent<PlayerLowerBodyScript>()->GetState() != PlayerLowerBodyScript::PlayerState::SitShoot)
 		{
 			std::wstring animationName;
 
@@ -802,12 +803,12 @@ namespace ys
 				if (ownerTransform->GetRotation() == kPi)
 				{
 					attackDirection = kPi;
-					ownerAnimator->PlayAnimation(L"플레이어가만쏘는중상체좌", false);
+					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체좌", false);
 				}
 				else
 				{
 					attackDirection = 0.0f;
-					ownerAnimator->PlayAnimation(L"플레이어가만쏘는중상체", false);
+					ownerAnimator->PlayAnimation(L"플레이어가만총쏘는중상체", false);
 				}
 				state = PlayerState::IdleAttack;
 			}

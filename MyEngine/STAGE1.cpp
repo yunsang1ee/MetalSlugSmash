@@ -518,9 +518,9 @@ namespace ys
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î´ÂÁß»óÃ¼ÁÂ", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î´ÂÁßÁÂ")
 			, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 3, 0.1f, true);
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î±â»óÃ¼", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î±â")
-			, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 7, 0.05f);
+			, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 3, 0.05f);
 		an->CrateAnimation(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î±â»óÃ¼ÁÂ", Resources::Find<graphics::Texture>(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î±âÁÂ")
-			, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 7, 0.05f, true);
+			, Vector2(0.0f, 0.0f), Vector2(109.0f, 260.0f), Vector2(-51.0f, -84.0f), 3, 0.05f, true);
 
 		an->GetStartEvent(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î´ÂÁß»óÃ¼") = std::bind(&PlayerScript::ShootBullet, plysc);
 		an->GetStartEvent(L"ÇÃ·¹ÀÌ¾î¾Æ·¡ÃÑ½î´ÂÁß»óÃ¼ÁÂ") = std::bind(&PlayerScript::ShootBullet, plysc);

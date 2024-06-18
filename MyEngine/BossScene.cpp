@@ -57,7 +57,6 @@ void ys::BossScene::Init()
 		auto bx = drawBox->AddComponent<CircleCollider2D>();
 		bx->SetSize(Vector2::One * 0.1);
 		auto ds = drawBox->AddComponent<drawBoxScript>();
-
 	}
 	Scene::Init();
 }
@@ -70,6 +69,7 @@ void ys::BossScene::Update()
 		auto as = camera->GetComponent<AudioSource>();
 		if(!complete)
 		{
+			as->Stop();
 			as->SetClip(Resources::Find<AudioClip>(L"미션완료"));
 			as->SetLoop(false);
 			as->Play();
@@ -106,10 +106,11 @@ void ys::BossScene::OnEnter()
 	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy, true);
 	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Block, true);
 	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Wall , true);
-	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::Enemy , true);
+	CollisionManager::CollisionLayerCheck(LayerType::PlayerLowerBody, LayerType::EnemyProjectile , true);
 	CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Boom, true);
 	CollisionManager::CollisionLayerCheck(LayerType::Enemy, LayerType::Projectile, true);
 	CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::Projectile, true);
+	CollisionManager::CollisionLayerCheck(LayerType::Block, LayerType::EnemyProjectile , true);
 
 	player = STAGE1::GetPlayer();
 	PlayerLowerBody = STAGE1::GetPlayerLow();
@@ -149,6 +150,9 @@ void ys::BossScene::OnEnter()
 	{
 		boss = object::Instantiate<GameObject>(LayerType::Enemy, Vector2(0, 0));
 		auto an = boss->AddComponent<Animator>();
+		auto rb = boss->AddComponent<RigidBody>();
+		rb->SetGravity(Vector2::Zero);
+		rb->SetFriction(0.0f);
 		auto es = boss->AddComponent<BossScript>();
 		auto cd = boss->AddComponent<BoxCollider2D>();
 

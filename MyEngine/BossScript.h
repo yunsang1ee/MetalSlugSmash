@@ -24,10 +24,12 @@ public:
 	void NextAnimation();
 	void Move();
 	void ShootBullet();
+
 private:
 	float HP;
 	bool Right;
-	float timer;
+	float shootTimer;
+	float deathTimer;
 
 };
 
